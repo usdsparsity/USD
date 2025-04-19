@@ -15,7 +15,7 @@ import torchvision.datasets as datasets
 from tensorboardX import SummaryWriter
 import models
 import torch
-from transformers import ViTForImageClassification
+#from transformers import ViTForImageClassification
 
 import os.path as osp
 import numpy as np
@@ -202,11 +202,11 @@ def main():
     
     model = models.__dict__[args.model](pretrained=initialisationsetting,N = args.N, M = args.M,search = True, num_new_classes = num_classes)
     
-    if args.hf_model:
-        print("loading from h model ......................................")
+    #if args.hf_model:
+        #print("loading from h model ......................................")
         # Load the model from Hugging Face
-        model_hf = ViTForImageClassification.from_pretrained(args.hf_model)
-        model.load_state_dict(model_hf.state_dict())
+        #model_hf = ViTForImageClassification.from_pretrained(args.hf_model)
+        #model.load_state_dict(model_hf.state_dict())
 
     # Count the number of parameters
     #num_params = sum(p.numel() for p in model.parameters())

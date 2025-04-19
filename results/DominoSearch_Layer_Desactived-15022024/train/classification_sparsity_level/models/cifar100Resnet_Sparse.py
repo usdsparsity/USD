@@ -3,36 +3,30 @@ import math
 import sys
 import os.path as osp
 sys.path.append(osp.abspath(osp.join(__file__, '../../../')))
+#from devkit.ops import SyncBatchNorm2d
+import torch
+import torch.nn.functional as F
+from torch import autograd
+
+from torch.nn import init
 from devkit.sparse_ops import SparseConv, SparseLinear
-try:
-    from torch.hub import load_state_dict_from_url
-except ImportError:
-    from torch.utils.model_zoo import load_url as load_state_dict_from_url
 
-__all__ = ['ResNetV1', 'resnet18_sparse', 'resnet34_sparse', 'resnet50_sparse', 'resnet101_sparse',
-           'resnet152_sparse']
+# from devkit.sparse_ops import MixedSparseConv
 
 
-model_urls = {
-    'resnet18_sparse': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
-    'resnet34_sparse': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
-    'resnet50_sparse': 'https://download.pytorch.org/models/resnet50-19c8e357.pth',
-    'resnet101_sparse': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
-    'resnet152_sparse': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
-}
+__all__ = ['ResNet', 'resnet20_cifar_sparse', 'resnet32_cifar_sparse', 'resnet44_cifar_sparse', 'resnet56_cifar_sparse',
+           'resnet110_cifar_sparse']
 
 def conv3x3(in_planes, out_planes, stride=1, N=2, M=4,search=False):
-    """3x3 convolution with padding"""
+    "3x3 convolution with padding"
     return SparseConv(in_planes, out_planes, kernel_size=3, stride=stride,
                      padding=1, bias=False, N=N, M=M,search=search)
-
 
 class BasicBlock(nn.Module):
     expansion = 1
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None, N=2, M=4,search=False):
+    def __init__(self, inplanes, planes, stride=1, downsample=None, N=2, M=4,search = False):
         super(BasicBlock, self).__init__()
-
         self.conv1 = conv3x3(inplanes, planes, stride, N=N, M=M,search=search)
         self.bn1 = nn.BatchNorm2d(planes)
         self.relu = nn.ReLU(inplace=True)
@@ -62,9 +56,8 @@ class BasicBlock(nn.Module):
 class Bottleneck(nn.Module):
     expansion = 4
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None, N=2, M=4,search=False):
+    def __init__(self, inplanes, planes, stride=1, downsample=None,N=2, M=4,search=False):
         super(Bottleneck, self).__init__()
-
         self.conv1 = SparseConv(inplanes, planes, kernel_size=1, bias=False, N=N, M=M,search=search)
         self.bn1 = nn.BatchNorm2d(planes)
         self.conv2 = SparseConv(planes, planes, kernel_size=3, stride=stride,
@@ -98,81 +91,69 @@ class Bottleneck(nn.Module):
 
         return out
 
-class ResNetV1(nn.Module):
+class ResNet(nn.Module):
 
-    def __init__(self, block, layers, num_classes=1000,num_new_classes=1000,  N=2, M=4,search=False):
-        super(ResNetV1, self).__init__()
+    def __init__(self, depth, num_classes=10000, N=2, M=4,search = False):
+        super(ResNet, self).__init__()
+        # Model type specifies number of layers for CIFAR-10 model
+        assert (depth - 2) % 6 == 0, 'depth should be 6n+2'
+        n = (depth - 2) // 6
 
-
-        self.N = N
-        self.M = M
-
-        self.num_new_classes = num_new_classes
 
         self.named_layers = {} # layers have parameters like conv2d and linear
         self.dense_layers = {} # layers which will be kept as dense
-
-        self.inplanes = 64
-        #self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
-        #                       bias=False)
         
-        self.conv1 = SparseConv(3, 64, kernel_size=7, stride=2, padding=3,
-                               bias=False, N=self.N, M=self.M,search=search)
-        
-        self.bn1 = nn.BatchNorm2d(64)
+        block = Bottleneck if depth >=54 else BasicBlock
+        self.N = N
+        self.M = M
+        self.inplanes = 16
+        self.conv1 = SparseConv(3, 16, kernel_size=3, padding=1,
+                               bias=False,N=N, M=M,search=search)
+        self.bn1 = nn.BatchNorm2d(16)
         self.relu = nn.ReLU(inplace=True)
-        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.layer1 = self._make_layer(block, 64, layers[0], N = self.N, M = self.M,search=search)
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2, N = self.N, M = self.M,search=search)
-        self.layer3 = self._make_layer(block, 256, layers[2], stride=2, N = self.N, M = self.M,search=search)
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2, N = self.N, M = self.M,search=search)
-        #self.fc = nn.Linear(512 * block.expansion, num_classes)
-        self.avgpool = nn.AvgPool2d(7, stride=1)
-        self.fc = SparseLinear(512 * block.expansion, num_classes,N=N,M=M,search=search) # nn.Linear(512 * block.expansion, num_classes)
+        self.layer1 = self._make_layer(block, 16, n,stride=1,N=N,M=M,search=search)
+        self.layer2 = self._make_layer(block, 32, n, stride=2,N=N,M=M,search=search)
+        self.layer3 = self._make_layer(block, 64, n, stride=2,N=N,M=M,search=search)
+        self.avgpool = nn.AvgPool2d(8)
+        self.fc = SparseLinear(64 * block.expansion, num_classes,N=N,M=M,search=search)
+
 
         self._set_sparse_layer_names()
+
+        #initialization
 
         for m in self.modules():
             if isinstance(m, SparseConv):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
                 m.weight.data.normal_(0, math.sqrt(2. / n))
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
 
-    def _make_layer(self, block, planes, blocks, stride=1, N = 2, M = 4,search=False):
+    def _make_layer(self, block, planes, blocks, stride=1,N=2, M=4,search=False):
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
             downsample = nn.Sequential(
                 SparseConv(self.inplanes, planes * block.expansion,
-                          kernel_size=1, stride=stride, bias=False,  N=N, M=M,search=search),
+                          kernel_size=1, stride=stride, bias=False,N=N, M=M,search=search),
                 nn.BatchNorm2d(planes * block.expansion),
             )
 
         layers = []
-        layers.append(block(self.inplanes, planes, stride, downsample, N=N, M=M,search=search))
+        layers.append(block(self.inplanes, planes, stride, downsample,N=N,M=M,search=search))
         self.inplanes = planes * block.expansion
         for i in range(1, blocks):
-            layers.append(block(self.inplanes, planes, N=N, M=M,search=search))
+            layers.append(block(self.inplanes, planes,N=N,M=M,search=search))
 
         return nn.Sequential(*layers)
 
-    def reset_classifier(self, num_classes, global_pool=''):
-        if num_classes != 1000:
-            print("reset fc linear layer..........")
-            num_features = self.fc.in_features
-            self.fc = SparseLinear(num_features, num_classes, N=self.N, M=self.M, search=True)
-        self._set_sparse_layer_names()
 
     def set_weight_decay(self, weight_decay):
         for mod in self.modules():
             if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear) :
                 mod.decay = weight_decay
 
-    def _get_sparse_layer_names(self):
-        layers = ""
-        for mod in self.modules():
-            if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear):
-                layers = layers + "," + mod.name.replace(',', ' ')
-        return layers
-    
+
     def _set_sparse_layer_names(self):
         conv2d_idx = 0
         linear_idx = 0
@@ -200,11 +181,10 @@ class ResNetV1(nn.Module):
             #     named_layers[layer_name] = mod
             #     batchnorm2d_idx += 1
             elif isinstance(mod, SparseLinear):
-                mod.out_features = self.num_new_classes
                 layer_name = 'Linear{}_{}-{}'.format(
                     linear_idx, mod.in_features, mod.out_features
                 )
-                print("########################## layer_name " + layer_name)
+                
                 Cout = mod.weight.data.size()[0]
                 C = mod.weight.data.size()[1]
 
@@ -231,6 +211,7 @@ class ResNetV1(nn.Module):
             #    pass
         return sparse_scheme
 
+
     def get_overall_sparsity(self):
         dense_paras = 0
         sparse_paras = 0
@@ -243,45 +224,15 @@ class ResNetV1(nn.Module):
             #     sparse_paras += 0
         
         return 1.0 - (sparse_paras/dense_paras)
-    
-    def Total_RMSI_ERROR (self):
-        total_rms = 0.0
-        nblayers = 0
-        for mod in self.modules():
-            if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear):
-                total_rms+=mod.RMSI_ERROR
-                nblayers += 1
-        #print ("nblayers = ", nblayers)
-        total_rms /= nblayers
-        return (total_rms )
-
-    #*******************************************************************************
-    def get_dense_parametrers(self):
-        dense_paras = 0
-        for mod in self.modules():
-            if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear):
-                dense_paras += mod.dense_parameters         
-        return dense_paras
-
-    def get_sparse_parametrers(self):
-        sparse_paras = 0
-        for mod in self.modules():
-            if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear):
-                sparse_paras += mod.get_sparse_parameters()         
-        return sparse_paras
-    #*******************************************************************************
 
     def forward(self, x):
-
         x = self.conv1(x)
         x = self.bn1(x)
-        x = self.relu(x)
-        x = self.maxpool(x)
+        x = self.relu(x)    # 32x32
 
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
+        x = self.layer1(x)  # 32x32
+        x = self.layer2(x)  # 16x16
+        x = self.layer3(x)  # 8x8
 
         x = self.avgpool(x)
         x = x.view(x.size(0), -1)
@@ -289,46 +240,28 @@ class ResNetV1(nn.Module):
 
         return x
 
-def resnet18_sparse(pretrained=False,progress=True,**kwargs):
-    model = ResNetV1(BasicBlock, [2, 2, 2, 2],  **kwargs)
 
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet18_sparse'],
-                                              progress=progress)
-        model.load_state_dict(state_dict)
+
+def resnet20_cifar_sparse(**kwargs):
+    model = ResNet(20,  **kwargs)
     return model
 
-def resnet34_sparse(pretrained=False,progress=True,**kwargs):
-    model = ResNetV1(BasicBlock, [3, 4, 6, 3], **kwargs)
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet34_sparse'],
-                                              progress=progress)
-        model.load_state_dict(state_dict)
+
+def resnet32_cifar_sparse(**kwargs):
+    model = ResNet(32, **kwargs)
     return model
 
-def resnet50_sparse(pretrained=False,progress=True,**kwargs):
-    model = ResNetV1(Bottleneck, [3, 4, 6, 3],  **kwargs)
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet50_sparse'],
-                                              progress=progress)
-        model.load_state_dict(state_dict)
+
+def resnet44_cifar_sparse(**kwargs):
+    model = ResNet(44,  **kwargs)
     return model
 
-def resnet101_sparse(pretrained=False,progress=True,**kwargs):
-    model = ResNetV1(Bottleneck, [3, 4, 23, 3], **kwargs)
 
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet101_sparse'],
-                                              progress=progress)
-        model.load_state_dict(state_dict)
-
+def resnet56_cifar_sparse(**kwargs):
+    model = ResNet(56, **kwargs)
     return model
 
-def resnet152_sparse(pretrained=False,progress=True,**kwargs):
-    model = ResNetV1(Bottleneck, [3, 8, 36, 3], **kwargs)
 
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet152_sparse'],
-                                              progress=progress)
-        model.load_state_dict(state_dict)
+def resnet110_cifar_sparse(**kwargs):
+    model = ResNet(110, **kwargs)
     return model

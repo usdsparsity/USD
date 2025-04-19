@@ -1,0 +1,1 @@
+torchrun ../find_mix_from_dense_imagenet.py --target_sparsity 0.9375 --with_weight_penalty 1 --port 69985 --config ./configs/config_resnet50_img_mix_from_dense.yaml

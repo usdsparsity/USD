@@ -628,6 +628,11 @@ class SparseConv(nn.Conv2d):
     def apply_N_M(self,N,M):
         self.N = N 
         self.M = M
+        if self.evaluate:
+            self.pruned_weight = self.get_sparse_weights()            # [nnz]
+            self.register_buffer('sparse_idx', self.pruned_weight)
+            self.values = nn.Parameter(self.pruned_weight)
+            #self.out_features, self.in_features = self.pruned_weight.shape
         
     def set_ste(self, ste):
         global g_ste
@@ -642,10 +647,8 @@ class SparseConv(nn.Conv2d):
 
     def get_sparse_weights(self):
 
-        self.w_at_t_minus_1 = self.weight.detach().clone()
-        ww = None
-
         if self.mix_from_dense == True:
+            self.w_at_t_minus_1 = self.weight.detach().clone()
             if self.us == 1:
                 return self.apply_unstructured_pruning(self.weight)
             #self.w_at_t_minus_1 = self.weight.clone()
@@ -718,10 +721,15 @@ class SparseConv(nn.Conv2d):
 
     def forward(self, x):
         #
-        if self.dense and self.evaluate:
-            return F.conv2d(
-            x, self.weight, self.bias, self.stride, self.padding, self.dilation, self.groups
-        )
+        if self.evaluate:
+            if self.dense:
+                    return F.conv2d(
+                    x, self.weight, self.bias, self.stride, self.padding, self.dilation, self.groups
+                )
+            else:
+                return F.conv2d(
+                    x, self.pruned_weight, self.bias, self.stride, self.padding, self.dilation, self.groups
+                )
         w = self.get_sparse_weights()
         if not self.evaluate:
             self.calculate_mask_w_survival(w)
@@ -1194,6 +1202,11 @@ class SparseLinear(nn.Linear):
     def apply_N_M(self,N,M):
         self.N = N 
         self.M = M
+        if self.evaluate:
+            self.pruned_weight = self.get_sparse_weights()
+            self.register_buffer('sparse_idx', self.pruned_weight)
+            self.values = nn.Parameter(self.pruned_weight)
+            self.out_features, self.in_features = self.pruned_weight.shape
 		
     # layout has to be initialized
     def change_layout(self,layout):
@@ -1205,9 +1218,8 @@ class SparseLinear(nn.Linear):
     def get_sparse_weights(self):
         #if (self.check_TC_compatibility() == False or self.M==self.N):
 
-        self.w_at_t_minus_1 = self.weight.detach().clone()
-
         if self.mix_from_dense == True:
+            self.w_at_t_minus_1 = self.weight.detach().clone()
             if self.us == 1:
                 return self.apply_unstructured_pruning(self.weight)
             # use self.learned_threshold_m to test, orginal is self.smallest_survival
@@ -1260,10 +1272,29 @@ class SparseLinear(nn.Linear):
         print ("RMSI layer = ", layer_rms)
         return layer_rms
 
+    def inference(self, x: torch.Tensor):
+        # x: [B, in] → want [B, out]
+        W = torch.sparse_coo_tensor(
+            self.sparse_idx, 
+            self.values, 
+            (self.out_features, self.in_features)
+        ).coalesce()
+        # spmm: sparse [out,in] × dense [in,B] → dense [out,B]
+        y = torch.sparse.mm(W, x.t())                   # [out, B]
+        y = y.t()                                       # [B, out]
+        if self.bias is not None:
+            y = y + self.bias
+        return y
+    
     def forward(self, x):
 
-        if self.dense and self.evaluate:
-            return F.linear(x, self.weight,self.bias)
+        if self.evaluate:
+            if self.dense:
+                return F.linear(x, self.weight,self.bias)
+            else:
+                return self.inference(x)
+                #return F.linear(x, self.pruned_weight,self.bias)
+
         w = self.get_sparse_weights()
         if not self.evaluate:
             self.calculate_mask_w_survival(w)

@@ -3,7 +3,14 @@ import math
 import sys
 import os.path as osp
 sys.path.append(osp.abspath(osp.join(__file__, '../../../')))
+#from devkit.ops import SyncBatchNorm2d
+import torch
+import torch.nn.functional as F
+from torch import autograd
+from torch.nn.modules.utils import _pair as pair
+from torch.nn import init
 from devkit.sparse_ops import SparseConv, SparseLinear
+#from devkit.sparse_ops import MixedSparseConv
 try:
     from torch.hub import load_state_dict_from_url
 except ImportError:
@@ -13,6 +20,7 @@ __all__ = ['ResNetV1', 'resnet18_sparse', 'resnet34_sparse', 'resnet50_sparse', 
            'resnet152_sparse']
 
 
+
 model_urls = {
     'resnet18_sparse': 'https://download.pytorch.org/models/resnet18-5c106cde.pth',
     'resnet34_sparse': 'https://download.pytorch.org/models/resnet34-333f7ec4.pth',
@@ -20,6 +28,7 @@ model_urls = {
     'resnet101_sparse': 'https://download.pytorch.org/models/resnet101-5d3b4d8f.pth',
     'resnet152_sparse': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 }
+
 
 def conv3x3(in_planes, out_planes, stride=1, N=2, M=4,search=False):
     """3x3 convolution with padding"""
@@ -113,12 +122,8 @@ class ResNetV1(nn.Module):
         self.dense_layers = {} # layers which will be kept as dense
 
         self.inplanes = 64
-        #self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
-        #                       bias=False)
-        
         self.conv1 = SparseConv(3, 64, kernel_size=7, stride=2, padding=3,
                                bias=False, N=self.N, M=self.M,search=search)
-        
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -154,25 +159,12 @@ class ResNetV1(nn.Module):
 
         return nn.Sequential(*layers)
 
-    def reset_classifier(self, num_classes, global_pool=''):
-        if num_classes != 1000:
-            print("reset fc linear layer..........")
-            num_features = self.fc.in_features
-            self.fc = SparseLinear(num_features, num_classes, N=self.N, M=self.M, search=True)
-        self._set_sparse_layer_names()
 
     def set_weight_decay(self, weight_decay):
         for mod in self.modules():
             if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear) :
                 mod.decay = weight_decay
 
-    def _get_sparse_layer_names(self):
-        layers = ""
-        for mod in self.modules():
-            if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear):
-                layers = layers + "," + mod.name.replace(',', ' ')
-        return layers
-    
     def _set_sparse_layer_names(self):
         conv2d_idx = 0
         linear_idx = 0
@@ -216,10 +208,15 @@ class ResNetV1(nn.Module):
 
                 linear_idx += 1
 
+
+
+
     def set_datalayout(self,layout):
         for mod in self.modules():
             if isinstance(mod, SparseConv): # for Linear Layer, data layout does not matter
                 mod.change_layout(layout)
+
+
 
     def check_N_M(self):
         sparse_scheme = {}
@@ -230,6 +227,8 @@ class ResNetV1(nn.Module):
             #elif isinstance(mod, torch.nn.Linear): TODOs
             #    pass
         return sparse_scheme
+
+
 
     def get_overall_sparsity(self):
         dense_paras = 0
@@ -243,18 +242,7 @@ class ResNetV1(nn.Module):
             #     sparse_paras += 0
         
         return 1.0 - (sparse_paras/dense_paras)
-    
-    def Total_RMSI_ERROR (self):
-        total_rms = 0.0
-        nblayers = 0
-        for mod in self.modules():
-            if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear):
-                total_rms+=mod.RMSI_ERROR
-                nblayers += 1
-        #print ("nblayers = ", nblayers)
-        total_rms /= nblayers
-        return (total_rms )
-
+		
     #*******************************************************************************
     def get_dense_parametrers(self):
         dense_paras = 0
@@ -289,6 +277,7 @@ class ResNetV1(nn.Module):
 
         return x
 
+
 def resnet18_sparse(pretrained=False,progress=True,**kwargs):
     model = ResNetV1(BasicBlock, [2, 2, 2, 2],  **kwargs)
 
@@ -298,6 +287,7 @@ def resnet18_sparse(pretrained=False,progress=True,**kwargs):
         model.load_state_dict(state_dict)
     return model
 
+
 def resnet34_sparse(pretrained=False,progress=True,**kwargs):
     model = ResNetV1(BasicBlock, [3, 4, 6, 3], **kwargs)
     if pretrained:
@@ -306,6 +296,7 @@ def resnet34_sparse(pretrained=False,progress=True,**kwargs):
         model.load_state_dict(state_dict)
     return model
 
+
 def resnet50_sparse(pretrained=False,progress=True,**kwargs):
     model = ResNetV1(Bottleneck, [3, 4, 6, 3],  **kwargs)
     if pretrained:
@@ -313,6 +304,7 @@ def resnet50_sparse(pretrained=False,progress=True,**kwargs):
                                               progress=progress)
         model.load_state_dict(state_dict)
     return model
+
 
 def resnet101_sparse(pretrained=False,progress=True,**kwargs):
     model = ResNetV1(Bottleneck, [3, 4, 23, 3], **kwargs)
@@ -323,6 +315,7 @@ def resnet101_sparse(pretrained=False,progress=True,**kwargs):
         model.load_state_dict(state_dict)
 
     return model
+
 
 def resnet152_sparse(pretrained=False,progress=True,**kwargs):
     model = ResNetV1(Bottleneck, [3, 8, 36, 3], **kwargs)

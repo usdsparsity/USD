@@ -98,12 +98,12 @@ def main():
 
     batchs = (10, 20, 30, 35, 40, 45, 50, 60, 120, 240, 512, 600)
 
-    file_path_validate = "./inference_benchmark/validate_file_" + str(N_file)+"_" + str(M_file) + ".csv"
+    file_path_validate = "./inference_benchmark/validate_file_" + args.model + "_" + str(N_file)+"_" + str(M_file) + ".csv"
     
     with open(file_path_validate, "w") as file:
         pass
 
-    header = 'dense,batch_size,batch_time,batch_time_sp,Loss,Loss_sp,Prec@1,Prec@1_sp,Prec@5Prec@5_sp'
+    header = 'batch_size,batch_time,batch_time_sp,Loss,Loss_sp,Prec@1,Prec@1_sp,Prec@5,Prec@5_sp'
     append_to_global_file(header, file_path_validate)
 
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -226,8 +226,8 @@ def validate(val_loader, model, batchsize, criterion, dense=1):
         if rank == 0:
             print(' * Prec@1 {top1.avg:.3f} Prec@5 {top5.avg:.3f}'
                   .format(top1=top1, top5=top5))
-            data = '{0},{1},{batch_time.avg:.3f},{batch_time_sparse.avg:.3f},{loss.val:.4f},{loss_sparse.val:.4f},{top1.val:.3f},{top1_sparse.val:.3f},{top5.avg:.3f},{top5_sparse.avg:.3f}'.format(
-                dense, batchsize, batch_time= batch_time, batch_time_sparse=batch_time_sparse
+            data = '{0},{batch_time.avg:.3f},{batch_time_sparse.avg:.3f},{loss.val:.4f},{loss_sparse.val:.4f},{top1.val:.3f},{top1_sparse.val:.3f},{top5.avg:.3f},{top5_sparse.avg:.3f}'.format(
+                batchsize, batch_time= batch_time, batch_time_sparse=batch_time_sparse
                 ,loss=losses,loss_sparse=losses_sparse
                 ,top1=top1,top1_sparse=top1_sparse
                 , top5=top5, top5_sparse=top5_sparse

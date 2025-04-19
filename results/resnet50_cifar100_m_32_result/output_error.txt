@@ -1,0 +1,719 @@
+Enabled distributed training.
+free port : 51753
+free port : 51753
+world size =  ..................... 1
+rank =  ..................... 0
+Enabled distributed training.0
+num classes = ...................... 100
+dataset data = ...................... /kaggle/input/CIFAR100
+=> creating model 'resnet50_sparse'
+=> M =  32
+=> N =  32
+########################## layer_name Linear0_2048-100
+****************************************
+DenseParameters =  25520000
+***************************************
+****Number of parameters before sparse:  0
+reset fc linear layer..........
+########################## layer_name Linear0_2048-100
+SGD weight decay =  0.0
+SGD momentum = 0.0
+SGD learning rate =  0.01
+Weight decay in Sparse Layer =  0.1
+Vote threshold =  0.75
+=> data layout 'NHWC'
+Overall sparsity target of ERK Heuristic  0.9
+Heuristic ERK sparsity 
+{'SparseConv0_64-64-(1, 1)': 0.0, 'SparseConv1_64-64-(3, 3)': np.float64(0.8324145236068394), 'SparseConv2_64-256-(1, 1)': np.float64(0.09391285338175526), 'SparseConv3_64-256-(1, 1)': np.float64(0.09391285338175526), 'SparseConv4_256-64-(1, 1)': np.float64(0.09391285338175526), 'SparseConv5_64-64-(3, 3)': np.float64(0.8324145236068394), 'SparseConv6_64-256-(1, 1)': np.float64(0.09391285338175526), 'SparseConv7_256-64-(1, 1)': np.float64(0.09391285338175526), 'SparseConv8_64-64-(3, 3)': np.float64(0.8324145236068394), 'SparseConv9_64-256-(1, 1)': np.float64(0.09391285338175526), 'SparseConv10_256-128-(1, 1)': np.float64(0.45691049907664205), 'SparseConv11_128-128-(3, 3)': np.float64(0.9180832186287163), 'SparseConv12_128-512-(1, 1)': np.float64(0.54836339430985), 'SparseConv13_256-512-(1, 1)': np.float64(0.7291587333478073), 'SparseConv14_512-128-(1, 1)': np.float64(0.54836339430985), 'SparseConv15_128-128-(3, 3)': np.float64(0.9180832186287163), 'SparseConv16_128-512-(1, 1)': np.float64(0.54836339430985), 'SparseConv17_512-128-(1, 1)': np.float64(0.54836339430985), 'SparseConv18_128-128-(3, 3)': np.float64(0.9180832186287163), 'SparseConv19_128-512-(1, 1)': np.float64(0.54836339430985), 'SparseConv20_512-128-(1, 1)': np.float64(0.54836339430985), 'SparseConv21_128-128-(3, 3)': np.float64(0.9180832186287163), 'SparseConv22_128-512-(1, 1)': np.float64(0.54836339430985), 'SparseConv23_512-256-(1, 1)': np.float64(0.7291587333478073), 'SparseConv24_256-256-(3, 3)': np.float64(0.9595105985206823), 'SparseConv25_256-1024-(1, 1)': np.float64(0.7745334390596681), 'SparseConv26_512-1024-(1, 1)': np.float64(0.8647552376262752), 'SparseConv27_1024-256-(1, 1)': np.float64(0.7745334390596681), 'SparseConv28_256-256-(3, 3)': np.float64(0.9595105985206823), 'SparseConv29_256-1024-(1, 1)': np.float64(0.7745334390596681), 'SparseConv30_1024-256-(1, 1)': np.float64(0.7745334390596681), 'SparseConv31_256-256-(3, 3)': np.float64(0.9595105985206823), 'SparseConv32_256-1024-(1, 1)': np.float64(0.7745334390596681), 'SparseConv33_1024-256-(1, 1)': np.float64(0.7745334390596681), 'SparseConv34_256-256-(3, 3)': np.float64(0.9595105985206823), 'SparseConv35_256-1024-(1, 1)': np.float64(0.7745334390596681), 'SparseConv36_1024-256-(1, 1)': np.float64(0.7745334390596681), 'SparseConv37_256-256-(3, 3)': np.float64(0.9595105985206823), 'SparseConv38_256-1024-(1, 1)': np.float64(0.7745334390596681), 'SparseConv39_1024-256-(1, 1)': np.float64(0.7745334390596681), 'SparseConv40_256-256-(3, 3)': np.float64(0.9595105985206823), 'SparseConv41_256-1024-(1, 1)': np.float64(0.7745334390596681), 'SparseConv42_1024-512-(1, 1)': np.float64(0.8647552376262752), 'SparseConv43_512-512-(3, 3)': np.float64(0.9798725465619222), 'SparseConv44_512-2048-(1, 1)': np.float64(0.8873546550060198), 'SparseConv45_1024-2048-(1, 1)': np.float64(0.9324215865512304), 'SparseConv46_2048-512-(1, 1)': np.float64(0.8873546550060198), 'SparseConv47_512-512-(3, 3)': np.float64(0.9798725465619222), 'SparseConv48_512-2048-(1, 1)': np.float64(0.8873546550060198), 'SparseConv49_2048-512-(1, 1)': np.float64(0.8873546550060198), 'SparseConv50_512-512-(3, 3)': np.float64(0.9798725465619222), 'SparseConv51_512-2048-(1, 1)': np.float64(0.8873546550060198), 'Linear0_2048-100': np.float64(0.5164533687115553)}
+*********************************
+/kaggle/input/CIFAR100/train_img
+*********************************
+############################################
+num worker ...........................1
+summary model....
+[-1 64 56 56]
+[-1 64 56 56]
+[ -1 256  56  56]
+[ -1 256  56  56]
+[-1 64 56 56]
+[-1 64 56 56]
+[ -1 256  56  56]
+[-1 64 56 56]
+[-1 64 56 56]
+[ -1 256  56  56]
+[ -1 128  56  56]
+[ -1 128  28  28]
+[ -1 512  28  28]
+[ -1 512  28  28]
+[ -1 128  28  28]
+[ -1 128  28  28]
+[ -1 512  28  28]
+[ -1 128  28  28]
+[ -1 128  28  28]
+[ -1 512  28  28]
+[ -1 128  28  28]
+[ -1 128  28  28]
+[ -1 512  28  28]
+[ -1 256  28  28]
+[ -1 256  14  14]
+[  -1 1024   14   14]
+[  -1 1024   14   14]
+[ -1 256  14  14]
+[ -1 256  14  14]
+[  -1 1024   14   14]
+[ -1 256  14  14]
+[ -1 256  14  14]
+[  -1 1024   14   14]
+[ -1 256  14  14]
+[ -1 256  14  14]
+[  -1 1024   14   14]
+[ -1 256  14  14]
+[ -1 256  14  14]
+[  -1 1024   14   14]
+[ -1 256  14  14]
+[ -1 256  14  14]
+[  -1 1024   14   14]
+[ -1 512  14  14]
+[ -1 512   7   7]
+[  -1 2048    7    7]
+[  -1 2048    7    7]
+[ -1 512   7   7]
+[ -1 512   7   7]
+[  -1 2048    7    7]
+[ -1 512   7   7]
+[ -1 512   7   7]
+[  -1 2048    7    7]
+Dense Flops of each layer
+{'SparseConv0_64-64-(1, 1)': np.int64(12845056), 'SparseConv1_64-64-(3, 3)': np.int64(115605504), 'SparseConv2_64-256-(1, 1)': np.int64(51380224), 'SparseConv3_64-256-(1, 1)': np.int64(51380224), 'SparseConv4_256-64-(1, 1)': np.int64(51380224), 'SparseConv5_64-64-(3, 3)': np.int64(115605504), 'SparseConv6_64-256-(1, 1)': np.int64(51380224), 'SparseConv7_256-64-(1, 1)': np.int64(51380224), 'SparseConv8_64-64-(3, 3)': np.int64(115605504), 'SparseConv9_64-256-(1, 1)': np.int64(51380224), 'SparseConv10_256-128-(1, 1)': np.int64(102760448), 'SparseConv11_128-128-(3, 3)': np.int64(115605504), 'SparseConv12_128-512-(1, 1)': np.int64(51380224), 'SparseConv13_256-512-(1, 1)': np.int64(102760448), 'SparseConv14_512-128-(1, 1)': np.int64(51380224), 'SparseConv15_128-128-(3, 3)': np.int64(115605504), 'SparseConv16_128-512-(1, 1)': np.int64(51380224), 'SparseConv17_512-128-(1, 1)': np.int64(51380224), 'SparseConv18_128-128-(3, 3)': np.int64(115605504), 'SparseConv19_128-512-(1, 1)': np.int64(51380224), 'SparseConv20_512-128-(1, 1)': np.int64(51380224), 'SparseConv21_128-128-(3, 3)': np.int64(115605504), 'SparseConv22_128-512-(1, 1)': np.int64(51380224), 'SparseConv23_512-256-(1, 1)': np.int64(102760448), 'SparseConv24_256-256-(3, 3)': np.int64(115605504), 'SparseConv25_256-1024-(1, 1)': np.int64(51380224), 'SparseConv26_512-1024-(1, 1)': np.int64(102760448), 'SparseConv27_1024-256-(1, 1)': np.int64(51380224), 'SparseConv28_256-256-(3, 3)': np.int64(115605504), 'SparseConv29_256-1024-(1, 1)': np.int64(51380224), 'SparseConv30_1024-256-(1, 1)': np.int64(51380224), 'SparseConv31_256-256-(3, 3)': np.int64(115605504), 'SparseConv32_256-1024-(1, 1)': np.int64(51380224), 'SparseConv33_1024-256-(1, 1)': np.int64(51380224), 'SparseConv34_256-256-(3, 3)': np.int64(115605504), 'SparseConv35_256-1024-(1, 1)': np.int64(51380224), 'SparseConv36_1024-256-(1, 1)': np.int64(51380224), 'SparseConv37_256-256-(3, 3)': np.int64(115605504), 'SparseConv38_256-1024-(1, 1)': np.int64(51380224), 'SparseConv39_1024-256-(1, 1)': np.int64(51380224), 'SparseConv40_256-256-(3, 3)': np.int64(115605504), 'SparseConv41_256-1024-(1, 1)': np.int64(51380224), 'SparseConv42_1024-512-(1, 1)': np.int64(102760448), 'SparseConv43_512-512-(3, 3)': np.int64(115605504), 'SparseConv44_512-2048-(1, 1)': np.int64(51380224), 'SparseConv45_1024-2048-(1, 1)': np.int64(102760448), 'SparseConv46_2048-512-(1, 1)': np.int64(51380224), 'SparseConv47_512-512-(3, 3)': np.int64(115605504), 'SparseConv48_512-2048-(1, 1)': np.int64(51380224), 'SparseConv49_2048-512-(1, 1)': np.int64(51380224), 'SparseConv50_512-512-(3, 3)': np.int64(115605504), 'SparseConv51_512-2048-(1, 1)': np.int64(51380224), 'Linear0_2048-100': 204900}
+Dense Parameters of each layer
+{'SparseConv0_64-64-(1, 1)': 4160, 'SparseConv1_64-64-(3, 3)': 36928, 'SparseConv2_64-256-(1, 1)': 16640, 'SparseConv3_64-256-(1, 1)': 16640, 'SparseConv4_256-64-(1, 1)': 16448, 'SparseConv5_64-64-(3, 3)': 36928, 'SparseConv6_64-256-(1, 1)': 16640, 'SparseConv7_256-64-(1, 1)': 16448, 'SparseConv8_64-64-(3, 3)': 36928, 'SparseConv9_64-256-(1, 1)': 16640, 'SparseConv10_256-128-(1, 1)': 32896, 'SparseConv11_128-128-(3, 3)': 147584, 'SparseConv12_128-512-(1, 1)': 66048, 'SparseConv13_256-512-(1, 1)': 131584, 'SparseConv14_512-128-(1, 1)': 65664, 'SparseConv15_128-128-(3, 3)': 147584, 'SparseConv16_128-512-(1, 1)': 66048, 'SparseConv17_512-128-(1, 1)': 65664, 'SparseConv18_128-128-(3, 3)': 147584, 'SparseConv19_128-512-(1, 1)': 66048, 'SparseConv20_512-128-(1, 1)': 65664, 'SparseConv21_128-128-(3, 3)': 147584, 'SparseConv22_128-512-(1, 1)': 66048, 'SparseConv23_512-256-(1, 1)': 131328, 'SparseConv24_256-256-(3, 3)': 590080, 'SparseConv25_256-1024-(1, 1)': 263168, 'SparseConv26_512-1024-(1, 1)': 525312, 'SparseConv27_1024-256-(1, 1)': 262400, 'SparseConv28_256-256-(3, 3)': 590080, 'SparseConv29_256-1024-(1, 1)': 263168, 'SparseConv30_1024-256-(1, 1)': 262400, 'SparseConv31_256-256-(3, 3)': 590080, 'SparseConv32_256-1024-(1, 1)': 263168, 'SparseConv33_1024-256-(1, 1)': 262400, 'SparseConv34_256-256-(3, 3)': 590080, 'SparseConv35_256-1024-(1, 1)': 263168, 'SparseConv36_1024-256-(1, 1)': 262400, 'SparseConv37_256-256-(3, 3)': 590080, 'SparseConv38_256-1024-(1, 1)': 263168, 'SparseConv39_1024-256-(1, 1)': 262400, 'SparseConv40_256-256-(3, 3)': 590080, 'SparseConv41_256-1024-(1, 1)': 263168, 'SparseConv42_1024-512-(1, 1)': 524800, 'SparseConv43_512-512-(3, 3)': 2359808, 'SparseConv44_512-2048-(1, 1)': 1050624, 'SparseConv45_1024-2048-(1, 1)': 2099200, 'SparseConv46_2048-512-(1, 1)': 1049088, 'SparseConv47_512-512-(3, 3)': 2359808, 'SparseConv48_512-2048-(1, 1)': 1050624, 'SparseConv49_2048-512-(1, 1)': 1049088, 'SparseConv50_512-512-(3, 3)': 2359808, 'SparseConv51_512-2048-(1, 1)': 1050624, 'Linear0_2048-100': 204800}
+flops normalization
+{'SparseConv0_64-64-(1, 1)': 0.1111111111111111, 'SparseConv1_64-64-(3, 3)': 1.0, 'SparseConv2_64-256-(1, 1)': 0.4444444444444444, 'SparseConv3_64-256-(1, 1)': 0.4444444444444444, 'SparseConv4_256-64-(1, 1)': 0.4444444444444444, 'SparseConv5_64-64-(3, 3)': 1.0, 'SparseConv6_64-256-(1, 1)': 0.4444444444444444, 'SparseConv7_256-64-(1, 1)': 0.4444444444444444, 'SparseConv8_64-64-(3, 3)': 1.0, 'SparseConv9_64-256-(1, 1)': 0.4444444444444444, 'SparseConv10_256-128-(1, 1)': 0.8888888888888888, 'SparseConv11_128-128-(3, 3)': 1.0, 'SparseConv12_128-512-(1, 1)': 0.4444444444444444, 'SparseConv13_256-512-(1, 1)': 0.8888888888888888, 'SparseConv14_512-128-(1, 1)': 0.4444444444444444, 'SparseConv15_128-128-(3, 3)': 1.0, 'SparseConv16_128-512-(1, 1)': 0.4444444444444444, 'SparseConv17_512-128-(1, 1)': 0.4444444444444444, 'SparseConv18_128-128-(3, 3)': 1.0, 'SparseConv19_128-512-(1, 1)': 0.4444444444444444, 'SparseConv20_512-128-(1, 1)': 0.4444444444444444, 'SparseConv21_128-128-(3, 3)': 1.0, 'SparseConv22_128-512-(1, 1)': 0.4444444444444444, 'SparseConv23_512-256-(1, 1)': 0.8888888888888888, 'SparseConv24_256-256-(3, 3)': 1.0, 'SparseConv25_256-1024-(1, 1)': 0.4444444444444444, 'SparseConv26_512-1024-(1, 1)': 0.8888888888888888, 'SparseConv27_1024-256-(1, 1)': 0.4444444444444444, 'SparseConv28_256-256-(3, 3)': 1.0, 'SparseConv29_256-1024-(1, 1)': 0.4444444444444444, 'SparseConv30_1024-256-(1, 1)': 0.4444444444444444, 'SparseConv31_256-256-(3, 3)': 1.0, 'SparseConv32_256-1024-(1, 1)': 0.4444444444444444, 'SparseConv33_1024-256-(1, 1)': 0.4444444444444444, 'SparseConv34_256-256-(3, 3)': 1.0, 'SparseConv35_256-1024-(1, 1)': 0.4444444444444444, 'SparseConv36_1024-256-(1, 1)': 0.4444444444444444, 'SparseConv37_256-256-(3, 3)': 1.0, 'SparseConv38_256-1024-(1, 1)': 0.4444444444444444, 'SparseConv39_1024-256-(1, 1)': 0.4444444444444444, 'SparseConv40_256-256-(3, 3)': 1.0, 'SparseConv41_256-1024-(1, 1)': 0.4444444444444444, 'SparseConv42_1024-512-(1, 1)': 0.8888888888888888, 'SparseConv43_512-512-(3, 3)': 1.0, 'SparseConv44_512-2048-(1, 1)': 0.4444444444444444, 'SparseConv45_1024-2048-(1, 1)': 0.8888888888888888, 'SparseConv46_2048-512-(1, 1)': 0.4444444444444444, 'SparseConv47_512-512-(3, 3)': 1.0, 'SparseConv48_512-2048-(1, 1)': 0.4444444444444444, 'SparseConv49_2048-512-(1, 1)': 0.4444444444444444, 'SparseConv50_512-512-(3, 3)': 1.0, 'SparseConv51_512-2048-(1, 1)': 0.4444444444444444, 'Linear0_2048-100': 0.0017724069608312076}
+use (ERK * 0.5 + flops * 0.5) as normalization
+{'SparseConv0_64-64-(1, 1)': 0.05555555555555555, 'SparseConv1_64-64-(3, 3)': 0.9247565290646887, 'SparseConv2_64-256-(1, 1)': 0.2701431756723761, 'SparseConv3_64-256-(1, 1)': 0.2701431756723761, 'SparseConv4_256-64-(1, 1)': 0.2701431756723761, 'SparseConv5_64-64-(3, 3)': 0.9247565290646887, 'SparseConv6_64-256-(1, 1)': 0.2701431756723761, 'SparseConv7_256-64-(1, 1)': 0.2701431756723761, 'SparseConv8_64-64-(3, 3)': 0.9247565290646887, 'SparseConv9_64-256-(1, 1)': 0.2701431756723761, 'SparseConv10_256-128-(1, 1)': 0.6775923679574581, 'SparseConv11_128-128-(3, 3)': 0.9684707321630726, 'SparseConv12_128-512-(1, 1)': 0.5020358552471968, 'SparseConv13_256-512-(1, 1)': 0.8165125955046031, 'SparseConv14_512-128-(1, 1)': 0.5020358552471968, 'SparseConv15_128-128-(3, 3)': 0.9684707321630726, 'SparseConv16_128-512-(1, 1)': 0.5020358552471968, 'SparseConv17_512-128-(1, 1)': 0.5020358552471968, 'SparseConv18_128-128-(3, 3)': 0.9684707321630726, 'SparseConv19_128-512-(1, 1)': 0.5020358552471968, 'SparseConv20_512-128-(1, 1)': 0.5020358552471968, 'SparseConv21_128-128-(3, 3)': 0.9684707321630726, 'SparseConv22_128-512-(1, 1)': 0.5020358552471968, 'SparseConv23_512-256-(1, 1)': 0.8165125955046031, 'SparseConv24_256-256-(3, 3)': 0.9896098997197729, 'SparseConv25_256-1024-(1, 1)': 0.6174437445402383, 'SparseConv26_512-1024-(1, 1)': 0.8857034840309912, 'SparseConv27_1024-256-(1, 1)': 0.6174437445402383, 'SparseConv28_256-256-(3, 3)': 0.9896098997197729, 'SparseConv29_256-1024-(1, 1)': 0.6174437445402383, 'SparseConv30_1024-256-(1, 1)': 0.6174437445402383, 'SparseConv31_256-256-(3, 3)': 0.9896098997197729, 'SparseConv32_256-1024-(1, 1)': 0.6174437445402383, 'SparseConv33_1024-256-(1, 1)': 0.6174437445402383, 'SparseConv34_256-256-(3, 3)': 0.9896098997197729, 'SparseConv35_256-1024-(1, 1)': 0.6174437445402383, 'SparseConv36_1024-256-(1, 1)': 0.6174437445402383, 'SparseConv37_256-256-(3, 3)': 0.9896098997197729, 'SparseConv38_256-1024-(1, 1)': 0.6174437445402383, 'SparseConv39_1024-256-(1, 1)': 0.6174437445402383, 'SparseConv40_256-256-(3, 3)': 0.9896098997197729, 'SparseConv41_256-1024-(1, 1)': 0.6174437445402383, 'SparseConv42_1024-512-(1, 1)': 0.8857034840309912, 'SparseConv43_512-512-(3, 3)': 1.0, 'SparseConv44_512-2048-(1, 1)': 0.675013076563167, 'SparseConv45_1024-2048-(1, 1)': 0.9202316219823891, 'SparseConv46_2048-512-(1, 1)': 0.675013076563167, 'SparseConv47_512-512-(3, 3)': 1.0, 'SparseConv48_512-2048-(1, 1)': 0.675013076563167, 'SparseConv49_2048-512-(1, 1)': 0.675013076563167, 'SparseConv50_512-512-(3, 3)': 1.0, 'SparseConv51_512-2048-(1, 1)': 0.675013076563167, 'Linear0_2048-100': 0.26441709355567833}
+Total iterations 1
+Epoch: [0][0/417]	Time 22.811 (22.811)	Data 0.342 (0.342)	Loss 4.6046 (4.6046)	Prec@1 0.833 (0.833)	Prec@5 6.667 (6.667)	Learning Rate 0.0100	ErrorRMSI 0.0224820	SparseParameters 23676800
+Epoch: [0][200/417]	Time 1.023 (0.711)	Data 0.360 (0.338)	Loss 3.7660 (4.2062)	Prec@1 20.000 (10.269)	Prec@5 47.500 (28.984)	Learning Rate 0.0100	ErrorRMSI 0.0001460	SparseParameters 23676800
+Epoch: [0][400/417]	Time 1.023 (0.656)	Data 0.334 (0.333)	Loss 2.7629 (3.7170)	Prec@1 35.833 (19.805)	Prec@5 70.000 (44.670)	Learning Rate 0.0100	ErrorRMSI 0.0002936	SparseParameters 23676800
+Test: [0/84]	Time 0.584 (0.584)	Loss 2.1715 (2.1715)	Prec@1 54.167 (54.167)	Prec@5 86.667 (86.667)
+ * Prec@1 49.640 Prec@5 82.740
+Total iterations 418
+Epoch: [1][0/417]	Time 1.032 (1.032)	Data 0.371 (0.371)	Loss 2.5946 (2.5946)	Prec@1 45.833 (45.833)	Prec@5 71.667 (71.667)	Learning Rate 0.0100	ErrorRMSI 0.0004679	SparseParameters 23676800
+Epoch: [1][200/417]	Time 1.023 (0.600)	Data 0.370 (0.321)	Loss 2.2341 (2.4075)	Prec@1 45.000 (43.437)	Prec@5 77.500 (74.424)	Learning Rate 0.0100	ErrorRMSI 0.0006681	SparseParameters 23676800
+Epoch: [1][400/417]	Time 1.020 (0.599)	Data 0.365 (0.320)	Loss 1.9678 (2.2227)	Prec@1 52.500 (46.631)	Prec@5 82.500 (76.802)	Learning Rate 0.0100	ErrorRMSI 0.0008831	SparseParameters 23676800
+Test: [0/84]	Time 0.543 (0.543)	Loss 1.1757 (1.1757)	Prec@1 68.333 (68.333)	Prec@5 93.333 (93.333)
+ * Prec@1 66.010 Prec@5 92.000
+Total iterations 835
+Epoch: [2][0/417]	Time 1.007 (1.007)	Data 0.351 (0.351)	Loss 1.9665 (1.9665)	Prec@1 54.167 (54.167)	Prec@5 75.833 (75.833)	Learning Rate 0.0100	ErrorRMSI 0.0011163	SparseParameters 23676800
+Epoch: [2][200/417]	Time 1.022 (0.600)	Data 0.317 (0.329)	Loss 1.7312 (1.7955)	Prec@1 52.500 (54.747)	Prec@5 85.833 (82.301)	Learning Rate 0.0100	ErrorRMSI 0.0013696	SparseParameters 23676800
+Epoch: [2][400/417]	Time 1.021 (0.599)	Data 0.335 (0.328)	Loss 1.5957 (1.7244)	Prec@1 60.000 (55.975)	Prec@5 81.667 (83.182)	Learning Rate 0.0100	ErrorRMSI 0.0016306	SparseParameters 23676800
+Test: [0/84]	Time 0.530 (0.530)	Loss 0.9897 (0.9897)	Prec@1 74.167 (74.167)	Prec@5 94.167 (94.167)
+ * Prec@1 72.000 Prec@5 94.440
+Total iterations 1252
+Epoch: [3][0/417]	Time 1.006 (1.006)	Data 0.350 (0.350)	Loss 1.5645 (1.5645)	Prec@1 59.167 (59.167)	Prec@5 87.500 (87.500)	Learning Rate 0.0100	ErrorRMSI 0.0018374	SparseParameters 23676800
+Epoch: [3][200/417]	Time 1.029 (0.600)	Data 0.374 (0.325)	Loss 1.6379 (1.5317)	Prec@1 56.667 (59.954)	Prec@5 87.500 (85.580)	Learning Rate 0.0100	ErrorRMSI 0.0018870	SparseParameters 23676800
+Epoch: [3][400/417]	Time 1.022 (0.599)	Data 0.301 (0.327)	Loss 1.3983 (1.5134)	Prec@1 65.000 (60.434)	Prec@5 89.167 (85.713)	Learning Rate 0.0100	ErrorRMSI 0.0019137	SparseParameters 23676800
+Test: [0/84]	Time 0.552 (0.552)	Loss 0.8663 (0.8663)	Prec@1 72.500 (72.500)	Prec@5 95.833 (95.833)
+ * Prec@1 75.270 Prec@5 95.460
+Total iterations 1669
+Epoch: [4][0/417]	Time 0.980 (0.980)	Data 0.326 (0.326)	Loss 1.7485 (1.7485)	Prec@1 54.167 (54.167)	Prec@5 79.167 (79.167)	Learning Rate 0.0100	ErrorRMSI 0.0019492	SparseParameters 23676800
+Epoch: [4][200/417]	Time 1.019 (0.601)	Data 0.289 (0.326)	Loss 1.3797 (1.4167)	Prec@1 60.833 (62.160)	Prec@5 85.000 (86.833)	Learning Rate 0.0100	ErrorRMSI 0.0019485	SparseParameters 23676800
+Epoch: [4][400/417]	Time 1.019 (0.599)	Data 0.311 (0.324)	Loss 1.3571 (1.4032)	Prec@1 64.167 (62.602)	Prec@5 85.833 (86.850)	Learning Rate 0.0100	ErrorRMSI 0.0020574	SparseParameters 23676800
+Test: [0/84]	Time 0.523 (0.523)	Loss 0.8607 (0.8607)	Prec@1 70.833 (70.833)	Prec@5 96.667 (96.667)
+ * Prec@1 76.060 Prec@5 95.930
+Total iterations 2086
+Epoch: [5][0/417]	Time 0.984 (0.984)	Data 0.326 (0.326)	Loss 1.1792 (1.1792)	Prec@1 70.833 (70.833)	Prec@5 87.500 (87.500)	Learning Rate 0.0100	ErrorRMSI 0.0020928	SparseParameters 23676800
+Epoch: [5][200/417]	Time 1.024 (0.599)	Data 0.303 (0.317)	Loss 1.2926 (1.3137)	Prec@1 70.833 (64.921)	Prec@5 85.833 (88.018)	Learning Rate 0.0100	ErrorRMSI 0.0020908	SparseParameters 23676800
+Epoch: [5][400/417]	Time 1.023 (0.598)	Data 0.304 (0.316)	Loss 1.4136 (1.3022)	Prec@1 62.500 (65.118)	Prec@5 85.833 (88.084)	Learning Rate 0.0100	ErrorRMSI 0.0021625	SparseParameters 23676800
+Test: [0/84]	Time 0.547 (0.547)	Loss 0.8752 (0.8752)	Prec@1 71.667 (71.667)	Prec@5 96.667 (96.667)
+ * Prec@1 77.270 Prec@5 96.080
+Total iterations 2503
+Epoch: [6][0/417]	Time 0.947 (0.947)	Data 0.294 (0.294)	Loss 1.1832 (1.1832)	Prec@1 73.333 (73.333)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0022024	SparseParameters 23676800
+Epoch: [6][200/417]	Time 1.019 (0.599)	Data 0.328 (0.311)	Loss 1.2909 (1.2488)	Prec@1 60.000 (66.347)	Prec@5 89.167 (88.889)	Learning Rate 0.0100	ErrorRMSI 0.0021911	SparseParameters 23676800
+Epoch: [6][400/417]	Time 1.020 (0.598)	Data 0.299 (0.312)	Loss 1.2805 (1.2370)	Prec@1 65.833 (66.714)	Prec@5 89.167 (88.936)	Learning Rate 0.0100	ErrorRMSI 0.0022785	SparseParameters 23676800
+Test: [0/84]	Time 0.521 (0.521)	Loss 0.6662 (0.6662)	Prec@1 75.000 (75.000)	Prec@5 98.333 (98.333)
+ * Prec@1 78.340 Prec@5 96.490
+Total iterations 2920
+Epoch: [7][0/417]	Time 0.989 (0.989)	Data 0.336 (0.336)	Loss 1.0837 (1.0837)	Prec@1 74.167 (74.167)	Prec@5 87.500 (87.500)	Learning Rate 0.0100	ErrorRMSI 0.0022977	SparseParameters 23676800
+Epoch: [7][200/417]	Time 1.019 (0.599)	Data 0.307 (0.313)	Loss 1.0425 (1.1929)	Prec@1 76.667 (67.952)	Prec@5 90.833 (89.204)	Learning Rate 0.0100	ErrorRMSI 0.0022853	SparseParameters 23676800
+Epoch: [7][400/417]	Time 1.021 (0.599)	Data 0.295 (0.314)	Loss 1.2699 (1.1986)	Prec@1 60.833 (67.830)	Prec@5 88.333 (89.127)	Learning Rate 0.0100	ErrorRMSI 0.0023148	SparseParameters 23676800
+Test: [0/84]	Time 0.552 (0.552)	Loss 0.5813 (0.5813)	Prec@1 80.000 (80.000)	Prec@5 97.500 (97.500)
+ * Prec@1 79.050 Prec@5 96.620
+Total iterations 3337
+Epoch: [8][0/417]	Time 1.001 (1.001)	Data 0.348 (0.348)	Loss 1.2090 (1.2090)	Prec@1 70.000 (70.000)	Prec@5 87.500 (87.500)	Learning Rate 0.0100	ErrorRMSI 0.0023740	SparseParameters 23676800
+Epoch: [8][200/417]	Time 1.018 (0.599)	Data 0.299 (0.314)	Loss 1.1891 (1.1516)	Prec@1 70.000 (68.959)	Prec@5 88.333 (89.449)	Learning Rate 0.0100	ErrorRMSI 0.0023664	SparseParameters 23676800
+Epoch: [8][400/417]	Time 1.018 (0.598)	Data 0.318 (0.314)	Loss 1.0550 (1.1526)	Prec@1 72.500 (68.845)	Prec@5 92.500 (89.474)	Learning Rate 0.0100	ErrorRMSI 0.0024320	SparseParameters 23676800
+Test: [0/84]	Time 0.529 (0.529)	Loss 0.8109 (0.8109)	Prec@1 75.833 (75.833)	Prec@5 99.167 (99.167)
+ * Prec@1 79.810 Prec@5 96.810
+Total iterations 3754
+Epoch: [9][0/417]	Time 1.033 (1.033)	Data 0.381 (0.381)	Loss 1.3041 (1.3041)	Prec@1 69.167 (69.167)	Prec@5 88.333 (88.333)	Learning Rate 0.0100	ErrorRMSI 0.0024639	SparseParameters 23676800
+Epoch: [9][200/417]	Time 1.045 (0.600)	Data 0.300 (0.314)	Loss 1.1449 (1.1281)	Prec@1 70.000 (69.465)	Prec@5 90.000 (89.892)	Learning Rate 0.0100	ErrorRMSI 0.0024498	SparseParameters 18956928
+Epoch: [9][400/417]	Time 1.042 (0.599)	Data 0.319 (0.312)	Loss 1.3722 (1.1370)	Prec@1 65.833 (69.314)	Prec@5 85.833 (89.805)	Learning Rate 0.0100	ErrorRMSI 0.0025006	SparseParameters 18071680
+Test: [0/84]	Time 0.592 (0.592)	Loss 0.6790 (0.6790)	Prec@1 77.500 (77.500)	Prec@5 96.667 (96.667)
+ * Prec@1 79.170 Prec@5 96.340
+Total iterations 4171
+Epoch: [10][0/417]	Time 0.973 (0.973)	Data 0.318 (0.318)	Loss 1.0062 (1.0062)	Prec@1 67.500 (67.500)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0025548	SparseParameters 18071680
+Epoch: [10][200/417]	Time 1.029 (0.599)	Data 0.307 (0.314)	Loss 0.9382 (1.0868)	Prec@1 67.500 (70.626)	Prec@5 93.333 (90.580)	Learning Rate 0.0100	ErrorRMSI 0.0025569	SparseParameters 17003616
+Epoch: [10][400/417]	Time 1.029 (0.598)	Data 0.307 (0.312)	Loss 0.8916 (1.0903)	Prec@1 74.167 (70.493)	Prec@5 90.833 (90.466)	Learning Rate 0.0100	ErrorRMSI 0.0025825	SparseParameters 16478560
+Test: [0/84]	Time 0.526 (0.526)	Loss 0.5921 (0.5921)	Prec@1 78.333 (78.333)	Prec@5 96.667 (96.667)
+ * Prec@1 80.060 Prec@5 96.390
+Total iterations 4588
+Epoch: [11][0/417]	Time 0.972 (0.972)	Data 0.318 (0.318)	Loss 1.0794 (1.0794)	Prec@1 75.833 (75.833)	Prec@5 88.333 (88.333)	Learning Rate 0.0100	ErrorRMSI 0.0026285	SparseParameters 16478560
+Epoch: [11][200/417]	Time 1.022 (0.599)	Data 0.308 (0.312)	Loss 0.8217 (1.0512)	Prec@1 75.833 (71.658)	Prec@5 95.833 (90.738)	Learning Rate 0.0100	ErrorRMSI 0.0026320	SparseParameters 16412768
+Epoch: [11][400/417]	Time 1.027 (0.598)	Data 0.346 (0.313)	Loss 1.1317 (1.0644)	Prec@1 70.833 (71.195)	Prec@5 87.500 (90.576)	Learning Rate 0.0100	ErrorRMSI 0.0026400	SparseParameters 16328640
+Test: [0/84]	Time 0.515 (0.515)	Loss 0.8447 (0.8447)	Prec@1 78.333 (78.333)	Prec@5 95.000 (95.000)
+ * Prec@1 79.730 Prec@5 96.490
+Total iterations 5005
+Epoch: [12][0/417]	Time 0.994 (0.994)	Data 0.340 (0.340)	Loss 1.0156 (1.0156)	Prec@1 71.667 (71.667)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0026951	SparseParameters 16328640
+Epoch: [12][200/417]	Time 1.022 (0.600)	Data 0.320 (0.322)	Loss 1.0131 (1.0430)	Prec@1 69.167 (71.480)	Prec@5 90.833 (90.804)	Learning Rate 0.0100	ErrorRMSI 0.0026860	SparseParameters 16310176
+Epoch: [12][400/417]	Time 1.018 (0.600)	Data 0.308 (0.326)	Loss 0.9086 (1.0453)	Prec@1 76.667 (71.515)	Prec@5 91.667 (90.773)	Learning Rate 0.0100	ErrorRMSI 0.0027076	SparseParameters 16310176
+Test: [0/84]	Time 0.521 (0.521)	Loss 0.5618 (0.5618)	Prec@1 80.833 (80.833)	Prec@5 96.667 (96.667)
+ * Prec@1 79.850 Prec@5 96.750
+Total iterations 5422
+Epoch: [13][0/417]	Time 1.029 (1.029)	Data 0.375 (0.375)	Loss 1.1290 (1.1290)	Prec@1 65.000 (65.000)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0027441	SparseParameters 16310176
+Epoch: [13][200/417]	Time 1.017 (0.601)	Data 0.322 (0.324)	Loss 1.3112 (1.0096)	Prec@1 68.333 (72.653)	Prec@5 86.667 (91.177)	Learning Rate 0.0100	ErrorRMSI 0.0027427	SparseParameters 16310176
+Epoch: [13][400/417]	Time 1.037 (0.599)	Data 0.300 (0.325)	Loss 1.0691 (1.0294)	Prec@1 67.500 (72.045)	Prec@5 91.667 (90.837)	Learning Rate 0.0100	ErrorRMSI 0.0027686	SparseParameters 14194016
+Test: [0/84]	Time 0.530 (0.530)	Loss 0.5947 (0.5947)	Prec@1 80.000 (80.000)	Prec@5 95.833 (95.833)
+ * Prec@1 79.900 Prec@5 96.610
+Total iterations 5839
+Epoch: [14][0/417]	Time 1.056 (1.056)	Data 0.401 (0.401)	Loss 1.0566 (1.0566)	Prec@1 70.833 (70.833)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0028009	SparseParameters 14194016
+Epoch: [14][200/417]	Time 1.043 (0.600)	Data 0.314 (0.321)	Loss 0.9707 (1.0150)	Prec@1 74.167 (72.844)	Prec@5 90.833 (90.908)	Learning Rate 0.0100	ErrorRMSI 0.0027983	SparseParameters 13011936
+Epoch: [14][400/417]	Time 1.039 (0.599)	Data 0.344 (0.320)	Loss 1.0849 (1.0306)	Prec@1 69.167 (72.309)	Prec@5 90.833 (90.765)	Learning Rate 0.0100	ErrorRMSI 0.0028557	SparseParameters 12354400
+Test: [0/84]	Time 0.544 (0.544)	Loss 0.8347 (0.8347)	Prec@1 77.500 (77.500)	Prec@5 92.500 (92.500)
+ * Prec@1 79.410 Prec@5 96.760
+Total iterations 6256
+Epoch: [15][0/417]	Time 1.025 (1.025)	Data 0.368 (0.368)	Loss 1.0896 (1.0896)	Prec@1 72.500 (72.500)	Prec@5 89.167 (89.167)	Learning Rate 0.0100	ErrorRMSI 0.0028825	SparseParameters 12354400
+Epoch: [15][200/417]	Time 1.022 (0.600)	Data 0.323 (0.320)	Loss 1.2622 (1.0000)	Prec@1 66.667 (73.105)	Prec@5 85.833 (91.497)	Learning Rate 0.0100	ErrorRMSI 0.0028682	SparseParameters 12354400
+Epoch: [15][400/417]	Time 1.019 (0.599)	Data 0.333 (0.319)	Loss 1.0254 (1.0117)	Prec@1 70.833 (72.654)	Prec@5 90.833 (91.278)	Learning Rate 0.0100	ErrorRMSI 0.0028933	SparseParameters 12223200
+Test: [0/84]	Time 0.520 (0.520)	Loss 0.7422 (0.7422)	Prec@1 75.833 (75.833)	Prec@5 97.500 (97.500)
+ * Prec@1 79.520 Prec@5 96.430
+Total iterations 6673
+Epoch: [16][0/417]	Time 0.964 (0.964)	Data 0.311 (0.311)	Loss 0.9290 (0.9290)	Prec@1 72.500 (72.500)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0029487	SparseParameters 12223200
+Epoch: [16][200/417]	Time 1.028 (0.600)	Data 0.376 (0.322)	Loss 1.1697 (0.9902)	Prec@1 67.500 (73.396)	Prec@5 91.667 (91.285)	Learning Rate 0.0100	ErrorRMSI 0.0029329	SparseParameters 12223200
+Epoch: [16][400/417]	Time 1.035 (0.600)	Data 0.326 (0.330)	Loss 1.2398 (1.0123)	Prec@1 67.500 (72.610)	Prec@5 85.000 (91.052)	Learning Rate 0.0100	ErrorRMSI 0.0029705	SparseParameters 12058272
+Test: [0/84]	Time 0.548 (0.548)	Loss 0.7337 (0.7337)	Prec@1 80.833 (80.833)	Prec@5 95.000 (95.000)
+ * Prec@1 79.140 Prec@5 96.380
+Total iterations 7090
+Epoch: [17][0/417]	Time 1.017 (1.017)	Data 0.360 (0.360)	Loss 1.0738 (1.0738)	Prec@1 70.000 (70.000)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0030199	SparseParameters 12025440
+Epoch: [17][200/417]	Time 1.018 (0.600)	Data 0.364 (0.322)	Loss 1.2795 (1.0047)	Prec@1 65.833 (72.973)	Prec@5 90.833 (91.066)	Learning Rate 0.0100	ErrorRMSI 0.0030152	SparseParameters 12025440
+Epoch: [17][400/417]	Time 1.019 (0.599)	Data 0.299 (0.322)	Loss 0.8767 (1.0168)	Prec@1 73.333 (72.596)	Prec@5 95.000 (91.052)	Learning Rate 0.0100	ErrorRMSI 0.0030338	SparseParameters 12025440
+Test: [0/84]	Time 0.524 (0.524)	Loss 0.8078 (0.8078)	Prec@1 79.167 (79.167)	Prec@5 91.667 (91.667)
+ * Prec@1 78.230 Prec@5 96.060
+Total iterations 7507
+Epoch: [18][0/417]	Time 1.029 (1.029)	Data 0.376 (0.376)	Loss 1.0173 (1.0173)	Prec@1 71.667 (71.667)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0030581	SparseParameters 12025440
+Epoch: [18][200/417]	Time 1.020 (0.600)	Data 0.293 (0.316)	Loss 1.0577 (1.0009)	Prec@1 72.500 (73.201)	Prec@5 88.333 (91.244)	Learning Rate 0.0100	ErrorRMSI 0.0030485	SparseParameters 12025440
+Epoch: [18][400/417]	Time 1.018 (0.599)	Data 0.320 (0.316)	Loss 1.3052 (1.0272)	Prec@1 62.500 (72.280)	Prec@5 89.167 (91.037)	Learning Rate 0.0100	ErrorRMSI 0.0030846	SparseParameters 12025440
+Test: [0/84]	Time 0.529 (0.529)	Loss 0.8591 (0.8591)	Prec@1 75.833 (75.833)	Prec@5 97.500 (97.500)
+ * Prec@1 78.750 Prec@5 96.160
+Total iterations 7924
+Epoch: [19][0/417]	Time 0.970 (0.970)	Data 0.316 (0.316)	Loss 0.9378 (0.9378)	Prec@1 72.500 (72.500)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0031333	SparseParameters 12025440
+Epoch: [19][200/417]	Time 1.026 (0.599)	Data 0.334 (0.314)	Loss 1.0425 (1.0131)	Prec@1 71.667 (73.234)	Prec@5 94.167 (91.082)	Learning Rate 0.0100	ErrorRMSI 0.0031195	SparseParameters 11992608
+Epoch: [19][400/417]	Time 1.046 (0.599)	Data 0.297 (0.320)	Loss 1.1082 (1.0323)	Prec@1 66.667 (72.438)	Prec@5 91.667 (90.985)	Learning Rate 0.0100	ErrorRMSI 0.0031294	SparseParameters 9632672
+Test: [0/84]	Time 0.525 (0.525)	Loss 0.5992 (0.5992)	Prec@1 84.167 (84.167)	Prec@5 98.333 (98.333)
+ * Prec@1 76.450 Prec@5 95.830
+Total iterations 8341
+Epoch: [20][0/417]	Time 0.999 (0.999)	Data 0.341 (0.341)	Loss 0.9841 (0.9841)	Prec@1 75.000 (75.000)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0031684	SparseParameters 9632672
+Epoch: [20][200/417]	Time 1.031 (0.600)	Data 0.292 (0.320)	Loss 1.0061 (1.0203)	Prec@1 75.833 (72.446)	Prec@5 90.000 (91.111)	Learning Rate 0.0100	ErrorRMSI 0.0031569	SparseParameters 9337632
+Epoch: [20][400/417]	Time 1.042 (0.599)	Data 0.321 (0.319)	Loss 1.0747 (1.0285)	Prec@1 72.500 (72.373)	Prec@5 90.833 (91.025)	Learning Rate 0.0100	ErrorRMSI 0.0031966	SparseParameters 8702144
+Test: [0/84]	Time 0.509 (0.509)	Loss 0.7907 (0.7907)	Prec@1 77.500 (77.500)	Prec@5 96.667 (96.667)
+ * Prec@1 76.320 Prec@5 95.430
+Total iterations 8758
+Epoch: [21][0/417]	Time 1.001 (1.001)	Data 0.348 (0.348)	Loss 1.0061 (1.0061)	Prec@1 73.333 (73.333)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0032135	SparseParameters 8702144
+Epoch: [21][200/417]	Time 1.019 (0.600)	Data 0.311 (0.323)	Loss 1.0634 (0.9965)	Prec@1 70.833 (73.495)	Prec@5 89.167 (91.265)	Learning Rate 0.0100	ErrorRMSI 0.0031979	SparseParameters 8702144
+Epoch: [21][400/417]	Time 1.027 (0.599)	Data 0.321 (0.323)	Loss 0.9793 (1.0269)	Prec@1 75.833 (72.469)	Prec@5 92.500 (90.941)	Learning Rate 0.0100	ErrorRMSI 0.0031990	SparseParameters 8393488
+Test: [0/84]	Time 0.538 (0.538)	Loss 0.5871 (0.5871)	Prec@1 80.833 (80.833)	Prec@5 95.833 (95.833)
+ * Prec@1 77.570 Prec@5 95.690
+Total iterations 9175
+Epoch: [22][0/417]	Time 0.955 (0.955)	Data 0.302 (0.302)	Loss 1.1253 (1.1253)	Prec@1 68.333 (68.333)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0032455	SparseParameters 8393488
+Epoch: [22][200/417]	Time 1.019 (0.600)	Data 0.335 (0.321)	Loss 0.8828 (0.9938)	Prec@1 75.000 (73.520)	Prec@5 95.833 (91.169)	Learning Rate 0.0100	ErrorRMSI 0.0032332	SparseParameters 8393488
+Epoch: [22][400/417]	Time 1.019 (0.599)	Data 0.318 (0.320)	Loss 1.0080 (1.0111)	Prec@1 72.500 (72.828)	Prec@5 90.833 (91.033)	Learning Rate 0.0100	ErrorRMSI 0.0032667	SparseParameters 8393488
+Test: [0/84]	Time 0.520 (0.520)	Loss 0.4885 (0.4885)	Prec@1 84.167 (84.167)	Prec@5 98.333 (98.333)
+ * Prec@1 78.770 Prec@5 95.920
+Total iterations 9592
+Epoch: [23][0/417]	Time 0.995 (0.995)	Data 0.340 (0.340)	Loss 0.9134 (0.9134)	Prec@1 75.000 (75.000)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0032769	SparseParameters 8393488
+Epoch: [23][200/417]	Time 1.018 (0.600)	Data 0.317 (0.321)	Loss 0.6864 (0.9852)	Prec@1 83.333 (73.794)	Prec@5 95.000 (91.588)	Learning Rate 0.0100	ErrorRMSI 0.0032669	SparseParameters 8393488
+Epoch: [23][400/417]	Time 1.021 (0.599)	Data 0.305 (0.321)	Loss 1.3219 (1.0014)	Prec@1 66.667 (73.261)	Prec@5 81.667 (91.407)	Learning Rate 0.0100	ErrorRMSI 0.0032727	SparseParameters 8384256
+Test: [0/84]	Time 0.535 (0.535)	Loss 1.0627 (1.0627)	Prec@1 66.667 (66.667)	Prec@5 88.333 (88.333)
+ * Prec@1 77.180 Prec@5 95.610
+Total iterations 10009
+Epoch: [24][0/417]	Time 0.948 (0.948)	Data 0.293 (0.293)	Loss 1.1065 (1.1065)	Prec@1 70.000 (70.000)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0032979	SparseParameters 8384256
+Epoch: [24][200/417]	Time 1.028 (0.599)	Data 0.340 (0.318)	Loss 1.1823 (0.9994)	Prec@1 71.667 (73.076)	Prec@5 87.500 (91.476)	Learning Rate 0.0100	ErrorRMSI 0.0032861	SparseParameters 8358384
+Epoch: [24][400/417]	Time 1.018 (0.598)	Data 0.290 (0.319)	Loss 1.0778 (1.0131)	Prec@1 75.000 (72.851)	Prec@5 89.167 (91.116)	Learning Rate 0.0100	ErrorRMSI 0.0033091	SparseParameters 8358384
+Test: [0/84]	Time 0.565 (0.565)	Loss 0.7461 (0.7461)	Prec@1 75.000 (75.000)	Prec@5 96.667 (96.667)
+ * Prec@1 77.920 Prec@5 95.550
+Total iterations 10426
+Epoch: [25][0/417]	Time 0.987 (0.987)	Data 0.328 (0.328)	Loss 0.9117 (0.9117)	Prec@1 79.167 (79.167)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0033282	SparseParameters 8325552
+Epoch: [25][200/417]	Time 1.026 (0.600)	Data 0.315 (0.322)	Loss 0.8991 (0.9961)	Prec@1 74.167 (73.445)	Prec@5 90.833 (91.505)	Learning Rate 0.0100	ErrorRMSI 0.0033190	SparseParameters 8292656
+Epoch: [25][400/417]	Time 1.020 (0.599)	Data 0.317 (0.323)	Loss 1.2578 (1.0031)	Prec@1 69.167 (73.032)	Prec@5 88.333 (91.442)	Learning Rate 0.0100	ErrorRMSI 0.0033348	SparseParameters 8292656
+Test: [0/84]	Time 0.541 (0.541)	Loss 0.8364 (0.8364)	Prec@1 76.667 (76.667)	Prec@5 96.667 (96.667)
+ * Prec@1 77.240 Prec@5 95.610
+Total iterations 10843
+Epoch: [26][0/417]	Time 0.945 (0.945)	Data 0.291 (0.291)	Loss 1.1577 (1.1577)	Prec@1 67.500 (67.500)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0033586	SparseParameters 8292656
+Epoch: [26][200/417]	Time 1.031 (0.599)	Data 0.308 (0.319)	Loss 1.1555 (0.9820)	Prec@1 68.333 (74.001)	Prec@5 85.000 (91.368)	Learning Rate 0.0100	ErrorRMSI 0.0033477	SparseParameters 8292656
+Epoch: [26][400/417]	Time 1.058 (0.600)	Data 0.320 (0.324)	Loss 0.9631 (1.0012)	Prec@1 70.833 (73.419)	Prec@5 90.833 (91.189)	Learning Rate 0.0100	ErrorRMSI 0.0033532	SparseParameters 6963600
+Test: [0/84]	Time 0.543 (0.543)	Loss 0.7914 (0.7914)	Prec@1 81.667 (81.667)	Prec@5 92.500 (92.500)
+ * Prec@1 77.460 Prec@5 95.720
+Total iterations 11260
+Epoch: [27][0/417]	Time 0.995 (0.995)	Data 0.340 (0.340)	Loss 0.7454 (0.7454)	Prec@1 80.833 (80.833)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0033833	SparseParameters 6963600
+Epoch: [27][200/417]	Time 1.024 (0.600)	Data 0.310 (0.319)	Loss 1.0160 (0.9888)	Prec@1 74.167 (73.640)	Prec@5 92.500 (91.430)	Learning Rate 0.0100	ErrorRMSI 0.0033701	SparseParameters 6955280
+Epoch: [27][400/417]	Time 1.021 (0.599)	Data 0.313 (0.317)	Loss 1.0063 (1.0020)	Prec@1 72.500 (73.367)	Prec@5 92.500 (91.236)	Learning Rate 0.0100	ErrorRMSI 0.0033778	SparseParameters 6955280
+Test: [0/84]	Time 0.516 (0.516)	Loss 0.8352 (0.8352)	Prec@1 80.000 (80.000)	Prec@5 90.833 (90.833)
+ * Prec@1 76.920 Prec@5 95.490
+Total iterations 11677
+Epoch: [28][0/417]	Time 0.969 (0.969)	Data 0.315 (0.315)	Loss 0.9795 (0.9795)	Prec@1 75.000 (75.000)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0034027	SparseParameters 6955280
+Epoch: [28][200/417]	Time 1.023 (0.600)	Data 0.297 (0.317)	Loss 1.1025 (0.9867)	Prec@1 66.667 (73.765)	Prec@5 91.667 (91.356)	Learning Rate 0.0100	ErrorRMSI 0.0033905	SparseParameters 6955280
+Epoch: [28][400/417]	Time 1.023 (0.599)	Data 0.301 (0.317)	Loss 1.0591 (1.0074)	Prec@1 66.667 (73.288)	Prec@5 92.500 (91.145)	Learning Rate 0.0100	ErrorRMSI 0.0033826	SparseParameters 6947056
+Test: [0/84]	Time 0.555 (0.555)	Loss 0.8851 (0.8851)	Prec@1 71.667 (71.667)	Prec@5 96.667 (96.667)
+ * Prec@1 77.590 Prec@5 95.400
+Total iterations 12094
+Epoch: [29][0/417]	Time 1.045 (1.045)	Data 0.391 (0.391)	Loss 0.9589 (0.9589)	Prec@1 70.833 (70.833)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0033996	SparseParameters 6947056
+Epoch: [29][200/417]	Time 1.030 (0.600)	Data 0.309 (0.320)	Loss 1.0022 (0.9827)	Prec@1 75.000 (74.092)	Prec@5 91.667 (91.356)	Learning Rate 0.0100	ErrorRMSI 0.0033906	SparseParameters 6520496
+Epoch: [29][400/417]	Time 1.030 (0.599)	Data 0.324 (0.319)	Loss 1.0796 (0.9905)	Prec@1 71.667 (73.847)	Prec@5 88.333 (91.378)	Learning Rate 0.0100	ErrorRMSI 0.0033911	SparseParameters 6323312
+Test: [0/84]	Time 0.512 (0.512)	Loss 0.8198 (0.8198)	Prec@1 74.167 (74.167)	Prec@5 96.667 (96.667)
+ * Prec@1 77.190 Prec@5 95.670
+Total iterations 12511
+Epoch: [30][0/417]	Time 1.016 (1.016)	Data 0.352 (0.352)	Loss 1.0211 (1.0211)	Prec@1 70.000 (70.000)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0034052	SparseParameters 6191728
+Epoch: [30][200/417]	Time 1.035 (0.599)	Data 0.310 (0.318)	Loss 0.6601 (0.9540)	Prec@1 83.333 (74.652)	Prec@5 95.000 (91.953)	Learning Rate 0.0100	ErrorRMSI 0.0034045	SparseParameters 5699952
+Epoch: [30][400/417]	Time 1.026 (0.598)	Data 0.296 (0.316)	Loss 0.9360 (0.9684)	Prec@1 77.500 (74.239)	Prec@5 91.667 (91.725)	Learning Rate 0.0100	ErrorRMSI 0.0034085	SparseParameters 5404976
+Test: [0/84]	Time 0.548 (0.548)	Loss 0.7976 (0.7976)	Prec@1 75.000 (75.000)	Prec@5 95.833 (95.833)
+ * Prec@1 76.720 Prec@5 95.520
+Total iterations 12928
+Epoch: [31][0/417]	Time 0.993 (0.993)	Data 0.339 (0.339)	Loss 0.8769 (0.8769)	Prec@1 74.167 (74.167)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0034161	SparseParameters 5404976
+Epoch: [31][200/417]	Time 1.019 (0.601)	Data 0.336 (0.323)	Loss 1.0457 (0.9730)	Prec@1 73.333 (74.163)	Prec@5 91.667 (91.376)	Learning Rate 0.0100	ErrorRMSI 0.0034051	SparseParameters 5404976
+Epoch: [31][400/417]	Time 1.018 (0.599)	Data 0.309 (0.321)	Loss 1.1682 (0.9722)	Prec@1 70.833 (74.106)	Prec@5 90.000 (91.502)	Learning Rate 0.0100	ErrorRMSI 0.0034028	SparseParameters 5404976
+Test: [0/84]	Time 0.575 (0.575)	Loss 0.7385 (0.7385)	Prec@1 75.833 (75.833)	Prec@5 95.833 (95.833)
+ * Prec@1 77.150 Prec@5 95.590
+Total iterations 13345
+Epoch: [32][0/417]	Time 0.965 (0.965)	Data 0.310 (0.310)	Loss 1.0725 (1.0725)	Prec@1 70.833 (70.833)	Prec@5 88.333 (88.333)	Learning Rate 0.0100	ErrorRMSI 0.0034115	SparseParameters 5404976
+Epoch: [32][200/417]	Time 1.027 (0.599)	Data 0.309 (0.316)	Loss 1.0460 (0.9438)	Prec@1 71.667 (74.623)	Prec@5 91.667 (91.949)	Learning Rate 0.0100	ErrorRMSI 0.0034025	SparseParameters 5265616
+Epoch: [32][400/417]	Time 1.027 (0.598)	Data 0.319 (0.316)	Loss 0.9607 (0.9546)	Prec@1 73.333 (74.439)	Prec@5 94.167 (92.005)	Learning Rate 0.0100	ErrorRMSI 0.0033996	SparseParameters 5173408
+Test: [0/84]	Time 0.519 (0.519)	Loss 1.0870 (1.0870)	Prec@1 66.667 (66.667)	Prec@5 95.000 (95.000)
+ * Prec@1 77.390 Prec@5 95.800
+Total iterations 13762
+Epoch: [33][0/417]	Time 1.002 (1.002)	Data 0.348 (0.348)	Loss 0.9055 (0.9055)	Prec@1 75.833 (75.833)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0034028	SparseParameters 5173408
+Epoch: [33][200/417]	Time 1.019 (0.599)	Data 0.328 (0.314)	Loss 1.1022 (0.9317)	Prec@1 70.833 (75.108)	Prec@5 90.833 (92.102)	Learning Rate 0.0100	ErrorRMSI 0.0033922	SparseParameters 5173408
+Epoch: [33][400/417]	Time 1.022 (0.598)	Data 0.291 (0.314)	Loss 0.8791 (0.9584)	Prec@1 76.667 (74.354)	Prec@5 95.000 (91.787)	Learning Rate 0.0100	ErrorRMSI 0.0033876	SparseParameters 4911008
+Test: [0/84]	Time 0.516 (0.516)	Loss 1.0014 (1.0014)	Prec@1 70.833 (70.833)	Prec@5 91.667 (91.667)
+ * Prec@1 76.900 Prec@5 95.950
+Total iterations 14179
+Epoch: [34][0/417]	Time 0.999 (0.999)	Data 0.345 (0.345)	Loss 1.0381 (1.0381)	Prec@1 75.833 (75.833)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0033901	SparseParameters 4911008
+Epoch: [34][200/417]	Time 1.031 (0.599)	Data 0.319 (0.315)	Loss 0.9438 (0.9314)	Prec@1 72.500 (75.282)	Prec@5 91.667 (92.081)	Learning Rate 0.0100	ErrorRMSI 0.0033790	SparseParameters 4755264
+Epoch: [34][400/417]	Time 1.029 (0.599)	Data 0.292 (0.314)	Loss 0.8707 (0.9439)	Prec@1 75.833 (74.942)	Prec@5 90.833 (92.001)	Learning Rate 0.0100	ErrorRMSI 0.0033888	SparseParameters 4607744
+Test: [0/84]	Time 0.543 (0.543)	Loss 0.9776 (0.9776)	Prec@1 75.833 (75.833)	Prec@5 95.833 (95.833)
+ * Prec@1 77.370 Prec@5 95.800
+Total iterations 14596
+Epoch: [35][0/417]	Time 0.977 (0.977)	Data 0.321 (0.321)	Loss 1.0213 (1.0213)	Prec@1 74.167 (74.167)	Prec@5 88.333 (88.333)	Learning Rate 0.0100	ErrorRMSI 0.0034118	SparseParameters 4607744
+Epoch: [35][200/417]	Time 1.028 (0.599)	Data 0.306 (0.317)	Loss 0.8390 (0.9254)	Prec@1 73.333 (75.688)	Prec@5 96.667 (91.915)	Learning Rate 0.0100	ErrorRMSI 0.0034048	SparseParameters 4607744
+Epoch: [35][400/417]	Time 1.026 (0.598)	Data 0.306 (0.314)	Loss 0.9262 (0.9335)	Prec@1 72.500 (75.384)	Prec@5 94.167 (91.943)	Learning Rate 0.0100	ErrorRMSI 0.0034025	SparseParameters 4589296
+Test: [0/84]	Time 0.595 (0.595)	Loss 0.6768 (0.6768)	Prec@1 80.000 (80.000)	Prec@5 97.500 (97.500)
+ * Prec@1 77.390 Prec@5 95.840
+Total iterations 15013
+Epoch: [36][0/417]	Time 0.993 (0.993)	Data 0.339 (0.339)	Loss 0.8388 (0.8388)	Prec@1 78.333 (78.333)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0034123	SparseParameters 4589296
+Epoch: [36][200/417]	Time 1.024 (0.600)	Data 0.320 (0.316)	Loss 0.8843 (0.9269)	Prec@1 75.833 (75.145)	Prec@5 94.167 (92.131)	Learning Rate 0.0100	ErrorRMSI 0.0034018	SparseParameters 4584680
+Epoch: [36][400/417]	Time 1.023 (0.599)	Data 0.289 (0.315)	Loss 0.9007 (0.9387)	Prec@1 74.167 (74.988)	Prec@5 93.333 (92.055)	Learning Rate 0.0100	ErrorRMSI 0.0034010	SparseParameters 4519080
+Test: [0/84]	Time 0.538 (0.538)	Loss 0.6666 (0.6666)	Prec@1 77.500 (77.500)	Prec@5 96.667 (96.667)
+ * Prec@1 76.940 Prec@5 95.570
+Total iterations 15430
+Epoch: [37][0/417]	Time 0.997 (0.997)	Data 0.343 (0.343)	Loss 0.9963 (0.9963)	Prec@1 78.333 (78.333)	Prec@5 89.167 (89.167)	Learning Rate 0.0100	ErrorRMSI 0.0034083	SparseParameters 4519080
+Epoch: [37][200/417]	Time 1.024 (0.600)	Data 0.320 (0.317)	Loss 0.8918 (0.9104)	Prec@1 75.000 (75.663)	Prec@5 94.167 (92.297)	Learning Rate 0.0100	ErrorRMSI 0.0033996	SparseParameters 4453416
+Epoch: [37][400/417]	Time 1.020 (0.599)	Data 0.300 (0.319)	Loss 1.0192 (0.9417)	Prec@1 70.000 (74.773)	Prec@5 91.667 (92.095)	Learning Rate 0.0100	ErrorRMSI 0.0033958	SparseParameters 4453416
+Test: [0/84]	Time 0.528 (0.528)	Loss 0.7894 (0.7894)	Prec@1 75.833 (75.833)	Prec@5 96.667 (96.667)
+ * Prec@1 77.810 Prec@5 95.380
+Total iterations 15847
+Epoch: [38][0/417]	Time 0.945 (0.945)	Data 0.290 (0.290)	Loss 0.9497 (0.9497)	Prec@1 75.833 (75.833)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0034047	SparseParameters 4453416
+Epoch: [38][200/417]	Time 1.023 (0.600)	Data 0.310 (0.319)	Loss 0.9015 (0.9313)	Prec@1 76.667 (75.605)	Prec@5 92.500 (92.032)	Learning Rate 0.0100	ErrorRMSI 0.0033971	SparseParameters 4434968
+Epoch: [38][400/417]	Time 1.020 (0.599)	Data 0.304 (0.319)	Loss 1.0381 (0.9395)	Prec@1 70.833 (75.172)	Prec@5 89.167 (92.124)	Learning Rate 0.0100	ErrorRMSI 0.0033883	SparseParameters 4434968
+Test: [0/84]	Time 0.549 (0.549)	Loss 0.7176 (0.7176)	Prec@1 75.833 (75.833)	Prec@5 97.500 (97.500)
+ * Prec@1 76.980 Prec@5 95.620
+Total iterations 16264
+Epoch: [39][0/417]	Time 1.041 (1.041)	Data 0.384 (0.384)	Loss 0.9530 (0.9530)	Prec@1 74.167 (74.167)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0033939	SparseParameters 4434968
+Epoch: [39][200/417]	Time 1.029 (0.600)	Data 0.303 (0.317)	Loss 0.8879 (0.9122)	Prec@1 72.500 (75.833)	Prec@5 95.000 (92.276)	Learning Rate 0.0100	ErrorRMSI 0.0033831	SparseParameters 4397328
+Epoch: [39][400/417]	Time 1.025 (0.599)	Data 0.300 (0.318)	Loss 1.0262 (0.9357)	Prec@1 72.500 (75.154)	Prec@5 89.167 (92.001)	Learning Rate 0.0100	ErrorRMSI 0.0033871	SparseParameters 4380912
+Test: [0/84]	Time 0.513 (0.513)	Loss 0.5703 (0.5703)	Prec@1 83.333 (83.333)	Prec@5 96.667 (96.667)
+ * Prec@1 78.540 Prec@5 95.940
+Total iterations 16681
+Epoch: [40][0/417]	Time 0.959 (0.959)	Data 0.302 (0.302)	Loss 0.9853 (0.9853)	Prec@1 71.667 (71.667)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0033927	SparseParameters 4380912
+Epoch: [40][200/417]	Time 1.027 (0.599)	Data 0.341 (0.316)	Loss 0.9280 (0.9239)	Prec@1 75.833 (75.531)	Prec@5 90.833 (92.139)	Learning Rate 0.0100	ErrorRMSI 0.0033823	SparseParameters 4364400
+Epoch: [40][400/417]	Time 1.022 (0.598)	Data 0.295 (0.315)	Loss 1.0582 (0.9346)	Prec@1 70.833 (75.121)	Prec@5 90.000 (92.020)	Learning Rate 0.0100	ErrorRMSI 0.0033850	SparseParameters 4364400
+Test: [0/84]	Time 0.506 (0.506)	Loss 0.6967 (0.6967)	Prec@1 79.167 (79.167)	Prec@5 97.500 (97.500)
+ * Prec@1 77.980 Prec@5 95.680
+Total iterations 17098
+Epoch: [41][0/417]	Time 1.017 (1.017)	Data 0.360 (0.360)	Loss 0.9913 (0.9913)	Prec@1 74.167 (74.167)	Prec@5 89.167 (89.167)	Learning Rate 0.0100	ErrorRMSI 0.0033946	SparseParameters 4359784
+Epoch: [41][200/417]	Time 1.026 (0.599)	Data 0.303 (0.311)	Loss 1.0192 (0.9084)	Prec@1 70.833 (75.846)	Prec@5 93.333 (92.388)	Learning Rate 0.0100	ErrorRMSI 0.0033880	SparseParameters 4326856
+Epoch: [41][400/417]	Time 1.018 (0.599)	Data 0.309 (0.314)	Loss 0.7253 (0.9178)	Prec@1 84.167 (75.615)	Prec@5 94.167 (92.267)	Learning Rate 0.0100	ErrorRMSI 0.0033941	SparseParameters 4326856
+Test: [0/84]	Time 0.525 (0.525)	Loss 0.7575 (0.7575)	Prec@1 81.667 (81.667)	Prec@5 96.667 (96.667)
+ * Prec@1 77.440 Prec@5 95.700
+Total iterations 17515
+Epoch: [42][0/417]	Time 0.960 (0.960)	Data 0.307 (0.307)	Loss 0.8535 (0.8535)	Prec@1 77.500 (77.500)	Prec@5 95.833 (95.833)	Learning Rate 0.0100	ErrorRMSI 0.0033933	SparseParameters 4326856
+Epoch: [42][200/417]	Time 1.022 (0.600)	Data 0.328 (0.316)	Loss 0.8461 (0.9062)	Prec@1 75.000 (76.074)	Prec@5 95.833 (92.226)	Learning Rate 0.0100	ErrorRMSI 0.0033841	SparseParameters 4326856
+Epoch: [42][400/417]	Time 1.021 (0.599)	Data 0.295 (0.317)	Loss 0.7135 (0.9157)	Prec@1 85.000 (75.781)	Prec@5 94.167 (92.330)	Learning Rate 0.0100	ErrorRMSI 0.0033745	SparseParameters 4326856
+Test: [0/84]	Time 0.520 (0.520)	Loss 0.7301 (0.7301)	Prec@1 79.167 (79.167)	Prec@5 95.833 (95.833)
+ * Prec@1 77.570 Prec@5 95.470
+Total iterations 17932
+Epoch: [43][0/417]	Time 1.019 (1.019)	Data 0.361 (0.361)	Loss 0.9514 (0.9514)	Prec@1 74.167 (74.167)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0033830	SparseParameters 4224456
+Epoch: [43][200/417]	Time 1.021 (0.600)	Data 0.297 (0.317)	Loss 0.7223 (0.8880)	Prec@1 79.167 (76.347)	Prec@5 94.167 (92.479)	Learning Rate 0.0100	ErrorRMSI 0.0033767	SparseParameters 4206008
+Epoch: [43][400/417]	Time 1.019 (0.599)	Data 0.313 (0.317)	Loss 0.9894 (0.9078)	Prec@1 72.500 (75.844)	Prec@5 95.000 (92.348)	Learning Rate 0.0100	ErrorRMSI 0.0033699	SparseParameters 4206008
+Test: [0/84]	Time 0.534 (0.534)	Loss 0.7808 (0.7808)	Prec@1 82.500 (82.500)	Prec@5 94.167 (94.167)
+ * Prec@1 76.960 Prec@5 95.420
+Total iterations 18349
+Epoch: [44][0/417]	Time 0.971 (0.971)	Data 0.318 (0.318)	Loss 0.6844 (0.6844)	Prec@1 85.833 (85.833)	Prec@5 96.667 (96.667)	Learning Rate 0.0100	ErrorRMSI 0.0033721	SparseParameters 4206008
+Epoch: [44][200/417]	Time 1.021 (0.600)	Data 0.295 (0.316)	Loss 0.8039 (0.8979)	Prec@1 77.500 (75.896)	Prec@5 94.167 (92.293)	Learning Rate 0.0100	ErrorRMSI 0.0033623	SparseParameters 4206008
+Epoch: [44][400/417]	Time 1.022 (0.599)	Data 0.312 (0.318)	Loss 0.9620 (0.9096)	Prec@1 75.000 (75.601)	Prec@5 91.667 (92.244)	Learning Rate 0.0100	ErrorRMSI 0.0033541	SparseParameters 4074872
+Test: [0/84]	Time 0.523 (0.523)	Loss 0.5609 (0.5609)	Prec@1 86.667 (86.667)	Prec@5 97.500 (97.500)
+ * Prec@1 77.130 Prec@5 95.690
+Total iterations 18766
+Epoch: [45][0/417]	Time 1.009 (1.009)	Data 0.353 (0.353)	Loss 0.8771 (0.8771)	Prec@1 78.333 (78.333)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0033553	SparseParameters 4074872
+Epoch: [45][200/417]	Time 1.030 (0.600)	Data 0.305 (0.316)	Loss 0.8886 (0.8914)	Prec@1 80.000 (76.148)	Prec@5 91.667 (92.409)	Learning Rate 0.0100	ErrorRMSI 0.0033453	SparseParameters 4042008
+Epoch: [45][400/417]	Time 1.041 (0.599)	Data 0.320 (0.317)	Loss 0.8336 (0.9121)	Prec@1 75.833 (75.611)	Prec@5 93.333 (92.232)	Learning Rate 0.0100	ErrorRMSI 0.0033404	SparseParameters 3762936
+Test: [0/84]	Time 0.561 (0.561)	Loss 1.0310 (1.0310)	Prec@1 70.000 (70.000)	Prec@5 93.333 (93.333)
+ * Prec@1 77.320 Prec@5 95.300
+Total iterations 19183
+Epoch: [46][0/417]	Time 0.981 (0.981)	Data 0.327 (0.327)	Loss 0.8407 (0.8407)	Prec@1 77.500 (77.500)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0033438	SparseParameters 3762936
+Epoch: [46][200/417]	Time 1.028 (0.600)	Data 0.299 (0.322)	Loss 0.8196 (0.8701)	Prec@1 80.000 (76.924)	Prec@5 94.167 (92.749)	Learning Rate 0.0100	ErrorRMSI 0.0033362	SparseParameters 3631608
+Epoch: [46][400/417]	Time 1.020 (0.599)	Data 0.318 (0.321)	Loss 0.9544 (0.8899)	Prec@1 75.000 (76.110)	Prec@5 92.500 (92.515)	Learning Rate 0.0100	ErrorRMSI 0.0033284	SparseParameters 3631608
+Test: [0/84]	Time 0.537 (0.537)	Loss 0.7148 (0.7148)	Prec@1 83.333 (83.333)	Prec@5 95.833 (95.833)
+ * Prec@1 77.810 Prec@5 95.620
+Total iterations 19600
+Epoch: [47][0/417]	Time 0.992 (0.992)	Data 0.339 (0.339)	Loss 1.1575 (1.1575)	Prec@1 70.000 (70.000)	Prec@5 85.833 (85.833)	Learning Rate 0.0100	ErrorRMSI 0.0033313	SparseParameters 3631608
+Epoch: [47][200/417]	Time 1.020 (0.600)	Data 0.302 (0.321)	Loss 1.0095 (0.8804)	Prec@1 71.667 (76.381)	Prec@5 91.667 (92.438)	Learning Rate 0.0100	ErrorRMSI 0.0033216	SparseParameters 3631608
+Epoch: [47][400/417]	Time 1.020 (0.599)	Data 0.310 (0.318)	Loss 0.7079 (0.8979)	Prec@1 80.000 (75.829)	Prec@5 96.667 (92.286)	Learning Rate 0.0100	ErrorRMSI 0.0033114	SparseParameters 3500472
+Test: [0/84]	Time 0.539 (0.539)	Loss 0.9957 (0.9957)	Prec@1 70.833 (70.833)	Prec@5 93.333 (93.333)
+ * Prec@1 75.310 Prec@5 94.830
+Total iterations 20017
+Epoch: [48][0/417]	Time 0.958 (0.958)	Data 0.305 (0.305)	Loss 0.9519 (0.9519)	Prec@1 72.500 (72.500)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0033250	SparseParameters 3500472
+Epoch: [48][200/417]	Time 1.019 (0.599)	Data 0.300 (0.315)	Loss 0.7591 (0.8870)	Prec@1 80.000 (76.186)	Prec@5 91.667 (92.197)	Learning Rate 0.0100	ErrorRMSI 0.0033160	SparseParameters 3500472
+Epoch: [48][400/417]	Time 1.021 (0.598)	Data 0.295 (0.318)	Loss 0.7203 (0.8881)	Prec@1 82.500 (76.062)	Prec@5 93.333 (92.303)	Learning Rate 0.0100	ErrorRMSI 0.0033114	SparseParameters 3500472
+Test: [0/84]	Time 0.536 (0.536)	Loss 0.6575 (0.6575)	Prec@1 79.167 (79.167)	Prec@5 95.833 (95.833)
+ * Prec@1 76.930 Prec@5 95.340
+Total iterations 20434
+Epoch: [49][0/417]	Time 1.002 (1.002)	Data 0.348 (0.348)	Loss 0.8206 (0.8206)	Prec@1 77.500 (77.500)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0033154	SparseParameters 3500472
+Epoch: [49][200/417]	Time 1.021 (0.600)	Data 0.304 (0.320)	Loss 0.9549 (0.8670)	Prec@1 75.000 (76.716)	Prec@5 88.333 (92.508)	Learning Rate 0.0100	ErrorRMSI 0.0033066	SparseParameters 3500472
+Epoch: [49][400/417]	Time 1.018 (0.599)	Data 0.293 (0.318)	Loss 0.8553 (0.8761)	Prec@1 74.167 (76.222)	Prec@5 94.167 (92.544)	Learning Rate 0.0100	ErrorRMSI 0.0033064	SparseParameters 3500472
+Test: [0/84]	Time 0.504 (0.504)	Loss 0.8871 (0.8871)	Prec@1 80.000 (80.000)	Prec@5 94.167 (94.167)
+ * Prec@1 77.930 Prec@5 95.590
+Total iterations 20851
+Epoch: [50][0/417]	Time 0.984 (0.984)	Data 0.328 (0.328)	Loss 0.7986 (0.7986)	Prec@1 78.333 (78.333)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0033088	SparseParameters 3500472
+Epoch: [50][200/417]	Time 1.021 (0.599)	Data 0.316 (0.316)	Loss 0.9764 (0.8643)	Prec@1 74.167 (76.729)	Prec@5 90.833 (92.608)	Learning Rate 0.0100	ErrorRMSI 0.0033002	SparseParameters 3500472
+Epoch: [50][400/417]	Time 1.022 (0.598)	Data 0.330 (0.317)	Loss 0.8102 (0.8781)	Prec@1 76.667 (76.280)	Prec@5 96.667 (92.504)	Learning Rate 0.0100	ErrorRMSI 0.0032912	SparseParameters 3500472
+Test: [0/84]	Time 0.536 (0.536)	Loss 0.9723 (0.9723)	Prec@1 70.000 (70.000)	Prec@5 94.167 (94.167)
+ * Prec@1 75.930 Prec@5 95.060
+Total iterations 21268
+Epoch: [51][0/417]	Time 1.001 (1.001)	Data 0.346 (0.346)	Loss 0.7847 (0.7847)	Prec@1 78.333 (78.333)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0032904	SparseParameters 3500472
+Epoch: [51][200/417]	Time 1.018 (0.600)	Data 0.306 (0.320)	Loss 0.7015 (0.8454)	Prec@1 78.333 (77.463)	Prec@5 95.833 (92.736)	Learning Rate 0.0100	ErrorRMSI 0.0032817	SparseParameters 3500472
+Epoch: [51][400/417]	Time 1.018 (0.599)	Data 0.316 (0.319)	Loss 0.8110 (0.8695)	Prec@1 75.000 (76.627)	Prec@5 95.833 (92.483)	Learning Rate 0.0100	ErrorRMSI 0.0032770	SparseParameters 3500472
+Test: [0/84]	Time 0.516 (0.516)	Loss 1.0180 (1.0180)	Prec@1 77.500 (77.500)	Prec@5 94.167 (94.167)
+ * Prec@1 76.820 Prec@5 95.180
+Total iterations 21685
+Epoch: [52][0/417]	Time 0.966 (0.966)	Data 0.312 (0.312)	Loss 1.0163 (1.0163)	Prec@1 73.333 (73.333)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0032795	SparseParameters 3500472
+Epoch: [52][200/417]	Time 1.019 (0.599)	Data 0.304 (0.323)	Loss 1.0712 (0.8381)	Prec@1 74.167 (77.156)	Prec@5 91.667 (92.815)	Learning Rate 0.0100	ErrorRMSI 0.0032709	SparseParameters 3500472
+Epoch: [52][400/417]	Time 1.023 (0.598)	Data 0.329 (0.321)	Loss 0.7318 (0.8666)	Prec@1 80.000 (76.394)	Prec@5 96.667 (92.517)	Learning Rate 0.0100	ErrorRMSI 0.0032682	SparseParameters 3500472
+Test: [0/84]	Time 0.562 (0.562)	Loss 0.9879 (0.9879)	Prec@1 73.333 (73.333)	Prec@5 93.333 (93.333)
+ * Prec@1 77.200 Prec@5 95.120
+Total iterations 22102
+Epoch: [53][0/417]	Time 1.032 (1.032)	Data 0.378 (0.378)	Loss 1.0274 (1.0274)	Prec@1 69.167 (69.167)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0032788	SparseParameters 3500472
+Epoch: [53][200/417]	Time 1.023 (0.601)	Data 0.346 (0.326)	Loss 0.8920 (0.8443)	Prec@1 76.667 (77.011)	Prec@5 93.333 (92.691)	Learning Rate 0.0100	ErrorRMSI 0.0032740	SparseParameters 3500472
+Epoch: [53][400/417]	Time 1.022 (0.603)	Data 0.334 (0.335)	Loss 0.9113 (0.8535)	Prec@1 80.000 (76.914)	Prec@5 91.667 (92.675)	Learning Rate 0.0100	ErrorRMSI 0.0032707	SparseParameters 3500472
+Test: [0/84]	Time 0.529 (0.529)	Loss 0.9802 (0.9802)	Prec@1 67.500 (67.500)	Prec@5 94.167 (94.167)
+ * Prec@1 76.790 Prec@5 95.240
+Total iterations 22519
+Epoch: [54][0/417]	Time 0.972 (0.972)	Data 0.316 (0.316)	Loss 0.8516 (0.8516)	Prec@1 74.167 (74.167)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0032751	SparseParameters 3500472
+Epoch: [54][200/417]	Time 1.019 (0.600)	Data 0.335 (0.329)	Loss 0.7197 (0.8365)	Prec@1 81.667 (77.309)	Prec@5 95.000 (92.832)	Learning Rate 0.0100	ErrorRMSI 0.0032671	SparseParameters 3500472
+Epoch: [54][400/417]	Time 1.022 (0.599)	Data 0.307 (0.329)	Loss 0.9256 (0.8551)	Prec@1 75.000 (76.777)	Prec@5 92.500 (92.808)	Learning Rate 0.0100	ErrorRMSI 0.0032608	SparseParameters 3500472
+Test: [0/84]	Time 0.525 (0.525)	Loss 0.6298 (0.6298)	Prec@1 77.500 (77.500)	Prec@5 96.667 (96.667)
+ * Prec@1 77.760 Prec@5 95.320
+Total iterations 22936
+Epoch: [55][0/417]	Time 0.995 (0.995)	Data 0.338 (0.338)	Loss 1.0548 (1.0548)	Prec@1 74.167 (74.167)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0032621	SparseParameters 3500472
+Epoch: [55][200/417]	Time 1.030 (0.600)	Data 0.309 (0.326)	Loss 0.7146 (0.8252)	Prec@1 80.000 (77.413)	Prec@5 96.667 (93.159)	Learning Rate 0.0100	ErrorRMSI 0.0032577	SparseParameters 3343760
+Epoch: [55][400/417]	Time 1.023 (0.599)	Data 0.302 (0.325)	Loss 0.8939 (0.8450)	Prec@1 75.833 (76.929)	Prec@5 92.500 (92.843)	Learning Rate 0.0100	ErrorRMSI 0.0032539	SparseParameters 3343760
+Test: [0/84]	Time 0.533 (0.533)	Loss 0.7445 (0.7445)	Prec@1 76.667 (76.667)	Prec@5 96.667 (96.667)
+ * Prec@1 77.730 Prec@5 95.590
+Total iterations 23353
+Epoch: [56][0/417]	Time 0.980 (0.980)	Data 0.323 (0.323)	Loss 1.0493 (1.0493)	Prec@1 70.000 (70.000)	Prec@5 87.500 (87.500)	Learning Rate 0.0100	ErrorRMSI 0.0032561	SparseParameters 3343760
+Epoch: [56][200/417]	Time 1.036 (0.600)	Data 0.337 (0.324)	Loss 0.8871 (0.8302)	Prec@1 77.500 (77.624)	Prec@5 91.667 (92.894)	Learning Rate 0.0100	ErrorRMSI 0.0032487	SparseParameters 3343760
+Epoch: [56][400/417]	Time 1.020 (0.599)	Data 0.312 (0.327)	Loss 0.9014 (0.8459)	Prec@1 75.000 (77.128)	Prec@5 89.167 (92.791)	Learning Rate 0.0100	ErrorRMSI 0.0032407	SparseParameters 3343760
+Test: [0/84]	Time 0.533 (0.533)	Loss 0.7172 (0.7172)	Prec@1 81.667 (81.667)	Prec@5 98.333 (98.333)
+ * Prec@1 77.500 Prec@5 95.280
+Total iterations 23770
+Epoch: [57][0/417]	Time 1.027 (1.027)	Data 0.371 (0.371)	Loss 0.7277 (0.7277)	Prec@1 80.833 (80.833)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0032400	SparseParameters 3343760
+Epoch: [57][200/417]	Time 1.020 (0.601)	Data 0.350 (0.327)	Loss 0.6328 (0.8204)	Prec@1 80.000 (77.782)	Prec@5 95.833 (93.068)	Learning Rate 0.0100	ErrorRMSI 0.0032322	SparseParameters 3343760
+Epoch: [57][400/417]	Time 1.035 (0.600)	Data 0.381 (0.325)	Loss 1.1304 (0.8288)	Prec@1 70.833 (77.388)	Prec@5 88.333 (93.024)	Learning Rate 0.0100	ErrorRMSI 0.0032282	SparseParameters 3343760
+Test: [0/84]	Time 0.556 (0.556)	Loss 0.7548 (0.7548)	Prec@1 79.167 (79.167)	Prec@5 96.667 (96.667)
+ * Prec@1 76.330 Prec@5 95.210
+Total iterations 24187
+Epoch: [58][0/417]	Time 0.994 (0.994)	Data 0.338 (0.338)	Loss 0.8637 (0.8637)	Prec@1 74.167 (74.167)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0032343	SparseParameters 3343760
+Epoch: [58][200/417]	Time 1.026 (0.600)	Data 0.334 (0.323)	Loss 0.8144 (0.8185)	Prec@1 76.667 (77.761)	Prec@5 93.333 (92.844)	Learning Rate 0.0100	ErrorRMSI 0.0032268	SparseParameters 3310864
+Epoch: [58][400/417]	Time 1.025 (0.599)	Data 0.322 (0.324)	Loss 0.8901 (0.8322)	Prec@1 80.000 (77.396)	Prec@5 91.667 (92.776)	Learning Rate 0.0100	ErrorRMSI 0.0032219	SparseParameters 3278064
+Test: [0/84]	Time 0.526 (0.526)	Loss 0.9329 (0.9329)	Prec@1 76.667 (76.667)	Prec@5 94.167 (94.167)
+ * Prec@1 77.440 Prec@5 95.340
+Total iterations 24604
+Epoch: [59][0/417]	Time 1.013 (1.013)	Data 0.358 (0.358)	Loss 0.6566 (0.6566)	Prec@1 80.833 (80.833)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0032236	SparseParameters 3278064
+Epoch: [59][200/417]	Time 1.020 (0.600)	Data 0.315 (0.322)	Loss 0.6480 (0.8202)	Prec@1 85.000 (77.869)	Prec@5 95.000 (92.832)	Learning Rate 0.0100	ErrorRMSI 0.0032164	SparseParameters 3278064
+Epoch: [59][400/417]	Time 1.021 (0.600)	Data 0.310 (0.324)	Loss 0.8360 (0.8333)	Prec@1 75.000 (77.458)	Prec@5 94.167 (92.760)	Learning Rate 0.0100	ErrorRMSI 0.0032129	SparseParameters 3278064
+Test: [0/84]	Time 0.525 (0.525)	Loss 0.5771 (0.5771)	Prec@1 80.833 (80.833)	Prec@5 98.333 (98.333)
+ * Prec@1 78.550 Prec@5 95.630
+Total iterations 25021
+Epoch: [60][0/417]	Time 0.980 (0.980)	Data 0.322 (0.322)	Loss 0.6017 (0.6017)	Prec@1 81.667 (81.667)	Prec@5 95.833 (95.833)	Learning Rate 0.0100	ErrorRMSI 0.0032123	SparseParameters 3278064
+Epoch: [60][200/417]	Time 1.065 (0.601)	Data 0.400 (0.322)	Loss 0.7709 (0.8090)	Prec@1 82.500 (78.155)	Prec@5 94.167 (92.973)	Learning Rate 0.0100	ErrorRMSI 0.0032078	SparseParameters 3245168
+Epoch: [60][400/417]	Time 1.031 (0.600)	Data 0.315 (0.326)	Loss 0.8418 (0.8089)	Prec@1 74.167 (78.007)	Prec@5 92.500 (93.088)	Learning Rate 0.0100	ErrorRMSI 0.0032031	SparseParameters 3179472
+Test: [0/84]	Time 0.531 (0.531)	Loss 0.8930 (0.8930)	Prec@1 77.500 (77.500)	Prec@5 91.667 (91.667)
+ * Prec@1 76.810 Prec@5 95.090
+Total iterations 25438
+Epoch: [61][0/417]	Time 1.006 (1.006)	Data 0.348 (0.348)	Loss 0.8406 (0.8406)	Prec@1 79.167 (79.167)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0032085	SparseParameters 3146576
+Epoch: [61][200/417]	Time 1.023 (0.600)	Data 0.299 (0.321)	Loss 0.8077 (0.7996)	Prec@1 80.833 (78.657)	Prec@5 92.500 (93.180)	Learning Rate 0.0100	ErrorRMSI 0.0032041	SparseParameters 3113680
+Epoch: [61][400/417]	Time 1.030 (0.599)	Data 0.311 (0.323)	Loss 0.9067 (0.8137)	Prec@1 74.167 (78.190)	Prec@5 93.333 (92.995)	Learning Rate 0.0100	ErrorRMSI 0.0032050	SparseParameters 3015184
+Test: [0/84]	Time 0.522 (0.522)	Loss 1.0281 (1.0281)	Prec@1 71.667 (71.667)	Prec@5 95.000 (95.000)
+ * Prec@1 77.870 Prec@5 95.550
+Total iterations 25855
+Epoch: [62][0/417]	Time 0.965 (0.965)	Data 0.310 (0.310)	Loss 0.9375 (0.9375)	Prec@1 73.333 (73.333)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0032110	SparseParameters 3015184
+Epoch: [62][200/417]	Time 1.022 (0.600)	Data 0.308 (0.325)	Loss 0.6642 (0.7842)	Prec@1 80.833 (78.470)	Prec@5 95.833 (93.433)	Learning Rate 0.0100	ErrorRMSI 0.0032045	SparseParameters 3015184
+Epoch: [62][400/417]	Time 1.022 (0.599)	Data 0.290 (0.324)	Loss 1.0296 (0.8100)	Prec@1 75.833 (77.855)	Prec@5 92.500 (93.096)	Learning Rate 0.0100	ErrorRMSI 0.0032009	SparseParameters 3015184
+Test: [0/84]	Time 0.585 (0.585)	Loss 0.8366 (0.8366)	Prec@1 75.000 (75.000)	Prec@5 95.000 (95.000)
+ * Prec@1 76.860 Prec@5 95.180
+Total iterations 26272
+Epoch: [63][0/417]	Time 0.990 (0.990)	Data 0.331 (0.331)	Loss 0.6331 (0.6331)	Prec@1 83.333 (83.333)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0032004	SparseParameters 3015184
+Epoch: [63][200/417]	Time 1.023 (0.601)	Data 0.320 (0.321)	Loss 0.9253 (0.8014)	Prec@1 75.833 (78.217)	Prec@5 90.833 (93.101)	Learning Rate 0.0100	ErrorRMSI 0.0031940	SparseParameters 3013104
+Epoch: [63][400/417]	Time 1.022 (0.599)	Data 0.335 (0.322)	Loss 0.6861 (0.8027)	Prec@1 79.167 (78.121)	Prec@5 95.000 (93.099)	Learning Rate 0.0100	ErrorRMSI 0.0032028	SparseParameters 3013104
+Test: [0/84]	Time 0.524 (0.524)	Loss 0.9258 (0.9258)	Prec@1 75.000 (75.000)	Prec@5 94.167 (94.167)
+ * Prec@1 77.460 Prec@5 95.460
+Total iterations 26689
+Epoch: [64][0/417]	Time 0.988 (0.988)	Data 0.330 (0.330)	Loss 0.9015 (0.9015)	Prec@1 73.333 (73.333)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0032056	SparseParameters 3013104
+Epoch: [64][200/417]	Time 1.053 (0.601)	Data 0.398 (0.324)	Loss 0.8233 (0.7669)	Prec@1 77.500 (79.353)	Prec@5 93.333 (93.541)	Learning Rate 0.0100	ErrorRMSI 0.0032034	SparseParameters 3013104
+Epoch: [64][400/417]	Time 1.020 (0.600)	Data 0.301 (0.320)	Loss 0.7616 (0.7771)	Prec@1 81.667 (78.975)	Prec@5 95.000 (93.456)	Learning Rate 0.0100	ErrorRMSI 0.0031975	SparseParameters 3013104
+Test: [0/84]	Time 0.539 (0.539)	Loss 0.4916 (0.4916)	Prec@1 86.667 (86.667)	Prec@5 97.500 (97.500)
+ * Prec@1 77.910 Prec@5 95.640
+Total iterations 27106
+Epoch: [65][0/417]	Time 1.001 (1.001)	Data 0.345 (0.345)	Loss 0.6753 (0.6753)	Prec@1 82.500 (82.500)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0031970	SparseParameters 3013104
+Epoch: [65][200/417]	Time 1.019 (0.600)	Data 0.329 (0.313)	Loss 0.6199 (0.7615)	Prec@1 83.333 (79.303)	Prec@5 95.000 (93.499)	Learning Rate 0.0100	ErrorRMSI 0.0031914	SparseParameters 3013104
+Epoch: [65][400/417]	Time 1.022 (0.599)	Data 0.343 (0.315)	Loss 0.6478 (0.7732)	Prec@1 77.500 (78.907)	Prec@5 97.500 (93.437)	Learning Rate 0.0100	ErrorRMSI 0.0031888	SparseParameters 3013104
+Test: [0/84]	Time 0.511 (0.511)	Loss 0.6823 (0.6823)	Prec@1 80.000 (80.000)	Prec@5 98.333 (98.333)
+ * Prec@1 77.330 Prec@5 95.370
+Total iterations 27523
+Epoch: [66][0/417]	Time 0.990 (0.990)	Data 0.336 (0.336)	Loss 0.5966 (0.5966)	Prec@1 81.667 (81.667)	Prec@5 96.667 (96.667)	Learning Rate 0.0100	ErrorRMSI 0.0031883	SparseParameters 3013104
+Epoch: [66][200/417]	Time 1.027 (0.603)	Data 0.337 (0.327)	Loss 0.6036 (0.7616)	Prec@1 82.500 (79.158)	Prec@5 98.333 (93.487)	Learning Rate 0.0100	ErrorRMSI 0.0031825	SparseParameters 2980304
+Epoch: [66][400/417]	Time 1.019 (0.601)	Data 0.326 (0.329)	Loss 0.6561 (0.7751)	Prec@1 80.833 (78.716)	Prec@5 96.667 (93.416)	Learning Rate 0.0100	ErrorRMSI 0.0031784	SparseParameters 2980304
+Test: [0/84]	Time 0.573 (0.573)	Loss 0.8298 (0.8298)	Prec@1 79.167 (79.167)	Prec@5 93.333 (93.333)
+ * Prec@1 77.640 Prec@5 95.480
+Total iterations 27940
+Epoch: [67][0/417]	Time 1.078 (1.078)	Data 0.421 (0.421)	Loss 0.7352 (0.7352)	Prec@1 79.167 (79.167)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0031778	SparseParameters 2980304
+Epoch: [67][200/417]	Time 1.021 (0.601)	Data 0.317 (0.324)	Loss 0.9006 (0.7481)	Prec@1 72.500 (79.776)	Prec@5 90.833 (93.640)	Learning Rate 0.0100	ErrorRMSI 0.0031722	SparseParameters 2980304
+Epoch: [67][400/417]	Time 1.021 (0.600)	Data 0.324 (0.322)	Loss 0.8258 (0.7616)	Prec@1 80.833 (79.333)	Prec@5 93.333 (93.655)	Learning Rate 0.0100	ErrorRMSI 0.0031661	SparseParameters 2980304
+Test: [0/84]	Time 0.562 (0.562)	Loss 0.5535 (0.5535)	Prec@1 85.000 (85.000)	Prec@5 99.167 (99.167)
+ * Prec@1 78.120 Prec@5 95.300
+Total iterations 28357
+Epoch: [68][0/417]	Time 0.984 (0.984)	Data 0.328 (0.328)	Loss 0.6305 (0.6305)	Prec@1 85.000 (85.000)	Prec@5 96.667 (96.667)	Learning Rate 0.0100	ErrorRMSI 0.0031657	SparseParameters 2980304
+Epoch: [68][200/417]	Time 1.019 (0.600)	Data 0.306 (0.319)	Loss 0.6100 (0.7528)	Prec@1 85.000 (79.279)	Prec@5 93.333 (93.653)	Learning Rate 0.0100	ErrorRMSI 0.0031600	SparseParameters 2980304
+Epoch: [68][400/417]	Time 1.018 (0.599)	Data 0.319 (0.319)	Loss 0.8268 (0.7682)	Prec@1 80.000 (78.878)	Prec@5 92.500 (93.587)	Learning Rate 0.0100	ErrorRMSI 0.0031539	SparseParameters 2980304
+Test: [0/84]	Time 0.549 (0.549)	Loss 0.7827 (0.7827)	Prec@1 80.000 (80.000)	Prec@5 97.500 (97.500)
+ * Prec@1 77.980 Prec@5 95.740
+Total iterations 28774
+Epoch: [69][0/417]	Time 1.006 (1.006)	Data 0.345 (0.345)	Loss 0.5788 (0.5788)	Prec@1 85.000 (85.000)	Prec@5 95.833 (95.833)	Learning Rate 0.0100	ErrorRMSI 0.0031533	SparseParameters 2980304
+Epoch: [69][200/417]	Time 1.020 (0.600)	Data 0.316 (0.325)	Loss 0.7859 (0.7531)	Prec@1 80.000 (79.415)	Prec@5 92.500 (93.578)	Learning Rate 0.0100	ErrorRMSI 0.0031475	SparseParameters 2980304
+Epoch: [69][400/417]	Time 1.021 (0.600)	Data 0.298 (0.329)	Loss 0.7171 (0.7624)	Prec@1 81.667 (79.206)	Prec@5 96.667 (93.518)	Learning Rate 0.0100	ErrorRMSI 0.0031416	SparseParameters 2980304
+Test: [0/84]	Time 0.527 (0.527)	Loss 0.9111 (0.9111)	Prec@1 74.167 (74.167)	Prec@5 95.000 (95.000)
+ * Prec@1 76.640 Prec@5 95.080
+Total iterations 29191
+Epoch: [70][0/417]	Time 0.968 (0.968)	Data 0.306 (0.306)	Loss 0.7194 (0.7194)	Prec@1 78.333 (78.333)	Prec@5 95.833 (95.833)	Learning Rate 0.0100	ErrorRMSI 0.0031411	SparseParameters 2980304
+Epoch: [70][200/417]	Time 1.023 (0.601)	Data 0.322 (0.322)	Loss 0.7475 (0.7468)	Prec@1 80.833 (79.706)	Prec@5 94.167 (93.553)	Learning Rate 0.0100	ErrorRMSI 0.0031354	SparseParameters 2980304
+Epoch: [70][400/417]	Time 1.027 (0.599)	Data 0.320 (0.322)	Loss 0.6419 (0.7502)	Prec@1 80.833 (79.566)	Prec@5 94.167 (93.639)	Learning Rate 0.0100	ErrorRMSI 0.0031297	SparseParameters 2977996
+Test: [0/84]	Time 0.509 (0.509)	Loss 0.8428 (0.8428)	Prec@1 79.167 (79.167)	Prec@5 97.500 (97.500)
+ * Prec@1 77.830 Prec@5 95.450
+Total iterations 29608
+Epoch: [71][0/417]	Time 1.053 (1.053)	Data 0.392 (0.392)	Loss 0.7189 (0.7189)	Prec@1 79.167 (79.167)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0031334	SparseParameters 2977996
+Epoch: [71][200/417]	Time 1.020 (0.601)	Data 0.314 (0.320)	Loss 0.7147 (0.7410)	Prec@1 81.667 (80.054)	Prec@5 95.833 (93.632)	Learning Rate 0.0100	ErrorRMSI 0.0031278	SparseParameters 2977996
+change args.sparse_decay *=2 at num iterations = 30000
+Epoch: [71][400/417]	Time 1.023 (0.599)	Data 0.299 (0.319)	Loss 0.5665 (0.7450)	Prec@1 85.000 (79.911)	Prec@5 95.833 (93.662)	Learning Rate 0.0100	ErrorRMSI 0.0031220	SparseParameters 2977996
+Test: [0/84]	Time 0.531 (0.531)	Loss 0.9277 (0.9277)	Prec@1 75.833 (75.833)	Prec@5 97.500 (97.500)
+ * Prec@1 78.370 Prec@5 95.590
+Total iterations 30025
+Epoch: [72][0/417]	Time 1.006 (1.006)	Data 0.350 (0.350)	Loss 0.7394 (0.7394)	Prec@1 79.167 (79.167)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0031246	SparseParameters 2977996
+Epoch: [72][200/417]	Time 1.024 (0.600)	Data 0.342 (0.323)	Loss 0.6502 (0.7435)	Prec@1 80.000 (79.552)	Prec@5 97.500 (93.619)	Learning Rate 0.0100	ErrorRMSI 0.0031185	SparseParameters 2941116
+Epoch: [72][400/417]	Time 1.021 (0.599)	Data 0.306 (0.322)	Loss 0.6890 (0.7651)	Prec@1 79.167 (79.071)	Prec@5 96.667 (93.383)	Learning Rate 0.0100	ErrorRMSI 0.0031192	SparseParameters 2941116
+Test: [0/84]	Time 0.530 (0.530)	Loss 0.9412 (0.9412)	Prec@1 79.167 (79.167)	Prec@5 90.000 (90.000)
+ * Prec@1 77.350 Prec@5 95.090
+Total iterations 30442
+Epoch: [73][0/417]	Time 0.981 (0.981)	Data 0.327 (0.327)	Loss 0.5789 (0.5789)	Prec@1 84.167 (84.167)	Prec@5 97.500 (97.500)	Learning Rate 0.0100	ErrorRMSI 0.0031222	SparseParameters 2941116
+Epoch: [73][200/417]	Time 1.021 (0.600)	Data 0.299 (0.321)	Loss 0.8260 (0.7451)	Prec@1 75.833 (79.809)	Prec@5 93.333 (93.557)	Learning Rate 0.0100	ErrorRMSI 0.0031161	SparseParameters 2941116
+Epoch: [73][400/417]	Time 1.020 (0.599)	Data 0.321 (0.323)	Loss 0.6611 (0.7613)	Prec@1 82.500 (79.296)	Prec@5 94.167 (93.514)	Learning Rate 0.0100	ErrorRMSI 0.0031093	SparseParameters 2941116
+Test: [0/84]	Time 0.532 (0.532)	Loss 0.8348 (0.8348)	Prec@1 75.833 (75.833)	Prec@5 97.500 (97.500)
+ * Prec@1 76.960 Prec@5 95.190
+Total iterations 30859
+Epoch: [74][0/417]	Time 0.965 (0.965)	Data 0.309 (0.309)	Loss 0.8861 (0.8861)	Prec@1 76.667 (76.667)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0031087	SparseParameters 2941116
+Epoch: [74][200/417]	Time 1.024 (0.600)	Data 0.304 (0.323)	Loss 0.7075 (0.7475)	Prec@1 81.667 (79.834)	Prec@5 93.333 (93.536)	Learning Rate 0.0100	ErrorRMSI 0.0031024	SparseParameters 2941116
+Epoch: [74][400/417]	Time 1.023 (0.599)	Data 0.356 (0.324)	Loss 0.5828 (0.7655)	Prec@1 83.333 (79.285)	Prec@5 96.667 (93.475)	Learning Rate 0.0100	ErrorRMSI 0.0030955	SparseParameters 2941116
+Test: [0/84]	Time 0.530 (0.530)	Loss 0.8159 (0.8159)	Prec@1 76.667 (76.667)	Prec@5 96.667 (96.667)
+ * Prec@1 78.180 Prec@5 95.590
+Total iterations 31276
+Epoch: [75][0/417]	Time 0.984 (0.984)	Data 0.325 (0.325)	Loss 0.5223 (0.5223)	Prec@1 88.333 (88.333)	Prec@5 96.667 (96.667)	Learning Rate 0.0100	ErrorRMSI 0.0030988	SparseParameters 2941116
+Epoch: [75][200/417]	Time 1.032 (0.600)	Data 0.320 (0.324)	Loss 0.8181 (0.7556)	Prec@1 80.000 (79.283)	Prec@5 90.833 (93.586)	Learning Rate 0.0100	ErrorRMSI 0.0030973	SparseParameters 2789516
+Epoch: [75][400/417]	Time 1.024 (0.599)	Data 0.300 (0.323)	Loss 0.8084 (0.7800)	Prec@1 77.500 (78.720)	Prec@5 95.000 (93.408)	Learning Rate 0.0100	ErrorRMSI 0.0030957	SparseParameters 2789516
+Test: [0/84]	Time 0.558 (0.558)	Loss 0.8595 (0.8595)	Prec@1 75.000 (75.000)	Prec@5 95.833 (95.833)
+ * Prec@1 76.840 Prec@5 95.080
+Total iterations 31693
+Epoch: [76][0/417]	Time 0.972 (0.972)	Data 0.312 (0.312)	Loss 0.6911 (0.6911)	Prec@1 81.667 (81.667)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0030951	SparseParameters 2789516
+Epoch: [76][200/417]	Time 1.050 (0.601)	Data 0.392 (0.330)	Loss 0.7912 (0.7664)	Prec@1 78.333 (79.216)	Prec@5 93.333 (93.366)	Learning Rate 0.0100	ErrorRMSI 0.0030886	SparseParameters 2789516
+Epoch: [76][400/417]	Time 1.025 (0.600)	Data 0.336 (0.329)	Loss 0.7586 (0.7757)	Prec@1 80.833 (78.842)	Prec@5 94.167 (93.377)	Learning Rate 0.0100	ErrorRMSI 0.0030878	SparseParameters 2642028
+Test: [0/84]	Time 0.543 (0.543)	Loss 0.9984 (0.9984)	Prec@1 76.667 (76.667)	Prec@5 94.167 (94.167)
+ * Prec@1 75.200 Prec@5 94.920
+Total iterations 32110
+Epoch: [77][0/417]	Time 1.009 (1.009)	Data 0.353 (0.353)	Loss 0.7962 (0.7962)	Prec@1 80.000 (80.000)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0030914	SparseParameters 2642028
+Epoch: [77][200/417]	Time 1.028 (0.606)	Data 0.340 (0.345)	Loss 0.9256 (0.7592)	Prec@1 75.000 (79.444)	Prec@5 90.833 (93.478)	Learning Rate 0.0100	ErrorRMSI 0.0030887	SparseParameters 2568268
+Epoch: [77][400/417]	Time 1.019 (0.607)	Data 0.321 (0.351)	Loss 0.6343 (0.7671)	Prec@1 81.667 (79.131)	Prec@5 95.833 (93.435)	Learning Rate 0.0100	ErrorRMSI 0.0030902	SparseParameters 2568268
+Test: [0/84]	Time 0.578 (0.578)	Loss 0.8583 (0.8583)	Prec@1 77.500 (77.500)	Prec@5 92.500 (92.500)
+ * Prec@1 75.740 Prec@5 94.850
+Total iterations 32527
+Epoch: [78][0/417]	Time 0.978 (0.978)	Data 0.321 (0.321)	Loss 0.6204 (0.6204)	Prec@1 86.667 (86.667)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0030895	SparseParameters 2568268
+Epoch: [78][200/417]	Time 1.021 (0.601)	Data 0.315 (0.330)	Loss 0.7910 (0.7684)	Prec@1 80.833 (78.893)	Prec@5 94.167 (93.516)	Learning Rate 0.0100	ErrorRMSI 0.0030830	SparseParameters 2531388
+Epoch: [78][400/417]	Time 1.019 (0.600)	Data 0.338 (0.332)	Loss 1.0259 (0.7824)	Prec@1 72.500 (78.362)	Prec@5 90.000 (93.375)	Learning Rate 0.0100	ErrorRMSI 0.0030787	SparseParameters 2531388
+Test: [0/84]	Time 0.558 (0.558)	Loss 0.6882 (0.6882)	Prec@1 81.667 (81.667)	Prec@5 95.000 (95.000)
+ * Prec@1 77.850 Prec@5 95.570
+Total iterations 32944
+Epoch: [79][0/417]	Time 0.973 (0.973)	Data 0.316 (0.316)	Loss 0.6938 (0.6938)	Prec@1 79.167 (79.167)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0030781	SparseParameters 2531388
+Epoch: [79][200/417]	Time 1.041 (0.600)	Data 0.332 (0.326)	Loss 0.6461 (0.7690)	Prec@1 80.000 (79.167)	Prec@5 96.667 (93.400)	Learning Rate 0.0100	ErrorRMSI 0.0030718	SparseParameters 2531388
+Epoch: [79][400/417]	Time 1.021 (0.599)	Data 0.317 (0.327)	Loss 0.6469 (0.7867)	Prec@1 84.167 (78.616)	Prec@5 95.000 (93.310)	Learning Rate 0.0100	ErrorRMSI 0.0030650	SparseParameters 2531388
+Test: [0/84]	Time 0.533 (0.533)	Loss 0.9287 (0.9287)	Prec@1 77.500 (77.500)	Prec@5 92.500 (92.500)
+ * Prec@1 77.280 Prec@5 95.100
+Total iterations 33361
+Epoch: [80][0/417]	Time 1.020 (1.020)	Data 0.358 (0.358)	Loss 0.6434 (0.6434)	Prec@1 81.667 (81.667)	Prec@5 95.833 (95.833)	Learning Rate 0.0100	ErrorRMSI 0.0030645	SparseParameters 2531388
+Epoch: [80][200/417]	Time 1.029 (0.600)	Data 0.349 (0.323)	Loss 0.7394 (0.7592)	Prec@1 75.833 (79.250)	Prec@5 92.500 (93.458)	Learning Rate 0.0100	ErrorRMSI 0.0030581	SparseParameters 2494508
+Epoch: [80][400/417]	Time 1.045 (0.599)	Data 0.381 (0.323)	Loss 0.7708 (0.7771)	Prec@1 77.500 (78.695)	Prec@5 90.833 (93.400)	Learning Rate 0.0100	ErrorRMSI 0.0030538	SparseParameters 2494508
+Test: [0/84]	Time 0.541 (0.541)	Loss 0.6854 (0.6854)	Prec@1 75.833 (75.833)	Prec@5 97.500 (97.500)
+ * Prec@1 75.860 Prec@5 95.130
+Total iterations 33778
+Epoch: [81][0/417]	Time 0.993 (0.993)	Data 0.334 (0.334)	Loss 0.7574 (0.7574)	Prec@1 78.333 (78.333)	Prec@5 92.500 (92.500)	Learning Rate 0.0100	ErrorRMSI 0.0030602	SparseParameters 2485284
+Epoch: [81][200/417]	Time 1.022 (0.601)	Data 0.347 (0.328)	Loss 0.8741 (0.7802)	Prec@1 76.667 (78.619)	Prec@5 92.500 (93.226)	Learning Rate 0.0100	ErrorRMSI 0.0030572	SparseParameters 2485284
+Epoch: [81][400/417]	Time 1.027 (0.600)	Data 0.339 (0.330)	Loss 0.7633 (0.7819)	Prec@1 80.833 (78.635)	Prec@5 95.833 (93.271)	Learning Rate 0.0100	ErrorRMSI 0.0030509	SparseParameters 2448404
+Test: [0/84]	Time 0.545 (0.545)	Loss 0.9745 (0.9745)	Prec@1 74.167 (74.167)	Prec@5 93.333 (93.333)
+ * Prec@1 77.110 Prec@5 95.000
+Total iterations 34195
+Epoch: [82][0/417]	Time 1.039 (1.039)	Data 0.381 (0.381)	Loss 0.8497 (0.8497)	Prec@1 75.000 (75.000)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0030549	SparseParameters 2448404
+Epoch: [82][200/417]	Time 1.021 (0.602)	Data 0.299 (0.329)	Loss 0.6844 (0.7426)	Prec@1 84.167 (79.784)	Prec@5 94.167 (93.673)	Learning Rate 0.0100	ErrorRMSI 0.0030490	SparseParameters 2448404
+Epoch: [82][400/417]	Time 1.021 (0.600)	Data 0.320 (0.329)	Loss 0.8959 (0.7623)	Prec@1 75.833 (79.198)	Prec@5 92.500 (93.583)	Learning Rate 0.0100	ErrorRMSI 0.0030523	SparseParameters 2448404
+Test: [0/84]	Time 0.547 (0.547)	Loss 0.8689 (0.8689)	Prec@1 74.167 (74.167)	Prec@5 94.167 (94.167)
+ * Prec@1 77.360 Prec@5 95.360
+Total iterations 34612
+Epoch: [83][0/417]	Time 0.983 (0.983)	Data 0.321 (0.321)	Loss 0.9160 (0.9160)	Prec@1 75.833 (75.833)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0030558	SparseParameters 2448404
+Epoch: [83][200/417]	Time 1.025 (0.600)	Data 0.339 (0.324)	Loss 0.8305 (0.7617)	Prec@1 74.167 (79.129)	Prec@5 92.500 (93.366)	Learning Rate 0.0100	ErrorRMSI 0.0030501	SparseParameters 2448404
+Epoch: [83][400/417]	Time 1.020 (0.600)	Data 0.353 (0.325)	Loss 0.7424 (0.7680)	Prec@1 80.833 (78.996)	Prec@5 95.833 (93.317)	Learning Rate 0.0100	ErrorRMSI 0.0030525	SparseParameters 2448404
+Test: [0/84]	Time 0.555 (0.555)	Loss 0.7592 (0.7592)	Prec@1 76.667 (76.667)	Prec@5 95.000 (95.000)
+ * Prec@1 76.100 Prec@5 95.050
+Total iterations 35029
+Epoch: [84][0/417]	Time 0.981 (0.981)	Data 0.325 (0.325)	Loss 0.6464 (0.6464)	Prec@1 80.833 (80.833)	Prec@5 95.833 (95.833)	Learning Rate 0.0100	ErrorRMSI 0.0030553	SparseParameters 2448404
+Epoch: [84][200/417]	Time 1.022 (0.600)	Data 0.304 (0.325)	Loss 0.8470 (0.7573)	Prec@1 74.167 (79.378)	Prec@5 90.833 (93.673)	Learning Rate 0.0100	ErrorRMSI 0.0030496	SparseParameters 2448404
+Target Sparsity 0.90000 has been achieved, current sparsity is 0.90213
+The schemes of each layer
+{'SparseConv0_64-64-(1, 1)': [16, 32], 'SparseConv1_64-64-(3, 3)': [4, 32], 'SparseConv2_64-256-(1, 1)': [16, 32], 'SparseConv3_64-256-(1, 1)': [16, 32], 'SparseConv4_256-64-(1, 1)': [16, 32], 'SparseConv5_64-64-(3, 3)': [4, 32], 'SparseConv6_64-256-(1, 1)': [16, 32], 'SparseConv7_256-64-(1, 1)': [16, 32], 'SparseConv8_64-64-(3, 3)': [2, 32], 'SparseConv9_64-256-(1, 1)': [16, 32], 'SparseConv10_256-128-(1, 1)': [4, 32], 'SparseConv11_128-128-(3, 3)': [2, 32], 'SparseConv12_128-512-(1, 1)': [8, 32], 'SparseConv13_256-512-(1, 1)': [4, 32], 'SparseConv14_512-128-(1, 1)': [8, 32], 'SparseConv15_128-128-(3, 3)': [4, 32], 'SparseConv16_128-512-(1, 1)': [8, 32], 'SparseConv17_512-128-(1, 1)': [8, 32], 'SparseConv18_128-128-(3, 3)': [4, 32], 'SparseConv19_128-512-(1, 1)': [8, 32], 'SparseConv20_512-128-(1, 1)': [8, 32], 'SparseConv21_128-128-(3, 3)': [2, 32], 'SparseConv22_128-512-(1, 1)': [8, 32], 'SparseConv23_512-256-(1, 1)': [4, 32], 'SparseConv24_256-256-(3, 3)': [2, 32], 'SparseConv25_256-1024-(1, 1)': [4, 32], 'SparseConv26_512-1024-(1, 1)': [4, 32], 'SparseConv27_1024-256-(1, 1)': [4, 32], 'SparseConv28_256-256-(3, 3)': [2, 32], 'SparseConv29_256-1024-(1, 1)': [4, 32], 'SparseConv30_1024-256-(1, 1)': [4, 32], 'SparseConv31_256-256-(3, 3)': [2, 32], 'SparseConv32_256-1024-(1, 1)': [4, 32], 'SparseConv33_1024-256-(1, 1)': [4, 32], 'SparseConv34_256-256-(3, 3)': [2, 32], 'SparseConv35_256-1024-(1, 1)': [4, 32], 'SparseConv36_1024-256-(1, 1)': [4, 32], 'SparseConv37_256-256-(3, 3)': [2, 32], 'SparseConv38_256-1024-(1, 1)': [4, 32], 'SparseConv39_1024-256-(1, 1)': [4, 32], 'SparseConv40_256-256-(3, 3)': [2, 32], 'SparseConv41_256-1024-(1, 1)': [4, 32], 'SparseConv42_1024-512-(1, 1)': [4, 32], 'SparseConv43_512-512-(3, 3)': [2, 32], 'SparseConv44_512-2048-(1, 1)': [4, 32], 'SparseConv45_1024-2048-(1, 1)': [2, 32], 'SparseConv46_2048-512-(1, 1)': [4, 32], 'SparseConv47_512-512-(3, 3)': [2, 32], 'SparseConv48_512-2048-(1, 1)': [4, 32], 'SparseConv49_2048-512-(1, 1)': [4, 32], 'SparseConv50_512-512-(3, 3)': [2, 32], 'SparseConv51_512-2048-(1, 1)': [4, 32], 'Linear0_2048-100': [16, 32]}
+Current FLOPs: sparse - 568.4962 M , dense - 3969.3272 M, sparse/dense - 0.1432
+****************************************
+SparseParameters =  2317204
+***************************************
+Epoch: [84][400/417]	Time 1.019 (0.600)	Data 0.363 (0.326)	Loss 0.6403 (0.7671)	Prec@1 85.833 (79.144)	Prec@5 96.667 (93.518)	Learning Rate 0.0100	ErrorRMSI 0.0030468	SparseParameters 2317204
+Test: [0/84]	Time 0.528 (0.528)	Loss 2.7665 (2.7665)	Prec@1 46.667 (46.667)	Prec@5 81.667 (81.667)
+ * Prec@1 45.620 Prec@5 76.060
+Epoch: [85][0/417]	Time 0.545 (0.545)	Data 0.313 (0.313)	Loss 1.2682 (1.2682)	Prec@1 65.000 (65.000)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [85][200/417]	Time 0.598 (0.597)	Data 0.315 (0.321)	Loss 0.9236 (1.1868)	Prec@1 76.667 (67.600)	Prec@5 92.500 (89.212)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [85][400/417]	Time 0.596 (0.597)	Data 0.309 (0.322)	Loss 1.1216 (1.1192)	Prec@1 74.167 (69.426)	Prec@5 87.500 (89.944)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.555 (0.555)	Loss 1.1301 (1.1301)	Prec@1 69.167 (69.167)	Prec@5 90.833 (90.833)
+ * Prec@1 74.030 Prec@5 94.000
+Epoch: [86][0/417]	Time 0.576 (0.576)	Data 0.344 (0.344)	Loss 0.6794 (0.6794)	Prec@1 83.333 (83.333)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [86][200/417]	Time 0.596 (0.597)	Data 0.324 (0.321)	Loss 0.8077 (0.9120)	Prec@1 78.333 (74.880)	Prec@5 94.167 (92.156)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [86][400/417]	Time 0.595 (0.597)	Data 0.333 (0.325)	Loss 0.7591 (0.9054)	Prec@1 77.500 (74.965)	Prec@5 95.833 (92.122)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.522 (0.522)	Loss 0.8589 (0.8589)	Prec@1 75.000 (75.000)	Prec@5 96.667 (96.667)
+ * Prec@1 76.140 Prec@5 95.020
+Epoch: [87][0/417]	Time 0.566 (0.566)	Data 0.335 (0.335)	Loss 0.8312 (0.8312)	Prec@1 77.500 (77.500)	Prec@5 89.167 (89.167)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [87][200/417]	Time 0.596 (0.597)	Data 0.311 (0.326)	Loss 0.7754 (0.8224)	Prec@1 78.333 (77.438)	Prec@5 93.333 (92.939)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [87][400/417]	Time 0.597 (0.597)	Data 0.340 (0.324)	Loss 0.9114 (0.8194)	Prec@1 75.833 (77.612)	Prec@5 90.833 (93.055)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.547 (0.547)	Loss 0.9169 (0.9169)	Prec@1 73.333 (73.333)	Prec@5 95.833 (95.833)
+ * Prec@1 77.520 Prec@5 95.130
+Epoch: [88][0/417]	Time 0.564 (0.564)	Data 0.334 (0.334)	Loss 0.7348 (0.7348)	Prec@1 87.500 (87.500)	Prec@5 90.833 (90.833)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [88][200/417]	Time 0.594 (0.597)	Data 0.348 (0.324)	Loss 0.7034 (0.7823)	Prec@1 83.333 (78.391)	Prec@5 92.500 (93.267)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [88][400/417]	Time 0.595 (0.597)	Data 0.347 (0.326)	Loss 0.8687 (0.7829)	Prec@1 79.167 (78.437)	Prec@5 93.333 (93.313)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.554 (0.554)	Loss 1.1279 (1.1279)	Prec@1 71.667 (71.667)	Prec@5 91.667 (91.667)
+ * Prec@1 77.150 Prec@5 95.040
+Epoch: [89][0/417]	Time 0.573 (0.573)	Data 0.341 (0.341)	Loss 0.9283 (0.9283)	Prec@1 74.167 (74.167)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [89][200/417]	Time 0.596 (0.597)	Data 0.317 (0.322)	Loss 0.8109 (0.7432)	Prec@1 80.000 (79.697)	Prec@5 89.167 (93.607)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [89][400/417]	Time 0.596 (0.597)	Data 0.326 (0.322)	Loss 0.6280 (0.7583)	Prec@1 82.500 (79.291)	Prec@5 94.167 (93.433)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.553 (0.553)	Loss 0.8674 (0.8674)	Prec@1 78.333 (78.333)	Prec@5 95.833 (95.833)
+ * Prec@1 77.260 Prec@5 95.090
+Epoch: [90][0/417]	Time 0.596 (0.596)	Data 0.362 (0.362)	Loss 0.7812 (0.7812)	Prec@1 78.333 (78.333)	Prec@5 91.667 (91.667)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [90][200/417]	Time 0.598 (0.597)	Data 0.303 (0.323)	Loss 0.7610 (0.7121)	Prec@1 77.500 (80.560)	Prec@5 94.167 (94.096)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [91][200/417]	Time 0.595 (0.597)	Data 0.315 (0.325)	Loss 0.4317 (0.7122)	Prec@1 89.167 (80.887)	Prec@5 97.500 (93.590)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [91][400/417]	Time 0.631 (0.598)	Data 0.399 (0.330)	Loss 0.6644 (0.7194)	Prec@1 83.333 (80.497)	Prec@5 92.500 (93.691)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.520 (0.520)	Loss 0.6447 (0.6447)	Prec@1 81.667 (81.667)	Prec@5 97.500 (97.500)
+ * Prec@1 77.360 Prec@5 95.180
+Epoch: [92][0/417]	Time 0.566 (0.566)	Data 0.334 (0.334)	Loss 0.7895 (0.7895)	Prec@1 80.000 (80.000)	Prec@5 90.000 (90.000)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [92][200/417]	Time 0.612 (0.599)	Data 0.380 (0.335)	Loss 0.6401 (0.6817)	Prec@1 81.667 (81.484)	Prec@5 95.000 (94.349)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [92][400/417]	Time 0.595 (0.601)	Data 0.334 (0.343)	Loss 0.8422 (0.6922)	Prec@1 75.833 (81.174)	Prec@5 93.333 (94.152)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.536 (0.536)	Loss 0.7636 (0.7636)	Prec@1 78.333 (78.333)	Prec@5 97.500 (97.500)
+ * Prec@1 77.540 Prec@5 95.360
+Epoch: [93][0/417]	Time 0.576 (0.576)	Data 0.344 (0.344)	Loss 0.5810 (0.5810)	Prec@1 84.167 (84.167)	Prec@5 95.833 (95.833)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [93][200/417]	Time 0.596 (0.603)	Data 0.331 (0.340)	Loss 0.8019 (0.6631)	Prec@1 78.333 (81.899)	Prec@5 94.167 (94.436)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [93][400/417]	Time 0.595 (0.602)	Data 0.339 (0.345)	Loss 0.8019 (0.6743)	Prec@1 81.667 (81.604)	Prec@5 92.500 (94.260)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.549 (0.549)	Loss 0.6371 (0.6371)	Prec@1 81.667 (81.667)	Prec@5 96.667 (96.667)
+ * Prec@1 77.900 Prec@5 95.280
+Epoch: [94][0/417]	Time 0.592 (0.592)	Data 0.361 (0.361)	Loss 0.6340 (0.6340)	Prec@1 81.667 (81.667)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [94][200/417]	Time 0.599 (0.598)	Data 0.359 (0.333)	Loss 0.4494 (0.6608)	Prec@1 87.500 (81.803)	Prec@5 96.667 (94.527)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [94][400/417]	Time 0.595 (0.598)	Data 0.328 (0.333)	Loss 0.6739 (0.6682)	Prec@1 78.333 (81.658)	Prec@5 94.167 (94.320)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.543 (0.543)	Loss 0.8475 (0.8475)	Prec@1 80.000 (80.000)	Prec@5 95.833 (95.833)
+ * Prec@1 78.300 Prec@5 95.470
+Epoch: [95][0/417]	Time 0.599 (0.599)	Data 0.367 (0.367)	Loss 0.7832 (0.7832)	Prec@1 80.833 (80.833)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [95][200/417]	Time 0.638 (0.598)	Data 0.397 (0.332)	Loss 0.7654 (0.6496)	Prec@1 80.000 (82.197)	Prec@5 94.167 (94.556)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+change args.sparse_decay *=2 at num iterations = 40000
+Epoch: [95][400/417]	Time 0.597 (0.598)	Data 0.316 (0.332)	Loss 0.5705 (0.6428)	Prec@1 81.667 (82.325)	Prec@5 95.000 (94.663)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.542 (0.542)	Loss 0.6702 (0.6702)	Prec@1 85.000 (85.000)	Prec@5 95.000 (95.000)
+ * Prec@1 79.280 Prec@5 95.710
+Epoch: [96][0/417]	Time 0.575 (0.575)	Data 0.344 (0.344)	Loss 0.6165 (0.6165)	Prec@1 82.500 (82.500)	Prec@5 95.000 (95.000)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [96][200/417]	Time 0.596 (0.600)	Data 0.328 (0.334)	Loss 0.7906 (0.6231)	Prec@1 79.167 (83.308)	Prec@5 94.167 (94.660)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [96][400/417]	Time 0.597 (0.600)	Data 0.334 (0.336)	Loss 0.6787 (0.6316)	Prec@1 82.500 (82.968)	Prec@5 95.833 (94.539)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.547 (0.547)	Loss 0.9564 (0.9564)	Prec@1 75.833 (75.833)	Prec@5 95.000 (95.000)
+ * Prec@1 79.050 Prec@5 95.640
+Epoch: [97][0/417]	Time 0.594 (0.594)	Data 0.363 (0.363)	Loss 0.5890 (0.5890)	Prec@1 86.667 (86.667)	Prec@5 94.167 (94.167)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [97][200/417]	Time 0.596 (0.599)	Data 0.348 (0.340)	Loss 0.7234 (0.6158)	Prec@1 79.167 (83.387)	Prec@5 94.167 (94.552)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [97][400/417]	Time 0.596 (0.600)	Data 0.339 (0.342)	Loss 0.7092 (0.6224)	Prec@1 81.667 (83.198)	Prec@5 94.167 (94.478)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.543 (0.543)	Loss 1.0651 (1.0651)	Prec@1 74.167 (74.167)	Prec@5 95.833 (95.833)
+ * Prec@1 79.310 Prec@5 95.900
+Epoch: [98][0/417]	Time 0.591 (0.591)	Data 0.359 (0.359)	Loss 0.6318 (0.6318)	Prec@1 85.000 (85.000)	Prec@5 93.333 (93.333)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [98][200/417]	Time 0.595 (0.597)	Data 0.353 (0.333)	Loss 0.4596 (0.6000)	Prec@1 87.500 (83.686)	Prec@5 98.333 (94.938)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [98][400/417]	Time 0.601 (0.598)	Data 0.345 (0.333)	Loss 0.5655 (0.6105)	Prec@1 80.833 (83.367)	Prec@5 97.500 (94.719)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.602 (0.602)	Loss 0.8004 (0.8004)	Prec@1 82.500 (82.500)	Prec@5 95.833 (95.833)
+ * Prec@1 78.720 Prec@5 95.860
+Epoch: [99][0/417]	Time 0.571 (0.571)	Data 0.339 (0.339)	Loss 0.3935 (0.3935)	Prec@1 91.667 (91.667)	Prec@5 96.667 (96.667)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [99][200/417]	Time 0.596 (0.600)	Data 0.322 (0.333)	Loss 0.6323 (0.5992)	Prec@1 80.833 (83.918)	Prec@5 94.167 (94.731)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Epoch: [99][400/417]	Time 0.598 (0.599)	Data 0.367 (0.335)	Loss 0.6223 (0.5990)	Prec@1 84.167 (83.822)	Prec@5 94.167 (94.753)	Learning Rate 0.0100	ErrorRMSI 0.0000000	SparseParameters 2317204
+Test: [0/84]	Time 0.546 (0.546)	Loss 0.5937 (0.5937)	Prec@1 83.333 (83.333)	Prec@5 95.000 (95.000)
+ * Prec@1 79.570 Prec@5 95.690
+Best accuracy is  80.05999719238281
+file_path_train:  ./search/train_file_spars_srste_cifar100_resnet50_sparse_0.9_0.0_M_32_alpha_-1.0_prtrained_1.csv
+file_path_schema:  ./search/schemes/schema_file_spars_srste_cifar100_resnet50_sparse_0.9_0.0_M_32_alpha_-1.0_prtrained_1.txt
+file_path_sp_layers:  ./search/sp_layers_file_spars_srste_cifar100_resnet50_sparse_0.9_0.0_M_32_alpha_-1.0_prtrained_1.csv
+file_path_validate:  ./search/validate_file_spars_srste_cifar100_resnet50_sparse_0.9_0.0_M_32_alpha_-1.0_prtrained_1.csv
+****************************************
+SparseParameters =  2317204
+***************************************
+         2974051099 function calls (2915440384 primitive calls) in 29267.939 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1322 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.269    0.269 29276.191 29276.191 /kaggle/working/USD/./search/find_mix_from_dense_imagenet.py:140(main)
+      100  335.862    3.359 25007.526  250.075 /kaggle/working/USD/./search/find_mix_from_dense_imagenet.py:514(train)
+    50300    0.968    0.000 15631.838    0.311 /usr/local/lib/python3.11/dist-packages/torch/utils/data/dataloader.py:703(__next__)
+    50300    9.547    0.000 15624.172    0.311 /usr/local/lib/python3.11/dist-packages/torch/utils/data/dataloader.py:762(_next_data)
+    50100    0.395    0.000 15612.053    0.312 /usr/local/lib/python3.11/dist-packages/torch/utils/data/_utils/fetch.py:47(fetch)
+27218583/18100201   72.872    0.000 15354.913    0.001 /usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py:1735(_wrapped_call_impl)
+27218583/18100201  107.473    0.000 15299.914    0.001 /usr/local/lib/python3.11/dist-packages/torch/nn/modules/module.py:1743(_call_impl)
+    50100   11.941    0.000 14005.792    0.280 /usr/local/lib/python3.11/dist-packages/torch/utils/data/_utils/fetch.py:52(<listcomp>)
+  6000000   38.091    0.000 13993.850    0.002 /usr/local/lib/python3.11/dist-packages/torchvision/datasets/folder.py:236(__getitem__)
+    50101    2.205    0.000 9784.875    0.195 /kaggle/working/USD/search/models/resnet_sparse.py:270(forward)
+400808/200404    2.747    0.000 9601.648    0.048 /usr/local/lib/python3.11/dist-packages/torch/nn/modules/container.py:248(forward)
+   801616   41.282    0.000 9595.211    0.012 /kaggle/working/USD/search/models/resnet_sparse.py:79(forward)
+  2605252   42.989    0.000 9149.658    0.004 /kaggle/working/USD/devkit/sparse_ops/sparse_ops.py:718(forward)
+  6000000   91.584    0.000 8246.632    0.001 /usr/local/lib/python3.11/dist-packages/torchvision/transforms/transforms.py:93(__call__)
+  2605252  255.256    0.000 8089.034    0.003 /kaggle/working/USD/devkit/sparse_ops/sparse_ops.py:465(calculate_mask_w_survival)
+  2655353 7385.328    0.003 7385.328    0.003 {method 'cpu' of 'torch._C.TensorBase' objects}
+  6000000   42.168    0.000 5709.128    0.001 /usr/local/lib/python3.11/dist-packages/torchvision/datasets/folder.py:278(default_loader)
+  6000000   43.646    0.000 5649.083    0.001 /usr/local/lib/python3.11/dist-packages/torchvision/datasets/folder.py:260(pil_loader)
+      100   63.156    0.632 4210.337   42.103 /kaggle/working/USD/./search/find_mix_from_dense_imagenet.py:640(validate)
+  6000671 4125.212    0.001 4125.213    0.001 {built-in method io.open}
+
+

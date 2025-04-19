@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="500" height="300" fill="#f8f9fa" rx="15" ry="15"/>
+  
+  <!-- Neural Network Representation -->
+  <!-- Layer 1 - Unstructured (Random pruning) -->
+  <g id="layer1">
+    <!-- Nodes -->
+    <circle cx="100" cy="60" r="10" fill="#5b9bd5" opacity="0.9"/>
+    <circle cx="100" cy="110" r="10" fill="#5b9bd5" opacity="0.4"/>
+    <circle cx="100" cy="160" r="10" fill="#5b9bd5" opacity="0.9"/>
+    <circle cx="100" cy="210" r="10" fill="#5b9bd5" opacity="0.3"/>
+    <circle cx="100" cy="260" r="10" fill="#5b9bd5" opacity="0.8"/>
+    
+    <!-- Connection lines to layer 2 with varying opacity to show pruning -->
+    <line x1="110" y1="60" x2="190" y2="50" stroke="#333" stroke-width="1.5" opacity="0.8"/>
+    <line x1="110" y1="60" x2="190" y2="100" stroke="#333" stroke-width="1.5" opacity="0.2"/>
+    <line x1="110" y1="60" x2="190" y2="150" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="110" y1="60" x2="190" y2="200" stroke="#333" stroke-width="1.5" opacity="0.1"/>
+    <line x1="110" y1="60" x2="190" y2="250" stroke="#333" stroke-width="1.5" opacity="0.7"/>
+    
+    <!-- Random connections from other nodes with various opacities -->
+    <line x1="110" y1="110" x2="190" y2="50" stroke="#333" stroke-width="1.5" opacity="0.1"/>
+    <line x1="110" y1="110" x2="190" y2="100" stroke="#333" stroke-width="1.5" opacity="0.3"/>
+    <line x1="110" y1="160" x2="190" y2="150" stroke="#333" stroke-width="1.5" opacity="0.8"/>
+    <line x1="110" y1="210" x2="190" y2="200" stroke="#333" stroke-width="1.5" opacity="0.2"/>
+    <line x1="110" y1="260" x2="190" y2="250" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="110" y1="160" x2="190" y2="50" stroke="#333" stroke-width="1.5" opacity="0.2"/>
+    <line x1="110" y1="260" x2="190" y2="150" stroke="#333" stroke-width="1.5" opacity="0.5"/>
+  </g>
+  
+  <!-- Layer 2 - Transition -->
+  <g id="layer2">
+    <!-- Nodes -->
+    <circle cx="200" cy="50" r="10" fill="#70ad47" opacity="0.9"/>
+    <circle cx="200" cy="100" r="10" fill="#70ad47" opacity="0.7"/>
+    <circle cx="200" cy="150" r="10" fill="#70ad47" opacity="0.9"/>
+    <circle cx="200" cy="200" r="10" fill="#70ad47" opacity="0.5"/>
+    <circle cx="200" cy="250" r="10" fill="#70ad47" opacity="0.9"/>
+    
+    <!-- Transition connections - partially structured -->
+    <line x1="210" y1="50" x2="290" y2="60" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="50" x2="290" y2="120" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="50" x2="290" y2="180" stroke="#333" stroke-width="1.5" opacity="0.2"/>
+    <line x1="210" y1="50" x2="290" y2="240" stroke="#333" stroke-width="1.5" opacity="0"/>
+    
+    <line x1="210" y1="100" x2="290" y2="60" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="100" x2="290" y2="120" stroke="#333" stroke-width="1.5" opacity="0.8"/>
+    <line x1="210" y1="100" x2="290" y2="180" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="100" x2="290" y2="240" stroke="#333" stroke-width="1.5" opacity="0.1"/>
+    
+    <line x1="210" y1="150" x2="290" y2="60" stroke="#333" stroke-width="1.5" opacity="0.1"/>
+    <line x1="210" y1="150" x2="290" y2="120" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="150" x2="290" y2="180" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="210" y1="150" x2="290" y2="240" stroke="#333" stroke-width="1.5" opacity="0"/>
+    
+    <line x1="210" y1="200" x2="290" y2="60" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="200" x2="290" y2="120" stroke="#333" stroke-width="1.5" opacity="0.1"/>
+    <line x1="210" y1="200" x2="290" y2="180" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="200" x2="290" y2="240" stroke="#333" stroke-width="1.5" opacity="0.7"/>
+    
+    <line x1="210" y1="250" x2="290" y2="60" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="250" x2="290" y2="120" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="210" y1="250" x2="290" y2="180" stroke="#333" stroke-width="1.5" opacity="0.1"/>
+    <line x1="210" y1="250" x2="290" y2="240" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+  </g>
+  
+  <!-- Layer 3 - Structured (N:M pattern) -->
+  <g id="layer3">
+    <!-- Nodes -->
+    <circle cx="300" cy="60" r="10" fill="#ed7d31" opacity="0.9"/>
+    <circle cx="300" cy="120" r="10" fill="#ed7d31" opacity="0.9"/>
+    <circle cx="300" cy="180" r="10" fill="#ed7d31" opacity="0.9"/>
+    <circle cx="300" cy="240" r="10" fill="#ed7d31" opacity="0.9"/>
+    
+    <!-- Structured connections (clear N:M pattern) -->
+    <line x1="310" y1="60" x2="390" y2="75" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="310" y1="60" x2="390" y2="150" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="310" y1="60" x2="390" y2="225" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    
+    <line x1="310" y1="120" x2="390" y2="75" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="310" y1="120" x2="390" y2="150" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="310" y1="120" x2="390" y2="225" stroke="#333" stroke-width="1.5" opacity="0"/>
+    
+    <line x1="310" y1="180" x2="390" y2="75" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="310" y1="180" x2="390" y2="150" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="310" y1="180" x2="390" y2="225" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    
+    <line x1="310" y1="240" x2="390" y2="75" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+    <line x1="310" y1="240" x2="390" y2="150" stroke="#333" stroke-width="1.5" opacity="0"/>
+    <line x1="310" y1="240" x2="390" y2="225" stroke="#333" stroke-width="1.5" opacity="0.9"/>
+  </g>
+  
+  <!-- Layer 4 - Final layer -->
+  <g id="layer4">
+    <!-- Nodes -->
+    <circle cx="400" cy="75" r="10" fill="#a5a5a5" opacity="0.9"/>
+    <circle cx="400" cy="150" r="10" fill="#a5a5a5" opacity="0.9"/>
+    <circle cx="400" cy="225" r="10" fill="#a5a5a5" opacity="0.9"/>
+  </g>
+  
+  <!-- Arrows indicating direction -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  <line x1="150" y1="280" x2="350" y2="280" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Text elements -->
+  <text x="120" y="25" font-family="Arial" font-weight="bold" font-size="20" fill="#333">USD</text>
+  <text x="80" y="270" font-family="Arial" font-size="14" fill="#5b9bd5" text-anchor="middle">Unstructured</text>
+  <text x="210" y="270" font-family="Arial" font-size="14" fill="#70ad47" text-anchor="middle">Transition</text>
+  <text x="360" y="270" font-family="Arial" font-size="14" fill="#ed7d31" text-anchor="middle">Structured</text>
+  
+  <!-- N:M Label -->
+  <text x="380" y="40" font-family="Arial" font-weight="bold" font-size="16" fill="#333">N:M</text>
+  
+  <!-- Dynamic Label -->
+  <text x="250" y="25" font-family="Arial" font-style="italic" font-size="14" fill="#333">Dynamic Pruning Framework</text>
+</svg>

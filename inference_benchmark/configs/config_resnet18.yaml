@@ -1,0 +1,14 @@
+TEST:
+    model: resnet18_sparse
+    N: 16
+    M: 16
+    workers: 1
+    batch_size: 64
+    world_size: 1
+    weight_decay: 0.00005
+    decay:  0.0005
+    print_freq: 5
+    num_classes: 10
+    data: ../cifar10
+    val_root: ../cifar10/test_img/
+    val_source: ../cifar10/val.txt

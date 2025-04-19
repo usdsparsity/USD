@@ -1,0 +1,37 @@
+TRAIN:
+    model: vit_b_32_sparse
+    N: 8
+    M: 8
+    sparse_optimizer: 1
+    layout : NHWC
+    num_classes: 10
+    Target_RMSI: 0.0010
+
+    workers: 1
+    batch_size: 120
+    epochs: 100
+
+    lr_mode : cosine
+    base_lr: 0.1
+    finetue_lr : 0.01
+    lra : 0.01
+    warmup_epochs: 5
+    warmup_lr: 0.0
+    targetlr : 0.0
+
+    momentum: 0.0
+    #weight_decay: 0.00005
+    #dense weight_decay
+    #weight_decay: 0.0001
+    weight_decay : 0.000
+    sparse_decay : 0.1
+
+
+    print_freq: 200
+    model_dir: vit/vit_b_32_sparse
+
+    data: ../CIFAR10/
+
+
+TEST:
+    checkpoint_path : saved_models/vit/vit_b_32_sparse

@@ -1224,10 +1224,10 @@ class SparseLinear(nn.Linear):
             self.pruned_weight = self.get_sparse_weights()
             #self.pruned_weight_sparse = self.pruned_weight.to_sparse()
 
-            U, S, V = torch.svd_lowrank(self.pruned_weight, q=64)
-            self.U = nn.Parameter(U @ torch.diag(S))  # (m, 64)
-            self.V = nn.Parameter(V).t()
-            self.sparse_weights = self.pruned_weight.to_sparse()
+            #U, S, V = torch.svd_lowrank(self.pruned_weight, q=64)
+            #self.U = nn.Parameter(U @ torch.diag(S))  # (m, 64)
+            #self.V = nn.Parameter(V).t()
+            #self.sparse_weights = self.pruned_weight.to_sparse()
             #self.sparse_weights = self.pruned_weight.to_sparse_coo()
 
             

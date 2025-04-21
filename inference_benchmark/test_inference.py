@@ -163,8 +163,8 @@ def main():
 
     if args.evaluate:
         print("evaluate the dense and sparse model for inference acceleration performance")
-        #for batch_size in sorted(batchs, reverse=True):
-        for batch_size in batchs:
+        for batch_size in sorted(batchs, reverse=True):
+        #for batch_size in batchs:
             val_loader = DataLoader(
                 val_dataset, batch_size=batch_size, shuffle=True)
             validate(val_loader, model, batch_size, criterion, dense=0)

@@ -1227,7 +1227,7 @@ class SparseLinear(nn.Linear):
             #U, S, V = torch.svd_lowrank(self.pruned_weight, q=64)
             #self.U = nn.Parameter(U @ torch.diag(S))  # (m, 64)
             #self.V = nn.Parameter(V).t()
-            #self.sparse_weights = self.pruned_weight.to_sparse()
+            self.sparse_weights = self.pruned_weight.to_sparse()
             #self.sparse_weights = self.pruned_weight.to_sparse_coo()
 
             
@@ -1312,9 +1312,9 @@ class SparseLinear(nn.Linear):
                 return F.linear(x, self.weight,self.bias)
             else:
                 # sparse with to_sparse()
-                #return self.inference_sparse(x)  
+                return self.inference_sparse(x)  
                 # using pruned_weight directly with linear
-                return F.linear(x, self.pruned_weight,self.bias)  
+                #return F.linear(x, self.pruned_weight,self.bias)  
                 # using decomposition V U with q = 64
                 #return F.linear(F.linear(x, self.V), self.U, self.bias)
 

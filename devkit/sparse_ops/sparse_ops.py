@@ -1312,20 +1312,20 @@ class SparseLinear(nn.Linear):
 
     def inference_sparse(self, x: torch.Tensor):
 
-        y = torch.sparse.mm(self.W, x.t())                   # [out, B]
-        y = y.t()                                       # [B, out]
-        if self.bias is not None:
-            y = y + self.bias
-        return y
+        #y = torch.sparse.mm(self.W, x.t())                   # [out, B]
+        #y = y.t()                                       # [B, out]
+        #if self.bias is not None:
+        #    y = y + self.bias
+        #return y
     
         original_shape = x.shape
         # For 3D input (transformer case)
         if len(original_shape) == 3:
             batch_size, seq_len, embed_dim = original_shape  
-            result_2d = torch.sparse.mm(self.sparse_weights, x.reshape(-1, embed_dim).t()).t() + self.bias
+            result_2d = torch.sparse.mm(self.W, x.reshape(-1, embed_dim).t()).t() + self.bias
             return  result_2d.view(batch_size, seq_len, -1)
         else:
-            result = torch.sparse.mm(self.sparse_weights, x.t()).t() + self.bias
+            result = torch.sparse.mm(self.W, x.t()).t() + self.bias
             return result
     
     def forward(self, x):

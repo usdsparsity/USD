@@ -770,6 +770,8 @@ class SparseLinear(nn.Linear):
 
         self.evaluate = False
         self.dense = True
+        self.out_features = out_features
+        self.in_features = in_features
 
         self.N_intermediate = M # inialize as M
 
@@ -1229,6 +1231,20 @@ class SparseLinear(nn.Linear):
             #self.V = nn.Parameter(V).t()
             self.sparse_weights = self.pruned_weight.to_sparse()
             #self.sparse_weights = self.pruned_weight.to_sparse_coo()
+            # x: [B, in] → want [B, out]
+            # Find indices of non-zero elements
+            non_zero_indices = torch.nonzero(self.pruned_weight, as_tuple=True)
+            
+            # Stack indices to get the sparse_idx in the format expected by sparse_coo_tensor
+            sparse_idx = torch.stack(non_zero_indices)
+            
+            # Get the values at these indices
+            values = self.pruned_weight[non_zero_indices]
+            self.W = torch.sparse_coo_tensor(
+                sparse_idx, 
+                values, 
+                (self.out_features, self.in_features)
+            ).coalesce()
 
             
     def change_layout(self,layout):
@@ -1295,6 +1311,13 @@ class SparseLinear(nn.Linear):
         return layer_rms
 
     def inference_sparse(self, x: torch.Tensor):
+
+        y = torch.sparse.mm(self.W, x.t())                   # [out, B]
+        y = y.t()                                       # [B, out]
+        if self.bias is not None:
+            y = y + self.bias
+        return y
+    
         original_shape = x.shape
         # For 3D input (transformer case)
         if len(original_shape) == 3:

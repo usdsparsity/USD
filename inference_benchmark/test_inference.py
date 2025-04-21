@@ -106,7 +106,7 @@ def main():
     N_file = args.N
     M_file = args.M
 
-    batchs = (10, 20, 30, 35, 40, 45, 50, 60, 120, 240, 512, 600, 800)
+    batchs = (10, 20, 30, 35, 40, 45, 50, 60, 120, 240, 512)#, 600, 800)
 
     file_path_validate = "./inference_benchmark/validate_file_" + args.model + "_" + str(N_file)+"_" + str(M_file) + ".csv"
     

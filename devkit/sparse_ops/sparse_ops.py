@@ -462,26 +462,32 @@ class SparseConv(nn.Conv2d):
 
         return torch.sum(mask_).cpu().detach().numpy()
 
-    # check sparsity of each group, 
     def calculate_mask_w_survival(self, w_current):
         N_inter = self.N_intermediate
         M = self.M
         n = int(np.log2(M)) + 1
         Ns = [2**x for x in range(n)]
-        #Ns = [x for x in range(1,self.M+1)]
         length = w_current.numel()
         group = int(length/M)
-        if self.layout == 'NCHW' or self.k_ == 1: 
-            weight_current = w_current.clone().detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().reshape(group, M)
-        elif self.layout == 'NHWC': 
+        
+        # Keep tensors on GPU throughout
+        if self.layout == 'NCHW' or self.k_ == 1:
+            weight_current = w_current.clone().abs().reshape(group, M)
+            weight_previous = self.w_at_t_minus_1.clone().abs().reshape(group, M)
+        elif self.layout == 'NHWC':
             weight_t = w_current.clone().permute(0,2,3,1)
-            weight_current = weight_t.detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().permute(0,2,3,1).reshape(group, M)
-        self.weight_group_survival_w = ( weight_current > weight_previous ) #* 1.0
-        self.weight_group_survival_w_l = ( weight_current < weight_previous ) #* 1.0
-        self.weight_group_survival_w_e = ( weight_current == weight_previous ) #* 1.0
-        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).cpu().item()
+            weight_current = weight_t.abs().reshape(group, M)  # Removed detach() to keep gradient flow
+            weight_previous = self.w_at_t_minus_1.clone().abs().permute(0,2,3,1).reshape(group, M)
+        
+        # Compute on GPU and store results directly on GPU
+        self.weight_group_survival_w = (weight_current > weight_previous)
+        self.weight_group_survival_w_l = (weight_current < weight_previous)
+        self.weight_group_survival_w_e = (weight_current == weight_previous)
+        
+        # Compute RMSI_ERROR on GPU and only move the scalar result to CPU at the end
+        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).item()
+        
+        return self.weight_group_survival_w  # Return on GPU
     
     # check sparsity of each group, 
     def check_sparsity_each_group(self,prob = 0.75):
@@ -630,8 +636,13 @@ class SparseConv(nn.Conv2d):
         self.M = M
         if self.evaluate:
             self.pruned_weight = self.get_sparse_weights()            # [nnz]
-            self.register_buffer('sparse_idx', self.pruned_weight)
-            self.values = nn.Parameter(self.pruned_weight)
+            #self.register_buffer('sparse_idx', self.pruned_weight)
+            #self.values = nn.Parameter(self.pruned_weight)
+
+            #U, S, V = torch.svd_lowrank(self.pruned_weight, q=64)
+            #self.U = nn.Parameter(U @ torch.diag(S))  # (m, 64)
+            #self.V = nn.Parameter(V).t()
+
             #self.out_features, self.in_features = self.pruned_weight.shape
         
     def set_ste(self, ste):
@@ -730,6 +741,7 @@ class SparseConv(nn.Conv2d):
                 return F.conv2d(
                     x, self.pruned_weight, self.bias, self.stride, self.padding, self.dilation, self.groups
                 )
+                #return F.conv2d(F.conv2d(x, self.V), self.U, self.bias, self.stride, self.padding, self.dilation, self.groups)
         w = self.get_sparse_weights()
         if not self.evaluate:
             self.calculate_mask_w_survival(w)
@@ -1025,26 +1037,32 @@ class SparseLinear(nn.Linear):
 
         return initial_values, self.weight.clone()
 
-    # check sparsity of each group, 
     def calculate_mask_w_survival(self, w_current):
         N_inter = self.N_intermediate
         M = self.M
         n = int(np.log2(M)) + 1
         Ns = [2**x for x in range(n)]
-        #Ns = [x for x in range(1,self.M+1)]
         length = w_current.numel()
         group = int(length/M)
-        if self.layout == 'NCHW' or self.k_ == 1: 
-            weight_current = w_current.clone().detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().reshape(group, M)
-        elif self.layout == 'NHWC': 
+        
+        # Keep tensors on GPU throughout
+        if self.layout == 'NCHW' or self.k_ == 1:
+            weight_current = w_current.clone().abs().reshape(group, M)
+            weight_previous = self.w_at_t_minus_1.clone().abs().reshape(group, M)
+        elif self.layout == 'NHWC':
             weight_t = w_current.clone().permute(0,2,3,1)
-            weight_current = weight_t.detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().permute(0,2,3,1).reshape(group, M)
-        self.weight_group_survival_w = ( weight_current > weight_previous ) #* 1.0
-        self.weight_group_survival_w_l = ( weight_current < weight_previous ) #* 1.0
-        self.weight_group_survival_w_e = ( weight_current == weight_previous ) #* 1.0
-        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).cpu().item()
+            weight_current = weight_t.abs().reshape(group, M)  # Removed detach() to keep gradient flow
+            weight_previous = self.w_at_t_minus_1.clone().abs().permute(0,2,3,1).reshape(group, M)
+        
+        # Compute on GPU and store results directly on GPU
+        self.weight_group_survival_w = (weight_current > weight_previous)
+        self.weight_group_survival_w_l = (weight_current < weight_previous)
+        self.weight_group_survival_w_e = (weight_current == weight_previous)
+        
+        # Compute RMSI_ERROR on GPU and only move the scalar result to CPU at the end
+        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).item()
+        
+        return self.weight_group_survival_w  # Return on GPU
 
     def check_sparsity_each_group(self,prob = 0.75):
         N_inter = self.N_intermediate
@@ -1204,11 +1222,15 @@ class SparseLinear(nn.Linear):
         self.M = M
         if self.evaluate:
             self.pruned_weight = self.get_sparse_weights()
-            self.register_buffer('sparse_idx', self.pruned_weight)
-            self.values = nn.Parameter(self.pruned_weight)
-            self.out_features, self.in_features = self.pruned_weight.shape
-		
-    # layout has to be initialized
+            #self.pruned_weight_sparse = self.pruned_weight.to_sparse()
+
+            U, S, V = torch.svd_lowrank(self.pruned_weight, q=64)
+            self.U = nn.Parameter(U @ torch.diag(S))  # (m, 64)
+            self.V = nn.Parameter(V).t()
+            self.sparse_weights = self.pruned_weight.to_sparse()
+            #self.sparse_weights = self.pruned_weight.to_sparse_coo()
+
+            
     def change_layout(self,layout):
         if layout not in ['NCHW','NHWC']:
             print("Unsupported layout")
@@ -1272,19 +1294,16 @@ class SparseLinear(nn.Linear):
         print ("RMSI layer = ", layer_rms)
         return layer_rms
 
-    def inference(self, x: torch.Tensor):
-        # x: [B, in] → want [B, out]
-        W = torch.sparse_coo_tensor(
-            self.sparse_idx, 
-            self.values, 
-            (self.out_features, self.in_features)
-        ).coalesce()
-        # spmm: sparse [out,in] × dense [in,B] → dense [out,B]
-        y = torch.sparse.mm(W, x.t())                   # [out, B]
-        y = y.t()                                       # [B, out]
-        if self.bias is not None:
-            y = y + self.bias
-        return y
+    def inference_sparse(self, x: torch.Tensor):
+        original_shape = x.shape
+        # For 3D input (transformer case)
+        if len(original_shape) == 3:
+            batch_size, seq_len, embed_dim = original_shape  
+            result_2d = torch.sparse.mm(self.sparse_weights, x.reshape(-1, embed_dim).t()).t() + self.bias
+            return  result_2d.view(batch_size, seq_len, -1)
+        else:
+            result = torch.sparse.mm(self.sparse_weights, x.t()).t() + self.bias
+            return result
     
     def forward(self, x):
 
@@ -1292,8 +1311,12 @@ class SparseLinear(nn.Linear):
             if self.dense:
                 return F.linear(x, self.weight,self.bias)
             else:
-                return self.inference(x)
-                #return F.linear(x, self.pruned_weight,self.bias)
+                # sparse with to_sparse()
+                #return self.inference_sparse(x)  
+                # using pruned_weight directly with linear
+                return F.linear(x, self.pruned_weight,self.bias)  
+                # using decomposition V U with q = 64
+                #return F.linear(F.linear(x, self.V), self.U, self.bias)
 
         w = self.get_sparse_weights()
         if not self.evaluate:

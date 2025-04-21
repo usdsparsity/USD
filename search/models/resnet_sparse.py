@@ -113,11 +113,11 @@ class ResNetV1(nn.Module):
         self.dense_layers = {} # layers which will be kept as dense
 
         self.inplanes = 64
-        #self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
-        #                       bias=False)
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
+                               bias=False)
         
-        self.conv1 = SparseConv(3, 64, kernel_size=7, stride=2, padding=3,
-                               bias=False, N=self.N, M=self.M,search=search)
+        #self.conv1 = SparseConv(3, 64, kernel_size=7, stride=2, padding=3,
+        #                       bias=False, N=self.N, M=self.M,search=search)
         
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)

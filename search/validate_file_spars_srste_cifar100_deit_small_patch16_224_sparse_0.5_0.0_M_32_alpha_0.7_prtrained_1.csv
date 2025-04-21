@@ -1,0 +1,2 @@
+Search,Epoch,iteration,test_loader_data,batch_time,batch_time(AVG),Loss,Loss(AVG),Prec@1,Prec@1(AVG),Prec@5,Prec@5(AVG)
+0,0,208,209,0.186,0.209,0.7136,0.8763,81.250,75.140,93.750,95.600

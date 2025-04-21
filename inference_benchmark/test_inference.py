@@ -26,6 +26,10 @@ except ImportError:
 #wandb.init(project="dominoSearchTraining")
 # Sparse
 import ast 
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+
 parser = argparse.ArgumentParser(
     description='Pytorch USD Testing Inference')
 parser.add_argument('--config', default='configs/config_resnet50_2:4.yaml')
@@ -68,7 +72,8 @@ def main():
     if rank == 0:
         print("=> creating model '{}'".format(args.model))
 
-    model = models.__dict__[args.model](pretrained=False,N = args.N, M = args.M, num_classes = num_classes, num_new_classes = num_classes, search=False)
+    model = models.__dict__[args.model](pretrained=False,N = args.N, M = args.M, num_classes = 1000, num_new_classes = num_classes, search=False)
+    model.reset_classifier(num_classes=num_classes)
     #if not os.path.exists(args.original_model):
     #    print("original model parameter ( --original_model <original_model>) must be specified")
     #    exit(0)
@@ -81,8 +86,11 @@ def main():
         exit(0)
     
     cudnn.benchmark = True
-    
-    model_dict = torch.load(args.checkpoint_path, weights_only=True)
+
+    if device != "cuda":
+        model_dict = torch.load(args.checkpoint_path, weights_only=True, map_location=torch.device('cpu'))
+    else:
+         model_dict = torch.load(args.checkpoint_path, weights_only=True)    
     model.load_state_dict(model_dict["state_dict"])
     DenseParameters = model.get_dense_parametrers()
     print("****************************************")
@@ -91,12 +99,14 @@ def main():
     # switch to evaluate mode
     set_eval(model, evaluate=True)
 
+    model.to(device)
+
     model.eval()
 
     N_file = args.N
     M_file = args.M
 
-    batchs = (10, 20, 30, 35, 40, 45, 50, 60, 120, 240, 512, 600)
+    batchs = (10, 20, 30, 35, 40, 45, 50, 60, 120, 240, 512, 600, 800)
 
     file_path_validate = "./inference_benchmark/validate_file_" + args.model + "_" + str(N_file)+"_" + str(M_file) + ".csv"
     
@@ -153,6 +163,7 @@ def main():
 
     if args.evaluate:
         print("evaluate the dense and sparse model for inference acceleration performance")
+        #for batch_size in sorted(batchs, reverse=True):
         for batch_size in batchs:
             val_loader = DataLoader(
                 val_dataset, batch_size=batch_size, shuffle=True)
@@ -195,6 +206,7 @@ def validate(val_loader, model, batchsize, criterion, dense=1):
             top5.update(prec5.item(), input.size(0))
             #------------------------------------------------
             set_dense(model, dense=False)
+            output = model(input_var)
 
             start_time = time()
             output = model(input_var)

@@ -121,6 +121,17 @@ w2=0.5 # flops
 
 erk_sparsity_dict = {}
 
+
+class GPUBatchTransform:
+    def __init__(self, gpu_transforms):
+        self.gpu_transforms = gpu_transforms
+    
+    def __call__(self, batch):
+        # Move batch to GPU first, then apply transforms that benefit from GPU
+        batch = batch.to('cuda')
+        return self.gpu_transforms(batch)
+    
+
 def broadcast_params(model):
     for param in model.parameters():
         dist.broadcast(param.data, src=0)
@@ -400,10 +411,23 @@ def main():
 
     
     train_loader = DataLoader(
-        train_dataset, batch_size=args.batch_size//args.world_size, shuffle=True, pin_memory=True)
+        train_dataset, 
+        batch_size=args.batch_size//args.world_size, 
+        shuffle=True, 
+        pin_memory=True,
+        num_workers=2,  # Make sure args.workers is set to a suitable value (4-8)
+        persistent_workers=True,  # Keep workers alive between epochs
+        prefetch_factor=2  # Prefetch batches to further reduce waiting time
+        )
 
     val_loader = DataLoader(
-        val_dataset, batch_size=args.batch_size//args.world_size, shuffle=True, pin_memory=True)
+        val_dataset, 
+        batch_size=args.batch_size//args.world_size, 
+        shuffle=True, 
+        pin_memory=True,
+        num_workers=2,  # Same number of workers as train loader
+        persistent_workers=True
+        )
 
     if args.evaluate:
         validate(val_loader, model, criterion, 0, writer)
@@ -490,12 +514,16 @@ def main():
                 'optimizer': optimizer.state_dict(),
                 #'arch_optimizer': arch_optimizer.state_dict(),
     }, is_best)
+
+    append_to_global_file(str(model.check_N_M()), file_path_schema)
     
     for epoch in range(start_epoch, args.epochs):
         #train_sampler.set_epoch(epoch)
         #print("################################################")
         #print ("train....................................")
         #print("################################################")
+        if epoch == 2:
+            append_to_global_file(str(model.check_N_M()), file_path_schema)
         train(train_loader, model, criterion, optimizer, epoch, writer, iter_update_erk=args.iter_update_erk)
 
         #print("################################################")
@@ -578,8 +606,7 @@ def train(train_loader, model, criterion, optimizer,epoch, writer, iter_update_e
     for i, (input, target) in enumerate(train_loader):
         global num_iters
 
-            #my modification    
-    
+            #my modification   
 
         if with_weight_penalty == 1 and num_iters % 5 == 0  :
             # set apply penalty flag as true
@@ -597,8 +624,11 @@ def train(train_loader, model, criterion, optimizer,epoch, writer, iter_update_e
         # measure data loading time
         data_time.update(time.time() - end)
         #lr_scheduler.update(i, epoch)
-        target = target.cuda(non_blocking=True)
-        input_var = torch.autograd.Variable(input.cuda())
+        input = input.to('cuda', non_blocking=True)  # non_blocking=True enhances parallelism
+        target = target.to('cuda', non_blocking=True)
+
+        #target = target.cuda(non_blocking=True)
+        input_var = torch.autograd.Variable(input)
         target_var = torch.autograd.Variable(target)
         # compute output
         output = model(input_var)
@@ -697,9 +727,15 @@ def validate(val_loader, model, criterion, epoch, writer):
     with torch.no_grad():
         end = time.time()
         for i, (input, target) in enumerate(val_loader):
-            target = target.cuda(non_blocking=True)
-            input_var = torch.autograd.Variable(input.cuda())
+            
+            #lr_scheduler.update(i, epoch)
+            input = input.to('cuda', non_blocking=True)  # non_blocking=True enhances parallelism
+            target = target.to('cuda', non_blocking=True)
+
+            #target = target.cuda(non_blocking=True)
+            input_var = torch.autograd.Variable(input)
             target_var = torch.autograd.Variable(target)
+
 
             # compute output
             output = model(input_var)

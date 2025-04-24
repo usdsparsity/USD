@@ -1,2 +1,0 @@
-python -u -m torch.distributed.launch --nproc_per_node=1  ../find_mix_from_dense_imagenet.py --target_sparsity 0.80 --port 64485 --config ./configs/config_resnet50_img_mix_from_dense.yaml
-#torchrun ../find_mix_from_dense_imagenet.py --target_sparsity 0.9375 --with_weight_penalty 1 --port 69985 --config ./configs/config_resnet50_img_mix_from_dense.yaml

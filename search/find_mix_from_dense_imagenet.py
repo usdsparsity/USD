@@ -15,7 +15,6 @@ import torchvision.datasets as datasets
 from tensorboardX import SummaryWriter
 import models
 import torch
-#from transformers import ViTForImageClassification
 
 import os.path as osp
 import numpy as np
@@ -121,16 +120,6 @@ w2=0.5 # flops
 
 erk_sparsity_dict = {}
 
-
-class GPUBatchTransform:
-    def __init__(self, gpu_transforms):
-        self.gpu_transforms = gpu_transforms
-    
-    def __call__(self, batch):
-        # Move batch to GPU first, then apply transforms that benefit from GPU
-        batch = batch.to('cuda')
-        return self.gpu_transforms(batch)
-    
 
 def broadcast_params(model):
     for param in model.parameters():
@@ -902,102 +891,6 @@ def compute_rmsi_error(net, model_at_t_minus_1):
     rmsi_error = math.sqrt(rmsi_error)
     model_at_t_minus_1 = {k: v.to(device) for k, v in clone_state_dict(net.state_dict()).items()}
     return rmsi_error
-
-# def compute_threshold_of_layer(net):   
-        # M = net.M
-        # N = int(M/2)
-        
-        # alpha = 0
-        
-        ##N = int( self.alpha * M)
-        # length = net.weight.numel() #number of papameters
-        # group = int(length/M)
-
-        # weight_temp = net.weight.detach().abs().reshape(group, M)
-                
-        ##Calculate the standard deviation along all elements of the tensor
-        # std_dev_all = torch.std(weight_temp)
-             
-        ##Calculate the mean of weight_temp
-        # mean_weight_temp = torch.mean(weight_temp)
-        
-        ##Define a threshold as the mean of the standard deviations
-        # threshold_all = mean_weight_temp - (alpha * std_dev_all)  #torch.mean(std_dev_all)- alpha
-               
-        ##Create a tensor with the same shape as initial_values filled with the threshold value
-        # initial_values_shape = (weight_temp.shape[0], 1)  # Assuming initial_values is a column vector
-        # threshold_tensor = torch.full(initial_values_shape, threshold_all, device=weight_temp.device)
-        # initial_values =  threshold_tensor 
-        
-
-        # return initial_values
-
-
-# def zero_parameters_below_threshold(net, threshold,model_at_t_minus_1):
-    ##global model_at_t_minus_1
-    
-    ##Initialize the previous state dictionary if this is the first time the function is called
-    # if model_at_t_minus_1 is None:
-        # print ('Init model_at_t_minus_1 ZeroParameters____________')
-        ##model_at_t_minus_1 = {k: v.to(device) for k, v in clone_state_dict(net.state_dict()).items()}
-        # model_at_t_minus_1 = {k: v.clone().to(next(net.parameters()).device) for k, v in net.state_dict().items()}
-   
-    # device = next(net.parameters()).device  # Get the device of the model parameters
-
-    ##Access state dictionaries of both models
-    # state_dict_current = net.state_dict()
-
-    ##Print keys for diagnostic purposes
-    # current_keys = set(state_dict_current.keys())
-    # print (f"zero_parameters_below_threshold Current Keys  in current state dict: {current_keys}")
-    # previous_keys = set(model_at_t_minus_1.keys())
-    # print(f"zero_parameters_below_threshold previous_keys in current state dict: {previous_keys}")
-    
-    # missing_keys = previous_keys - current_keys
-    # additional_keys = current_keys - previous_keys
-
-    
-
-    ##with torch.no_grad():  # Operations within this block won't track gradients
-    # for key, param in net.state_dict().items():
-            # print ('key===========', key)
-            # if key not in model_at_t_minus_1:
-                # print(f"Error: Key {key} not found in model_at_t_minus_1")
-                # continue
-
-            # param_t_minus_1 = model_at_t_minus_1[key]
-
-            ##Ensure both sets of parameters are on the same device
-            # if param_t_minus_1.device != param.device:
-                # param_t_minus_1 = param_t_minus_1.to(param.device)
-
-            ##Ensure threshold is a tensor and broadcast it to match the shape of param
-            # if not torch.is_tensor(threshold):
-                # threshold = torch.tensor(threshold, device=param.device, dtype=param.dtype)
-
-            ##Expand threshold to match the shape of param
-            # if threshold.shape != param.shape:
-                # threshold = torch.full_like(param, threshold.item())
-
-            ####Check if the shapes of the parameters match
-            ##if param.shape != param_t_minus_1.shape:
-               ## print(f"Skipping parameter update due to shape mismatch: param shape {param.shape}, param_t_minus_1 shape {param_t_minus_1.shape}")
-               ## continue
-
-            ##Create separate masks for each condition
-            ##mask_param_less_than_previous = param.abs() < param_t_minus_1.abs()
-            # mask_param_less_than_threshold = param.abs() < threshold
-
-           ##Combine the masks using logical OR
-            # condition_mask = mask_param_less_than_threshold # torch.logical_and(mask_param_less_than_threshold) 
-
-            ##Apply the mask and update the parameters that meet the condition to zero
-            # param[condition_mask] = 0
-
-    ##Update model_at_t_minus_1 with the current state of the model
-    # model_at_t_minus_1 = {k: v.to(device) for k, v in clone_state_dict(net.state_dict()).items()}
-  
-    # print("Parameters below threshold have been zeroed.")
 
 def count_zero_parameters(model):
     zero_params = 0

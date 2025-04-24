@@ -1,28 +1,25 @@
-# Search Module
+# USD Module
 
-```
-   _    ___  ____  ____
-  | |  / _ \|  _ \|  _ \
-  | | | | | | | | | | | |
-  | |_| |_| | |_| | |_| |
-  |____\___/|____/|____/
-  Search Module
-```
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.8%2B-orange)](https://pytorch.org/)
 
-The search module implements the core algorithms for finding optimal N:M sparsity patterns in neural networks.
+The USD module implements the core algorithms for finding optimal N:M sparsity patterns in neural networks.
 
 ## 📋 Table of Contents
 
-- [📊 Overview](#overview)
-- [✨ Features](#features)
-- [💻 Usage](#usage)
-- [⚙️ Configuration](#configuration)
-- [📚 Examples](#examples)
-- [🔧 Requirements](#requirements)
-- [🚀 Inference Testing](#inference-testing)
+- [USD Module](#usd-module)
+  - [📋 Table of Contents](#-table-of-contents)
+  - [📊 Overview](#-overview)
+  - [✨ Features](#-features)
+  - [💻 Usage](#-usage)
+    - [Basic Search](#basic-search)
+    - [Advanced Configuration](#advanced-configuration)
+  - [⚙️ Configuration](#️-configuration)
+  - [🏗️ Project Structure](#️-project-structure)
+  - [📚 Examples](#-examples)
+  - [🔧 Requirements](#-requirements)
+  - [🚀 Inference Testing](#-inference-testing)
 
 <a id="overview"></a>
 ## 📊 Overview
@@ -84,7 +81,7 @@ Configuration files are located in `script_resnet_ImageNet/configs/` and include
 ## 🏗️ Project Structure
 
 ```
-search/
+usd/
 ├── find_mix_from_dense_imagenet.py    # Main search script
 ├── find_mix_from_dense_imagenet_tpu.py # TPU-optimized version
 ├── schemes/                           # Search schemes

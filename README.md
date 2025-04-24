@@ -10,17 +10,26 @@ USD is a novel neural network sparsification framework that implements a two-pha
 
 ## 📋 Table of Contents
 
-- [🚀 Installation](#installation)
-- [💻 Usage](#usage)
-- [🧠 Supported Models](#supported-models)
-- [📚 Supported Datasets](#supported-datasets)
-- [🏗️ Project Structure](#project-structure)
-- [⚙️ Configuration](#configuration)
-- [📄 Citation](#citation)
-- [📜 License](#license)
-- [🤝 Contributing](#contributing)
-- [📞 Contact](#contact)
-- [🔧 Command Line Arguments](#command-line-arguments)
+- [USD - Unstructured then Structured Dynamic N:M Pruning Framework](#usd---unstructured-then-structured-dynamic-nm-pruning-framework)
+  - [📋 Table of Contents](#-table-of-contents)
+  - [🚀 Installation](#-installation)
+  - [💻 Usage](#-usage)
+    - [Basic Usage](#basic-usage)
+    - [Key Parameters](#key-parameters)
+  - [🧠 Supported Models](#-supported-models)
+  - [📚 Supported Datasets](#-supported-datasets)
+  - [🏗️ Project Structure](#️-project-structure)
+  - [⚙️ Configuration](#️-configuration)
+  - [📄 Citation](#-citation)
+  - [📜 License](#-license)
+  - [🤝 Contributing](#-contributing)
+  - [📞 Contact](#-contact)
+  - [🔧 Command Line Arguments](#-command-line-arguments)
+    - [Required Arguments](#required-arguments)
+    - [Training Parameters](#training-parameters)
+    - [Distributed Training](#distributed-training)
+    - [Model Configuration](#model-configuration)
+    - [Example Usage](#example-usage)
 
 <a id="installation"></a>
 ## 🚀 Installation
@@ -138,9 +147,9 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 <a id="contact"></a>
 ## 📞 Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - email@example.com
+AZ - [@hotmail](---)
 
-Project Link: [https://github.com/yourusername/USD](https://github.com/yourusername/USD)
+Project Link: [https://github.com/usdsparsity/USD](https://github.com/usdsparsity/USD)
 
 <a id="command-line-arguments"></a>
 ## 🔧 Command Line Arguments

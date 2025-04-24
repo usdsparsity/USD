@@ -1,131 +1,88 @@
-# Development Toolkit
-
-```
-   _    ___  ____  ____
-  | |  / _ \|  _ \|  _ \
-  | | | | | | | | | | | |
-  | |_| |_| | |_| | |_| |
-  |____\___/|____/|____/
-  Development Toolkit
-```
+# DevKit Module
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.8%2B-orange)](https://pytorch.org/)
 
-The development toolkit provides core functionality and utilities for the USD framework.
+The DevKit module provides core functionality for the USD framework, including dataset handling, sparse operations, and core utilities.
 
-## 📋 Contents
+## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Components](#components)
-- [Usage](#usage)
-- [API Reference](#api-reference)
+- [DevKit Module](#devkit-module)
+  - [📋 Table of Contents](#-table-of-contents)
+  - [📊 Overview](#-overview)
+  - [✨ Features](#-features)
+  - [🏗️ Core Components](#️-core-components)
+  - [💻 Usage](#-usage)
+    - [Basic Usage](#basic-usage)
+  - [⚙️ Configuration](#️-configuration)
+  - [🔧 Requirements](#-requirements)
 
+<a id="overview"></a>
 ## 📊 Overview
 
-The devkit contains essential tools and utilities for:
-- Core framework functionality
-- Dataset handling
-- Sparse operations
-- Model utilities
-- Training utilities
+This module contains the core components for:
+- Dataset handling and preprocessing
+- Sparse operations implementation
+- Core framework utilities
+- Model architecture support
 
-## 🧩 Components
+<a id="features"></a>
+## ✨ Features
 
-### Core Module
-- Framework initialization
-- Configuration management
-- Logging and monitoring
-- Utility functions
+- 🔄 Dataset preprocessing and augmentation
+- 🎯 Sparse tensor operations
+- ⚙️ Configurable core utilities
+- 📈 Performance optimization
+- 💾 Model checkpoint management
 
-### Dataset Module
-- Data loading
-- Preprocessing
-- Augmentation
-- Dataset utilities
-
-### Sparse Operations
-- N:M sparsity operations
-- Pattern generation
-- Weight pruning
-- Sparse matrix operations
-
-## 💻 Usage
-
-### Core Functionality
-
-```python
-from devkit.core import initialize_framework
-
-# Initialize framework
-config = initialize_framework(
-    model_name='resnet50',
-    sparsity_ratio=0.75,
-    M=8
-)
-```
-
-### Dataset Handling
-
-```python
-from devkit.dataset import create_dataloader
-
-# Create dataloader
-dataloader = create_dataloader(
-    dataset_path='path/to/dataset',
-    batch_size=32,
-    num_workers=4
-)
-```
-
-### Sparse Operations
-
-```python
-from devkit.sparse_ops import create_sparse_pattern
-
-# Create N:M pattern
-pattern = create_sparse_pattern(
-    weights=model_weights,
-    M=8,
-    sparsity_ratio=0.75
-)
-```
-
-## 🏗️ Project Structure
+<a id="core-components"></a>
+## 🏗️ Core Components
 
 ```
 devkit/
-├── core/                # Core functionality
-│   ├── __init__.py
-│   ├── config.py
-│   └── utils.py
-├── dataset/            # Dataset handling
-│   ├── __init__.py
-│   ├── loader.py
-│   └── transforms.py
-└── sparse_ops/         # Sparse operations
-    ├── __init__.py
-    ├── patterns.py
-    └── operations.py
+├── core/               # Core functionality
+│   ├── utils.py       # Utility functions
+│   ├── config.py      # Configuration handling
+│   └── logger.py      # Logging utilities
+├── dataset/           # Dataset handling
+│   ├── imagenet.py    # ImageNet dataset
+│   ├── cifar.py       # CIFAR dataset
+│   └── transforms.py  # Data transformations
+└── sparse_ops/        # Sparse operations
+    ├── sparse.py      # Sparse tensor operations
+    └── pruning.py     # Pruning utilities
 ```
 
-## 📚 API Reference
+<a id="usage"></a>
+## 💻 Usage
 
-### Core Module
-- `initialize_framework()`: Initialize framework
-- `load_config()`: Load configuration
-- `setup_logging()`: Setup logging
+### Basic Usage
 
-### Dataset Module
-- `create_dataloader()`: Create dataloader
-- `load_dataset()`: Load dataset
-- `apply_transforms()`: Apply transforms
+```python
+from devkit.core import utils
+from devkit.dataset import imagenet
+from devkit.sparse_ops import sparse
 
-### Sparse Operations
-- `create_sparse_pattern()`: Create N:M pattern
-- `apply_sparsity()`: Apply sparsity
-- `sparse_matrix_multiply()`: Sparse matrix multiply
+# Load dataset
+dataset = imagenet.ImageNetDataset(root='path/to/dataset')
 
+# Initialize sparse operations
+sparse_ops = sparse.SparseOps()
+
+# Use core utilities
+config = utils.load_config('config.yaml')
+```
+
+<a id="configuration"></a>
+## ⚙️ Configuration
+
+Configuration files are located in `configs/` and include:
+- Dataset configurations
+- Model architectures
+- Training parameters
+- Sparsity targets
+
+<a id="requirements"></a>
 ## 🔧 Requirements
 
 - Python 3.8+

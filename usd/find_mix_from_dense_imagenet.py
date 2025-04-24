@@ -256,15 +256,15 @@ def main():
     elif "imagenet" in args.data.lower():
         name = "imagenet" + str(args.num_classes)
     if ste:
-        file_path_train = "./search/train_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
-        file_path_sp_layers = "./search/sp_layers_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
-        file_path_schema = "./search/schemes/schema_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) + "_" +  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".txt"
-        file_path_validate = "./search/validate_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".csv"
+        file_path_train = "./usd/train_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
+        file_path_sp_layers = "./usd/sp_layers_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
+        file_path_schema = "./usd/schemes/schema_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) + "_" +  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".txt"
+        file_path_validate = "./usd/validate_file_spars_ste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".csv"
     else:
-        file_path_train = "./search/train_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) + "_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
-        file_path_sp_layers = "./search/sp_layers_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
-        file_path_schema = "./search/schemes/schema_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".txt"
-        file_path_validate = "./search/validate_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".csv"
+        file_path_train = "./usd/train_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) + "_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
+        file_path_sp_layers = "./usd/sp_layers_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation) + ".csv"
+        file_path_schema = "./usd/schemes/schema_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".txt"
+        file_path_validate = "./usd/validate_file_spars_srste_" + name + "_" + args.model + "_" + str(target_sparsity) +"_"+  str(args.alpha_target_sparsity) + "_M_" + str(args.M) + "_alpha_" + str(args.alpha) + "_prtrained_" + str(args.initialisation)  + ".csv"
 
     # Create the file if it doesn't exist
 
@@ -495,7 +495,7 @@ def main():
     # exit()
     sparseEpoch = -1
     is_best = False
-    save_checkpoint('./search/schemes/checkpoint', {
+    save_checkpoint('./usd/schemes/checkpoint', {
                 'epoch': 0,
                 'model': args.model,
                 'state_dict': model.state_dict(),
@@ -531,7 +531,7 @@ def main():
 												   
             #**********
         if stop == 0 and epoch % 10 == 0:
-            save_checkpoint('./search/schemes/checkpoint', {
+            save_checkpoint('./usd/schemes/checkpoint', {
                 'epoch': epoch + 1,
                 'model': args.model,
                 'state_dict': model.state_dict(),
@@ -540,7 +540,7 @@ def main():
                 #'arch_optimizer': arch_optimizer.state_dict(),
             }, False)
         if stop == 1 and is_best:
-            save_checkpoint('./search/schemes/checkpoint', {
+            save_checkpoint('./usd/schemes/checkpoint', {
                 'epoch': epoch + 1,
                 'model': args.model,
                 'state_dict': model.state_dict(),

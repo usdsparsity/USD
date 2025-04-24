@@ -1,13 +1,5 @@
 # Model Implementations
 
-```
-   _    ___  ____  ____
-  | |  / _ \|  _ \|  _ \
-  | | | | | | | | | | | |
-  | |_| |_| | |_| | |_| |
-  |____\___/|____/|____/
-  Model Implementations
-```
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.8%2B-orange)](https://pytorch.org/)

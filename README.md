@@ -8,30 +8,22 @@
 
 USD is a novel neural network sparsification framework that implements a two-phase pruning approach: first unstructured pruning followed by structured N:M sparsity pattern optimization. It supports various architectures including ResNet, ViT, and Swin Transformer models.
 
-## Table of Contents
+## 📋 Table of Contents
 
-- [USD - Unstructured then Structured Dynamic N:M Pruning Framework](#usd---unstructured-then-structured-dynamic-nm-pruning-framework)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-    - [Basic Usage](#basic-usage)
-    - [Key Parameters](#key-parameters)
-  - [Supported Models](#supported-models)
-  - [Supported Datasets](#supported-datasets)
-  - [Project Structure](#project-structure)
-  - [Configuration](#configuration)
-  - [Citation](#citation)
-  - [License](#license)
-  - [Contributing](#contributing)
-  - [Contact](#contact)
-  - [Command Line Arguments](#command-line-arguments)
-    - [Required Arguments](#required-arguments)
-    - [Training Parameters](#training-parameters)
-    - [Distributed Training](#distributed-training)
-    - [Model Configuration](#model-configuration)
-    - [Example Usage](#example-usage)
+- [🚀 Installation](#installation)
+- [💻 Usage](#usage)
+- [🧠 Supported Models](#supported-models)
+- [📚 Supported Datasets](#supported-datasets)
+- [🏗️ Project Structure](#project-structure)
+- [⚙️ Configuration](#configuration)
+- [📄 Citation](#citation)
+- [📜 License](#license)
+- [🤝 Contributing](#contributing)
+- [📞 Contact](#contact)
+- [🔧 Command Line Arguments](#command-line-arguments)
 
-## Installation
+<a id="installation"></a>
+## 🚀 Installation
 
 1. Clone the repository:
 ```bash
@@ -44,7 +36,8 @@ cd USD
 pip install -r requirements.txt
 ```
 
-## Usage
+<a id="usage"></a>
+## 💻 Usage
 
 ### Basic Usage
 
@@ -76,20 +69,23 @@ python ./search/find_mix_from_dense_imagenet.py \
 | `--iter_update_erk` | Update interval for N:M patterns | 100 |
 | `--erk_value` | ERK sparsity value (-1 for dynamic) | -1 |
 
-## Supported Models
+<a id="supported-models"></a>
+## 🧠 Supported Models
 
 - ResNet50
 - DeiT (Base and Small)
 - ViT-B/16
 - Swin Transformer
 
-## Supported Datasets
+<a id="supported-datasets"></a>
+## 📚 Supported Datasets
 
 - CIFAR-100
 - ImageNet
 - Tiny-ImageNet (200 classes)
 
-## Project Structure
+<a id="project-structure"></a>
+## 🏗️ Project Structure
 
 ```
 USD/
@@ -104,11 +100,13 @@ USD/
 └── test_sparse_inference.py # Sparse inference testing
 ```
 
-## Configuration
+<a id="configuration"></a>
+## ⚙️ Configuration
 
 Example configurations are provided in `search/script_resnet_ImageNet/configs/` for different model architectures.
 
-## Citation
+<a id="citation"></a>
+## 📄 Citation
 
 If you use this code in your research, please cite:
 
@@ -121,11 +119,13 @@ If you use this code in your research, please cite:
 }
 ```
 
-## License
+<a id="license"></a>
+## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contributing
+<a id="contributing"></a>
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -135,13 +135,15 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Contact
+<a id="contact"></a>
+## 📞 Contact
 
 Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - email@example.com
 
 Project Link: [https://github.com/yourusername/USD](https://github.com/yourusername/USD)
 
-## Command Line Arguments
+<a id="command-line-arguments"></a>
+## 🔧 Command Line Arguments
 
 The script accepts the following command-line arguments:
 

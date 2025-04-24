@@ -14,17 +14,18 @@
 
 The search module implements the core algorithms for finding optimal N:M sparsity patterns in neural networks.
 
-## Table of Contents
+## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Examples](#examples)
-- [Requirements](#requirements)
-- [Inference Testing](#inference-testing)
+- [📊 Overview](#overview)
+- [✨ Features](#features)
+- [💻 Usage](#usage)
+- [⚙️ Configuration](#configuration)
+- [📚 Examples](#examples)
+- [🔧 Requirements](#requirements)
+- [🚀 Inference Testing](#inference-testing)
 
-## Overview
+<a id="overview"></a>
+## 📊 Overview
 
 This module contains the core search algorithms for:
 - Unstructured pruning phase
@@ -32,15 +33,17 @@ This module contains the core search algorithms for:
 - Dynamic pattern adjustment
 - Weight penalty mechanisms
 
-## Features
+<a id="features"></a>
+## ✨ Features
 
-- Two-phase search approach
-- Dynamic pattern optimization
-- Configurable search parameters
-- Performance monitoring
-- Checkpoint management
+- 🔍 Two-phase search approach
+- 🎯 Dynamic pattern optimization
+- ⚙️ Configurable search parameters
+- 📈 Performance monitoring
+- 💾 Checkpoint management
 
-## Usage
+<a id="usage"></a>
+## 💻 Usage
 
 ### Basic Search
 
@@ -68,7 +71,8 @@ python find_mix_from_dense_imagenet.py \
     --with_weight_penalty 1
 ```
 
-## Configuration
+<a id="configuration"></a>
+## ⚙️ Configuration
 
 Configuration files are located in `script_resnet_ImageNet/configs/` and include:
 - Model architectures
@@ -76,7 +80,8 @@ Configuration files are located in `script_resnet_ImageNet/configs/` and include
 - Training schedules
 - Sparsity targets
 
-## Project Structure
+<a id="project-structure"></a>
+## 🏗️ Project Structure
 
 ```
 search/
@@ -88,7 +93,8 @@ search/
 └── inference_benchmark/              # Inference testing utilities
 ```
 
-## Examples
+<a id="examples"></a>
+## 📚 Examples
 
 Example configurations and results can be found in:
 - `schemes/checkpoint/` - Search checkpoints
@@ -96,14 +102,16 @@ Example configurations and results can be found in:
 - `configs/` - Example configurations
 - `inference_benchmark/` - Inference test results
 
-## Requirements
+<a id="requirements"></a>
+## 🔧 Requirements
 
 - Python 3.8+
 - PyTorch 1.8+
 - CUDA 11.0+ (for GPU support)
 - Additional dependencies in `requirements.txt`
 
-## Inference Testing
+<a id="inference-testing"></a>
+## 🚀 Inference Testing
 
 The framework includes comprehensive inference testing capabilities:
 

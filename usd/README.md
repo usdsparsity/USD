@@ -14,27 +14,17 @@
 
 The search module implements the core algorithms for finding optimal N:M sparsity patterns in neural networks.
 
-## 🚀 Quick Start
-
-```bash
-# Run search on ImageNet
-python find_mix_from_dense_imagenet.py \
-    --M 8 \
-    --batch_size 120 \
-    --data [dataset_path] \
-    --num_classes [num_classes] \
-    --target_sparsity 0.75
-```
-
-## 📋 Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Examples](#examples)
+- [Requirements](#requirements)
+- [Inference Testing](#inference-testing)
 
-## 📊 Overview
+## Overview
 
 This module contains the core search algorithms for:
 - Unstructured pruning phase
@@ -42,15 +32,15 @@ This module contains the core search algorithms for:
 - Dynamic pattern adjustment
 - Weight penalty mechanisms
 
-## ✨ Features
+## Features
 
-- 🔍 Two-phase search approach
-- 🎯 Dynamic pattern optimization
-- ⚙️ Configurable search parameters
-- 📈 Performance monitoring
-- 💾 Checkpoint management
+- Two-phase search approach
+- Dynamic pattern optimization
+- Configurable search parameters
+- Performance monitoring
+- Checkpoint management
 
-## 💻 Usage
+## Usage
 
 ### Basic Search
 
@@ -78,7 +68,7 @@ python find_mix_from_dense_imagenet.py \
     --with_weight_penalty 1
 ```
 
-## 📝 Configuration
+## Configuration
 
 Configuration files are located in `script_resnet_ImageNet/configs/` and include:
 - Model architectures
@@ -86,7 +76,7 @@ Configuration files are located in `script_resnet_ImageNet/configs/` and include
 - Training schedules
 - Sparsity targets
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 search/
@@ -94,19 +84,39 @@ search/
 ├── find_mix_from_dense_imagenet_tpu.py # TPU-optimized version
 ├── schemes/                           # Search schemes
 ├── models/                            # Model implementations
-└── script_resnet_ImageNet/           # ResNet-specific scripts
+├── script_resnet_ImageNet/           # ResNet-specific scripts
+└── inference_benchmark/              # Inference testing utilities
 ```
 
-## 📚 Examples
+## Examples
 
 Example configurations and results can be found in:
 - `schemes/checkpoint/` - Search checkpoints
 - `results/` - Search results
 - `configs/` - Example configurations
+- `inference_benchmark/` - Inference test results
 
-## 🔧 Requirements
+## Requirements
 
 - Python 3.8+
 - PyTorch 1.8+
 - CUDA 11.0+ (for GPU support)
-- Additional dependencies in `requirements.txt` 
+- Additional dependencies in `requirements.txt`
+
+## Inference Testing
+
+The framework includes comprehensive inference testing capabilities:
+
+```bash
+# Run inference benchmarks
+python test_sparse_inference.py
+
+# Run specific benchmark tests
+./benchmark_inference.sh
+```
+
+The inference testing module supports:
+- Sparse model inference
+- Performance benchmarking
+- Memory usage analysis
+- Throughput measurements 

@@ -8,48 +8,30 @@
 
 USD is a novel neural network sparsification framework that implements a two-phase pruning approach: first unstructured pruning followed by structured N:M sparsity pattern optimization. It supports various architectures including ResNet, ViT, and Swin Transformer models.
 
-## 🚀 Quick Start
+## Table of Contents
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/USD
-cd USD
+- [USD - Unstructured then Structured Dynamic N:M Pruning Framework](#usd---unstructured-then-structured-dynamic-nm-pruning-framework)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Basic Usage](#basic-usage)
+    - [Key Parameters](#key-parameters)
+  - [Supported Models](#supported-models)
+  - [Supported Datasets](#supported-datasets)
+  - [Project Structure](#project-structure)
+  - [Configuration](#configuration)
+  - [Citation](#citation)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Contact](#contact)
+  - [Command Line Arguments](#command-line-arguments)
+    - [Required Arguments](#required-arguments)
+    - [Training Parameters](#training-parameters)
+    - [Distributed Training](#distributed-training)
+    - [Model Configuration](#model-configuration)
+    - [Example Usage](#example-usage)
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Run an example
-python ./search/find_mix_from_dense_imagenet.py \
-    --M 8 \
-    --batch_size 120 \
-    --data [dataset_path] \
-    --num_classes [num_classes] \
-    --target_sparsity 0.75
-```
-
-## ✨ Key Features
-
-- 🔄 Two-phase pruning approach (Unstructured → Structured)
-- 🎯 Dynamic N:M sparsity pattern adjustment
-- 🏗️ Support for multiple model architectures
-- ⚙️ Configurable sparsity targets and update intervals
-- ⚖️ Weight penalty mechanisms
-- 📊 Comprehensive logging and monitoring
-- 🌐 Distributed training support
-
-## 📋 Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Supported Models](#supported-models)
-- [Supported Datasets](#supported-datasets)
-- [Project Structure](#project-structure)
-- [Configuration](#configuration)
-- [Citation](#citation)
-- [License](#license)
-- [Contributing](#contributing)
-
-## 🛠️ Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -62,7 +44,7 @@ cd USD
 pip install -r requirements.txt
 ```
 
-## 💻 Usage
+## Usage
 
 ### Basic Usage
 
@@ -94,7 +76,20 @@ python ./search/find_mix_from_dense_imagenet.py \
 | `--iter_update_erk` | Update interval for N:M patterns | 100 |
 | `--erk_value` | ERK sparsity value (-1 for dynamic) | -1 |
 
-## 🏗️ Project Structure
+## Supported Models
+
+- ResNet50
+- DeiT (Base and Small)
+- ViT-B/16
+- Swin Transformer
+
+## Supported Datasets
+
+- CIFAR-100
+- ImageNet
+- Tiny-ImageNet (200 classes)
+
+## Project Structure
 
 ```
 USD/
@@ -102,31 +97,18 @@ USD/
 │   ├── core/               # Core functionality
 │   ├── dataset/            # Dataset handling
 │   └── sparse_ops/         # Sparse operations implementation
-├── search/                 # Search algorithms and configurations
+├── usd/                    # USD algorithms and configurations
 ├── inference_benchmark/    # Inference testing utilities
-├── results/               # Experimental results
-├── resnet50/             # ResNet50 specific implementations
-├── resnet18/             # ResNet18 specific implementations
-└── test_method.sh        # Test script for running experiments
+├── test_method.sh         # Test script for running experiments
+├── organize_imagenettiny.py # Tiny-ImageNet dataset organizer
+└── test_sparse_inference.py # Sparse inference testing
 ```
 
-## 🧠 Supported Models
-
-- ResNet50
-- DeiT (Base and Small)
-- ViT-B/16
-- Swin Transformer
-
-## 📚 Supported Datasets
-
-- CIFAR-100
-- ImageNet
-
-## 📝 Configuration
+## Configuration
 
 Example configurations are provided in `search/script_resnet_ImageNet/configs/` for different model architectures.
 
-## 📄 Citation
+## Citation
 
 If you use this code in your research, please cite:
 
@@ -139,11 +121,11 @@ If you use this code in your research, please cite:
 }
 ```
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -153,7 +135,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📞 Contact
+## Contact
 
 Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - email@example.com
 
@@ -211,5 +193,5 @@ python ./search/find_mix_from_dense_imagenet.py \
     --config [config_file] \
     --epoch_rfap 15 \
     --iter_update_erk [update_interval] \
-    --erk_value [erk_value] 
+    --erk_value [erk_value]
 ```

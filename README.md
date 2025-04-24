@@ -120,11 +120,11 @@ Example configurations are provided in `search/script_resnet_ImageNet/configs/` 
 If you use this code in your research, please cite:
 
 ```bibtex
-@article{usd2024,
+@article{usd2025,
   title={USD: Unstructured then Structured Dynamic N:M Pruning Framework},
-  author={Your Name},
-  journal={arXiv preprint},
-  year={2024}
+  author={AZ},
+  journal={-------},
+  year={2025}
 }
 ```
 

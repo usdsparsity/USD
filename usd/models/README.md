@@ -110,7 +110,7 @@ models/
 ## 📚 Examples
 
 Example usage can be found in:
-- `search/find_mix_from_dense_imagenet.py`
+- `usd/find_mix_from_dense_imagenet.py`
 - `inference_benchmark/test_inference.py`
 
 ## 🔧 Requirements

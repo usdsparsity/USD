@@ -51,7 +51,7 @@ pip install -r requirements.txt
 ### Basic Usage
 
 ```bash
-python ./search/find_mix_from_dense_imagenet.py \
+python ./usd/find_mix_from_dense_imagenet.py \
     --M 8 \
     --batch_size 120 \
     --data [dataset_path] \
@@ -112,7 +112,7 @@ USD/
 <a id="configuration"></a>
 ## ⚙️ Configuration
 
-Example configurations are provided in `search/script_resnet_ImageNet/configs/` for different model architectures.
+Example configurations are provided in `usd/script_resnet_ImageNet/configs/` for different model architectures.
 
 <a id="citation"></a>
 ## 📄 Citation
@@ -190,7 +190,7 @@ The script accepts the following command-line arguments:
 
 ### Example Usage
 ```bash
-python ./search/find_mix_from_dense_imagenet.py \
+python ./usd/find_mix_from_dense_imagenet.py \
     --M 8 \
     --batch_size 120 \
     --data [dataset_path] \

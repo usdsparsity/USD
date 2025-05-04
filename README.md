@@ -36,7 +36,7 @@ USD is a novel neural network sparsification framework that implements a two-pha
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/USD
+git clone https://github.com/usdsparsity/USD
 cd USD
 ```
 

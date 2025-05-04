@@ -1309,6 +1309,7 @@ class SparseLinear(nn.Linear):
 
         if self.evaluate:
             if self.dense:
+                torch.nn.functional.linear(x, self.weight,self.bias)
                 return F.linear(x, self.weight,self.bias)
             else:
                 # sparse with to_sparse()

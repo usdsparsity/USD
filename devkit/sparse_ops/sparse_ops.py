@@ -1313,7 +1313,7 @@ class SparseLinear(nn.Linear):
                 return F.linear(x, self.weight,self.bias)
             else:
                 # sparse with to_sparse()
-                return self.inference_sparse(x)  
+                #return self.inference_sparse(x)  
                 # using pruned_weight directly with linear
                 return F.linear(x, self.pruned_weight,self.bias)  
                 # using decomposition V U with q = 64

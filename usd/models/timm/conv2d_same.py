@@ -7,8 +7,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from typing import Tuple, Optional
 
-from search.models.timm.config import is_exportable, is_scriptable
-from search.models.timm.padding import pad_same, pad_same_arg, get_padding_value
+from usd.models.timm.config import is_exportable, is_scriptable
+from usd.models.timm.padding import pad_same, pad_same_arg, get_padding_value
 
 
 _USE_EXPORT_CONV = False

@@ -3,6 +3,8 @@ import os
 import shutil
 
 def remove_checkpoints(model_dir):
+    if not os.path.exists(model_dir):
+        os.makedirs(model_dir)
     for filename in os.listdir(model_dir):
         #if filename.endswith('.pth'):
         if ".pth-" in filename:

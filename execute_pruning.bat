@@ -1,0 +1,1 @@
+python ./usd/find_mix_from_dense_imagenet.py --M 16 --batch_size 24 --initialisation 1 --target_sparsity 0.40 --num_classes 10 --alpha_target_sparsity 0.2 --with_weight_penalty 1 --port 69985 --config ./usd/script_resnet_ImageNet/configs/config_resnet56_img_mix_from_dense.yaml  --iter_update_erk 200 --erk_value -1

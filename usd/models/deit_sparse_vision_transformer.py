@@ -1,15 +1,15 @@
 from functools import partial
 import logging
-from search.models.timm.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD, IMAGENET_INCEPTION_MEAN, IMAGENET_INCEPTION_STD
-from search.models.timm.drop import DropPath
-from search.models.timm.helpers import to_2tuple
-from search.models.timm.weight_init import trunc_normal_
+from usd.models.timm.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD, IMAGENET_INCEPTION_MEAN, IMAGENET_INCEPTION_STD
+from usd.models.timm.drop import DropPath
+from usd.models.timm.helpers import to_2tuple
+from usd.models.timm.weight_init import trunc_normal_
 import torch.nn as nn
 import math
 import sys
 import os.path as osp
 
-from search.models.timm.timm_helpers import build_model_with_cfg
+from usd.models.timm.timm_helpers import build_model_with_cfg
 sys.path.append(osp.abspath(osp.join(__file__, '../../../')))
 import torch
 import torch.nn.functional as F

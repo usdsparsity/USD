@@ -1245,7 +1245,8 @@ def set_decay_sparse_layer(net,decay):
 def set_alpha(net,alpha):
     for mod in net.modules():
         if isinstance(mod, SparseConv) or isinstance(mod, SparseLinear): 
-            mod.alpha = alpha                              
+            mod.alpha = alpha    
+            mod.w_at_t_minus_1 = mod.weight.clone()                       
 
 def set_us(net,us):
     for mod in net.modules():

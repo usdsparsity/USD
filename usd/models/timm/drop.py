@@ -18,7 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from search.models.timm.grid import ndgrid
+from usd.models.timm.grid import ndgrid
 
 
 def drop_block_2d(

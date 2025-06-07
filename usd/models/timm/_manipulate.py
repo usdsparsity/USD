@@ -5,7 +5,7 @@ from collections import defaultdict
 from itertools import chain
 from typing import Any, Callable, Dict, Iterator, Optional, Tuple, Type, Union
 
-from search.models.timm.config import use_reentrant_ckpt
+from usd.models.timm.config import use_reentrant_ckpt
 import torch
 import torch.utils.checkpoint
 from torch import nn as nn

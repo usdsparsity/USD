@@ -8,7 +8,7 @@ from typing import List, Tuple, Union
 import torch
 import torch.nn.functional as F
 
-from search.models.timm.helpers import to_2tuple
+from usd.models.timm.helpers import to_2tuple
 
 
 # Calculate symmetric padding for a convolution

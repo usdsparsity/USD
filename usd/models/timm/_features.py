@@ -13,9 +13,9 @@ from copy import deepcopy
 from functools import partial
 from typing import Dict, List, Optional, Sequence, Tuple, Union
 
-from search.models.timm._manipulate import checkpoint
-from search.models.timm.format import Format
-from search.models.timm.trace_utils import _assert
+from usd.models.timm._manipulate import checkpoint
+from usd.models.timm.format import Format
+from usd.models.timm.trace_utils import _assert
 import torch
 import torch.nn as nn
 

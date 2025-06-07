@@ -13,7 +13,7 @@ from torchvision.models._meta import _IMAGENET_CATEGORIES
 from torchvision.models._utils import _ovewrite_named_param
 
 from devkit.sparse_ops.sparse_ops import SparseConv, SparseLinear
-from search.models.misc_sparse_mlp import Permute, SparseMLP
+from usd.models.misc_sparse_mlp import Permute, SparseMLP
 
 
 __all__ = [

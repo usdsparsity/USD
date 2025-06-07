@@ -9,9 +9,9 @@ from collections import OrderedDict
 from copy import deepcopy
 from typing import Any, Callable, Optional, Tuple
 
-from search.models.timm._features import FeatureListNet, FeatureDictNet, FeatureHookNet
-from search.models.timm.conv2d_same import Conv2dSame
-from search.models.timm.linear import Linear
+from usd.models.timm._features import FeatureListNet, FeatureDictNet, FeatureHookNet
+from usd.models.timm.conv2d_same import Conv2dSame
+from usd.models.timm.linear import Linear
 import torch
 import torch.nn as nn 
 from torch.hub import load_state_dict_from_url

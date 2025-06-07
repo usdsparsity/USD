@@ -2,12 +2,8 @@ import torch
 from torch import autograd, nn
 import torch.nn.functional as F
 import numpy as np
-from itertools import repeat
 #from torch._six import container_abcs
-from torch import linalg as LA
-
 global partition_grad_weight_penalty, g_ste
-
 
 class Sparse_find_mix_from_dense(autograd.Function):
     """" Find mixed N:M from dense pre-trained mode,
@@ -23,56 +19,33 @@ class Sparse_find_mix_from_dense(autograd.Function):
         ctx.layout = data_layout
         ctx.apply_penalty = apply_penalty
         ctx.save_for_backward(weight)
-        output = weight.clone()
         length = weight.numel() #number of papameters
         ctx.M = M
         ctx.N = N_intermediate
         group = int(length/M)
 
-
-
         if ctx.layout == 'NHWC':
+            weight_t = weight.permute(0,2,3,1)
+            weight_temp = weight_t.reshape(group, M)
 
-            Cout = weight.size()[0]
-            Cin = weight.size()[1]
-            Kh = weight.size()[2]
-            Kw = weight.size()[3]
-            weight_t = weight.clone().permute(0,2,3,1)
-            weight_temp = weight_t.detach().abs().reshape(group, M)
         else:    
-            weight_temp = weight.detach().abs().reshape(group, M)
-
-        mask_b = (weight_temp > learned_threshold) #* 1.0
-
-        index = torch.argsort(weight_temp, dim=1)[:, :int(M-N_intermediate)] # indicate which will be zeros (pruned) 
-        #
-        w_b = torch.ones(weight_temp.shape, device=weight_temp.device)
-        w_b = w_b.scatter_(dim=1, index=index, value=0) #.reshape(weight.shape) #
-
-
+            weight_temp = weight.reshape(group, M)
+        
+        #_, topK_indices = torch.topk(weight_tempp.abs(), k=M-N_intermediate, dim=1, largest=False, sorted=True)
+        topK_indices = torch.argsort(weight_temp.abs(), dim=1)[:, :int(M-N_intermediate)]
+        mask = torch.ones_like(weight_temp, dtype=weight_temp.dtype)
+        mask.scatter_(1, topK_indices, 0)
 
         if ctx.layout == 'NHWC':
-            #penalty_factor = penalty_factor.reshape(weight_t.shape)
-
-            #w_b = mask_b.reshape(weight_t.shape)
-            # transpose NHWC to NCHW (default Pytorch Layout) for 
-            w_b = w_b.reshape(weight_t.shape)
-            w_b = w_b.permute(0,3,1,2)
-            #penalty_factor = penalty_factor.permute(0,3,1,2)
-
-
+            mask = mask.reshape(weight_t.shape)
+            mask = mask.permute(0,3,1,2)
         else:
-            #penalty_factor = penalty_factor.reshape(weight.shape)
+            mask = mask.reshape(weight.shape)
 
-            #w_b = mask_b.reshape(weight.shape)
-
-            w_b = w_b.reshape(weight.shape)
-
-        ctx.mask = w_b 
-        
+        ctx.mask = mask 
         # ctx.penalty_factor = penalty_factor
         
-        return output*w_b #,w_b
+        return weight*mask #,w_b
 
     @staticmethod
     def backward(ctx, grad_output):
@@ -97,7 +70,6 @@ class Sparse_find_mix_from_dense(autograd.Function):
 			      #res = grad_output + ctx.decay * (1-ctx.mask) * weight
 
         return res , None, None, None, None,None,None,None,None,None
-
 
 class SparseEval(autograd.Function):
     """" Prune the unimprotant weight for the forwards phase but pass the gradient to dense weight using SR-STE in the backwards phase"""
@@ -257,8 +229,16 @@ class SparseConv(nn.Conv2d):
         
         super(SparseConv, self).__init__(in_channels, out_channels, kernel_size, stride, padding, dilation, groups, bias, padding_mode, **kwargs)
         
-    
-
+    def apply_unstructured_pruning(self, weight):
+        if self.w_at_t_minus_1 is not None:
+            diff = (weight - self.w_at_t_minus_1).abs()
+            threshold = diff.std()
+            mask = (diff > threshold).float()
+            return weight * mask
+        else:
+            threshold = weight.std()
+            return weight * (weight.abs() > threshold).float()
+        
     def get_mask(self):
         N = self.N 
         M = self.M
@@ -268,10 +248,10 @@ class SparseConv(nn.Conv2d):
         group = int(length/M)
         
         if self.layout == 'NHWC':
-            weight_t = weight.clone().permute(0,2,3,1)
-            weight_temp = weight_t.detach().abs().reshape(group, M)
+            weight_t = weight.permute(0,2,3,1)
+            weight_temp = weight_t.abs().reshape(group, M)
         else:    
-            weight_temp = weight.detach().abs().reshape(group, M)
+            weight_temp = weight.abs().reshape(group, M)
 
         index = torch.argsort(weight_temp, dim=1)[:, :int(M-N)] # indicate which will be zeros (pruned) 
         #
@@ -287,11 +267,9 @@ class SparseConv(nn.Conv2d):
 
         return w_b 
 
-
     def update_decay(self,updated_decay):
         self.decay = updated_decay
         pass
-
 
     def smallest_among_survival(self):
         M = self.M
@@ -302,16 +280,11 @@ class SparseConv(nn.Conv2d):
         #weight_temp = None
 
         if self.layout == 'NCHW' or self.k_ == 1:
-            weight_temp = self.weight.detach().abs().reshape(group, M)
+            weight_temp = self.weight.abs().reshape(group, M)
 
         elif self.layout == 'NHWC': # 
-
-            Cout = self.weight.size()[0]
-            Cin = self.weight.size()[1]
-            Kh = self.weight.size()[2]
-            Kw = self.weight.size()[3]
-            weight_t = self.weight.clone().permute(0,2,3,1)
-            weight_temp = weight_t.detach().abs().reshape(group, M)
+            weight_t = self.weight.permute(0,2,3,1)
+            weight_temp = weight_t.abs().reshape(group, M)
             #index = torch.argsort(weight_temp, dim=1)[:, :int(M-N)] # indicate which will be zeros (pruned) 
 
   
@@ -324,7 +297,7 @@ class SparseConv(nn.Conv2d):
 
         weights_survival = w_b * weight_temp
         #print(weights_survival.dtype)
-        smallest_of_survival_ = torch.where(weights_survival > 0.0 ,weights_survival ,torch.tensor(float('inf'),dtype=weights_survival.dtype,device=weights_survival.get_device()))
+        smallest_of_survival_ = torch.where(weights_survival > 0.0 ,weights_survival ,torch.tensor(float('inf'),dtype=weights_survival.dtype, device=weight_temp.device))
         smallest_of_survival,inds = torch.min(smallest_of_survival_,dim = 1)
         smallest_of_survival_col = smallest_of_survival.reshape(smallest_of_survival.numel(),1)
         #assert smallest_of_survival.numel() == group
@@ -332,16 +305,51 @@ class SparseConv(nn.Conv2d):
         #self.smallest_survival = smallest_of_survival_col
         return smallest_of_survival_col
 
-
-    def update_learned_sparsity(self):
-
+    def update_learned_sparsity_alpha(self):
         M = self.M
         N = self.N_intermediate
         length = self.weight.numel() #number of papameters
         group = int(length/M)
-        alpha = -1
+        if self.layout == 'NCHW' or self.k_ == 1:
+            weight_temp = self.weight.detach().abs().reshape(group, M)
+        elif self.layout == 'NHWC': #
+            weight_t = self.weight.clone().permute(0,2,3,1)
+            weight_temp = weight_t.detach().abs().reshape(group, M)
 
-        #weight_temp = None
+        index = torch.argsort(weight_temp, dim=1)[:, :int(M-N)] # indicate which will be zeros (pruned) 
+        w_b = torch.ones(weight_temp.shape, device=weight_temp.device)
+        w_b = w_b.scatter_(dim=1, index=index, value=0) #.reshape(self.weight.shape) #
+        weights_pruned = (1-w_b) * weight_temp
+        largetest_among_pruned,inds = torch.max(weights_pruned,dim = 1)
+        largetest_among_pruned_col = largetest_among_pruned.reshape(largetest_among_pruned.numel(),1)
+        self.smallest_survival = self.smallest_among_survival() 
+        self.learned_threshold = largetest_among_pruned_col        
+
+        weights_pruned = w_b * weight_temp
+        weights_pruned_nonzero = weights_pruned[weights_pruned != 0]
+
+        std_dev_all = torch.std(weights_pruned_nonzero)
+        # Calculate the mean of weight_temp
+        mean_weight_temp = torch.mean(weights_pruned_nonzero)
+        # Define a threshold as the mean of the standard deviations
+        threshold_all = mean_weight_temp - (self.alpha * std_dev_all)  #torch.mean(std_dev_all)- alpha
+        # Create a tensor with the same shape as initial_values filled with the threshold value
+        initial_values_shape = (weight_temp.shape[0], 1)  # Pour avoir un vecteur colonne
+        if N==M:
+            self.learned_threshold_m = torch.full(initial_values_shape, threshold_all, device=weight_temp.device)
+        else:
+            pass
+
+    def update_learned_sparsity(self):
+
+        if self.alpha >= 0:
+            #print("update_learned_sparsity_alpha")
+            self.update_learned_sparsity_alpha()
+            return
+        M = self.M
+        N = self.N_intermediate
+        length = self.weight.numel() #number of papameters
+        group = int(length/M)
         if self.layout == 'NCHW' or self.k_ == 1:
             weight_temp = self.weight.detach().abs().reshape(group, M)
 
@@ -365,56 +373,20 @@ class SparseConv(nn.Conv2d):
         weights_pruned = (1-w_b) * weight_temp
         largetest_among_pruned,inds = torch.max(weights_pruned,dim = 1)
         largetest_among_pruned_col = largetest_among_pruned.reshape(largetest_among_pruned.numel(),1)
-
         self.smallest_survival = self.smallest_among_survival()
-        
         self.learned_threshold = largetest_among_pruned_col
-        
-        
-        
-        #weights_pruned = (1-w_b) * weight_temp
-        #weights_pruned = w_b * weight_temp #les weights à garder
-        #largetest_among_pruned,inds = torch.max(weights_pruned,dim = 1)
-        #largetest_among_pruned_col = largetest_among_pruned.reshape(largetest_among_pruned.numel(),1)
-        #assert largetest_among_pruned.numel() == group
-       
-       ##############################################################" début threshold with STD
-        #weights_pruned = w_b * weight_temp #les weights à garder
-
-        #self.smallest_survival = self.smallest_among_survival()
-        
-        # Calculate the standard deviation along all elements of the tensor
-        #std_dev_all = torch.std(weights_pruned)
-        
-     
-        # Calculate the mean of weight_temp
-        #mean_weight_temp = torch.mean(weights_pruned)
-        
-        # Define a threshold as the mean of the standard deviations
-        #threshold_all = mean_weight_temp - (alpha * std_dev_all)  #torch.mean(std_dev_all)- alpha
-        # Create a tensor with the same shape as initial_values filled with the threshold value
-        #learned_values_shape = (weights_pruned.shape[0], 1)  # Assuming initial_values is a column vector
-        #self.learned_threshold = torch.full(learned_values_shape, threshold_all, device=weights_pruned.device)
-        #self.learned_threshold_m,self.w_at_t_minus_1 = self.intialize_threshold_with_average_lowest()   #self.smallest_survival, intialize
-        
-        ##############################################################" fin threshold with STD
-
-        ##DS threshold
-        www = None
+    
         if N==M:
-            self.learned_threshold_m,www = self.intialize_threshold_with_average_lowest()   #self.smallest_survival, intialize
+            self.learned_threshold_m,_ = self.intialize_threshold_with_average_lowest()   #self.smallest_survival, intialize
         else:## will never go to else
             pass
         ##DS threshold
-
 
     # initialize with average smallest M/2 elements, see paper Section 3.2
     def intialize_threshold_with_average_lowest(self):
         M = self.M
 
         N = int(M/2)
-        alpha = -1
-        
 
         length = self.weight.numel() #number of papameters
         group = int(length/M)
@@ -467,7 +439,6 @@ class SparseConv(nn.Conv2d):
 
         return initial_values, self.weight.clone()
 
-  
     def check_num_survival_parameters(self):
 
         if self.smallest_survival == None: # this means has not initialized, still dense
@@ -492,30 +463,32 @@ class SparseConv(nn.Conv2d):
 
         return torch.sum(mask_).cpu().detach().numpy()
 
-    
-
-
-
-    # check sparsity of each group, 
     def calculate_mask_w_survival(self, w_current):
         N_inter = self.N_intermediate
         M = self.M
         n = int(np.log2(M)) + 1
         Ns = [2**x for x in range(n)]
-        #Ns = [x for x in range(1,self.M+1)]
         length = w_current.numel()
         group = int(length/M)
-        if self.layout == 'NCHW' or self.k_ == 1: 
-            weight_current = w_current.clone().detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().reshape(group, M)
-        elif self.layout == 'NHWC': 
+        
+        # Keep tensors on GPU throughout
+        if self.layout == 'NCHW' or self.k_ == 1:
+            weight_current = w_current.clone().abs().reshape(group, M)
+            weight_previous = self.w_at_t_minus_1.clone().abs().reshape(group, M)
+        elif self.layout == 'NHWC':
             weight_t = w_current.clone().permute(0,2,3,1)
-            weight_current = weight_t.detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().permute(0,2,3,1).reshape(group, M)
-        self.weight_group_survival_w = ( weight_current > weight_previous ) #* 1.0
-        self.weight_group_survival_w_l = ( weight_current < weight_previous ) #* 1.0
-        self.weight_group_survival_w_e = ( weight_current == weight_previous ) #* 1.0
-        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).cpu().item()
+            weight_current = weight_t.abs().reshape(group, M)  # Removed detach() to keep gradient flow
+            weight_previous = self.w_at_t_minus_1.clone().abs().permute(0,2,3,1).reshape(group, M)
+        
+        # Compute on GPU and store results directly on GPU
+        self.weight_group_survival_w = (weight_current > weight_previous)
+        self.weight_group_survival_w_l = (weight_current < weight_previous)
+        self.weight_group_survival_w_e = (weight_current == weight_previous)
+        
+        # Compute RMSI_ERROR on GPU and only move the scalar result to CPU at the end
+        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).item()
+        
+        return self.weight_group_survival_w  # Return on GPU
     
     # check sparsity of each group, 
     def check_sparsity_each_group(self,prob = 0.75):
@@ -549,12 +522,25 @@ class SparseConv(nn.Conv2d):
             N_every_group = torch.sum(weight_group, 1,keepdim=True) # survival N
 
 
-        print("rmsi errrrrrrrrrror", self.RMSI_ERROR)
-        print("N_every_group_surv_w ", torch.sum(self.weight_group_survival_w).item())
-        print("N_every_group_surv_w lower ", torch.sum(self.weight_group_survival_w_l).item())
-        print("N_every_group_surv_w equal ", torch.sum(self.weight_group_survival_w_e).item())
+        #print("rmsi errrrrrrrrrror", self.RMSI_ERROR)
+        #print("weight_current", weight_current)
+        #print("self.learned_threshold_m", self.learned_threshold_m)
+        #print("self.weight_group_survival_w", self.weight_group_survival_w)
+        #print("N_every_group_surv_w ", torch.sum(self.weight_group_survival_w).item())
+        #print("N_every_group_surv_w lower ", torch.sum(self.weight_group_survival_w_l).item())
+        #print("N_every_group_surv_w equal ", torch.sum(self.weight_group_survival_w_e).item())
         survival_elements = torch.sum(N_every_group)
         survival_rate = survival_elements/length
+
+
+        #print("Conv sparse-----------------------------------------")
+
+        #print("weight_current", weight_current)
+        #print("survival_elements", survival_elements)
+        #print("survival_rate", survival_rate)
+        #print("N_every_group", N_every_group)
+        #print("self.learned_threshold_m", self.learned_threshold_m)
+        #print("self.weight_group_survival_w", self.weight_group_survival_w)
 
         N_inter_change = False
         if (self.N > 1):
@@ -611,10 +597,10 @@ class SparseConv(nn.Conv2d):
             weight_group = (weight_current > self.learned_threshold_m) | self.weight_group_survival_w #* 1.0
             N_every_group = torch.sum(weight_group, 1,keepdim=True) # survival N
 
-        print("rmsi errrrrrrrrrror linear", self.RMSI_ERROR)
-        print("N_every_group_surv_w linear ", torch.sum(self.weight_group_survival_w).item())
-        print("N_every_group_surv_w lower linear ", torch.sum(self.weight_group_survival_w_l).item())
-        print("N_every_group_surv_w equal linear ", torch.sum(self.weight_group_survival_w_e).item())
+        #print("rmsi errrrrrrrrrror linear", self.RMSI_ERROR)
+        #print("N_every_group_surv_w linear ", torch.sum(self.weight_group_survival_w).item())
+        #print("N_every_group_surv_w lower linear ", torch.sum(self.weight_group_survival_w_l).item())
+        #print("N_every_group_surv_w equal linear ", torch.sum(self.weight_group_survival_w_e).item())
 
         survival_elements = torch.sum(N_every_group)
         survival_rate = survival_elements/length
@@ -673,17 +659,19 @@ class SparseConv(nn.Conv2d):
 
     def get_sparse_weights(self):
 
-        self.w_at_t_minus_1 = self.weight.detach().clone()
-
-        ww = None
-
         if self.mix_from_dense == True:
-
+            self.w_at_t_minus_1 = self.weight.detach().clone()
+            if self.us == 1:
+                return self.apply_unstructured_pruning(self.weight)
             #self.w_at_t_minus_1 = self.weight.clone()
             ww = Sparse_find_mix_from_dense.apply(self.weight, self.N_intermediate, self.M, self.decay, self.learned_threshold_m,self.normalized_factor,self.name,self.print_flag,self.layout,self.apply_penalty)
             #return 
-
-
+        elif self.evaluate:
+            if self.layout == 'NCHW':
+                ww = SparseEval.apply(self.weight, self.N, self.M, self.decay) 
+                #return Sparse.apply(self.weight, self.N, self.M, self.decay)
+            elif self.layout == 'NHWC':
+                ww = Sparse_NHWCEval.apply(self.weight, self.N, self.M,self.decay)
         elif (self.M==self.N or self.normal_train==True or self.k_ == 1): 
             #self.spare_weight = self.weight
             #print("dense train")
@@ -693,10 +681,8 @@ class SparseConv(nn.Conv2d):
             #return self.weight
         else:
             if self.layout == 'NCHW':
-                #print("use NCHW to train")
                 ww = Sparse.apply(self.weight, self.N, self.M, self.decay)
                 #return Sparse.apply(self.weight, self.N, self.M, self.decay)
-
             elif self.layout == 'NHWC':
                 ww = Sparse_NHWC.apply(self.weight, self.N, self.M,self.decay)
                 #return Sparse_NHWC.apply(self.weight, self.N, self.M,self.decay)
@@ -745,13 +731,42 @@ class SparseConv(nn.Conv2d):
         return layer_rms
         
 
-
-
+    def inference_sparse(self, x: torch.Tensor):
+        """
+        Perform sparse inference using the specified method type.
+        """
+        if self.method_type == 'basic':
+            return F.conv2d(
+                x, self.pruned_weight, self.bias, self.stride, self.padding, self.dilation, self.groups
+            )
+        elif self.method_type == 'svd':
+            # Use SVD decomposition
+            return F.conv2d(
+                F.conv2d(x, self.V), self.U, self.bias, self.stride, self.padding, self.dilation, self.groups
+            )
+        elif self.method_type == 'sparse_mm':
+            # Assert that this is not used in ResNet
+            assert not hasattr(self, 'kernel_size') or self.kernel_size == 1, \
+                "sparse_mm method is only supported for ViT models (1x1 convolutions)"
+            return F.conv2d(
+                x, self.pruned_weight_sparse, self.bias, self.stride, self.padding, self.dilation, self.groups
+            )
+        else:
+            raise ValueError(f"Unsupported inference method type: {self.method_type}")
 
     def forward(self, x):
         #
+        if self.evaluate:
+            if self.dense:
+                    return F.conv2d(
+                    x, self.weight, self.bias, self.stride, self.padding, self.dilation, self.groups
+                )
+            else:
+                self.inference_sparse(x)
+                #return F.conv2d(F.conv2d(x, self.V), self.U, self.bias, self.stride, self.padding, self.dilation, self.groups)
         w = self.get_sparse_weights()
-        self.calculate_mask_w_survival(w)
+        if not self.evaluate:
+            self.calculate_mask_w_survival(w)
         # setattr(self.weight, "mask", mask)
         #self.spare_weight = w.clone() # store the spare weight
         x = F.conv2d(
@@ -760,57 +775,6 @@ class SparseConv(nn.Conv2d):
         return x
     
     
-
-    #***************************************************************************
-    #Modification New idea
-    #***************************************************************************
-    def compute_threshold_of_layer(self):   
-        M = self.M
-        N = self.N_intermediate
-        length = self.weight.numel()
-        group = int(length/M)
-
-        if self.layout == 'NCHW' or self.k_ == 1:
-            weight_temp = self.weight.detach().abs().reshape(group, M)
-        elif self.layout == 'NHWC':
-            weight_t = self.weight.clone().permute(0,2,3,1)
-            weight_temp = weight_t.detach().abs().reshape(group, M)
-
-        index = torch.argsort(weight_temp, dim=1)[:, :int(M-N)]
-        w_b = torch.ones(weight_temp.shape, device=weight_temp.device)
-        w_b = w_b.scatter_(dim=1, index=index, value=0)
-
-        weights_pruned = (1-w_b) * weight_temp
-        largetest_among_pruned,inds = torch.max(weights_pruned,dim = 1)
-        largetest_among_pruned_col = largetest_among_pruned.reshape(largetest_among_pruned.numel(),1)
-        self.smallest_survival = self.smallest_among_survival()
-        self.learned_threshold = largetest_among_pruned_col
-
-        if N==M:
-            self.learned_threshold_m,_ = self.intialize_threshold_with_average_lowest()
-        else:
-            self.learned_threshold_m = (self.smallest_survival + self.learned_threshold_m)/2.0
-
-    def zero_parameters_below_threshold(self, self_at_t_minus_1):
-        M = self.M
-        N = self.N_intermediate
-        length = self.weight.numel()
-        group = int(length/M)
-
-        if self.layout == 'NCHW' or self.k_ == 1:
-            weight_temp = self.weight.detach().abs().reshape(group, M)
-            weight_previous = self_at_t_minus_1.weight.detach().abs().reshape(group, M)
-        elif self.layout == 'NHWC':
-            weight_t = self.weight.clone().permute(0,2,3,1)
-            weight_temp = weight_t.detach().abs().reshape(group, M)
-            weight_previous = self_at_t_minus_1.weight.clone().permute(0,2,3,1).detach().abs().reshape(group, M)
-
-        mask = (weight_temp > self.learned_threshold_m) | (weight_temp > weight_previous)
-        mask = mask.reshape(self.weight.shape)
-
-        with torch.no_grad():
-            self.weight.data *= mask
-
     def update_self_at_t_minus_1(self, self_at_t_minus_1):
        
         for name, param in self.named_parameters():
@@ -818,17 +782,17 @@ class SparseConv(nn.Conv2d):
                 with torch.no_grad():
                     self_at_t_minus_1.state_dict()[name].copy_(param)
 
-# ?
-
 class SparseLinear(nn.Linear):
 
         # def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', N=2, M=4, layout='NCHW', search = False, **kwargs):
-
     def __init__(self, in_features, out_features, bias = True, N=2, M=2, search = False, **kwargs):
         self.N = N # number of non-zeros
         self.M = M
         self.us = 0
-        self.ste = False
+
+        self.evaluate = False
+        self.dense = True
+        self.method_type = 'basic'  # Add method_type attribute
 
         self.N_intermediate = M # inialize as M
 
@@ -868,8 +832,20 @@ class SparseLinear(nn.Linear):
         
         super(SparseLinear, self).__init__(in_features, out_features, bias, **kwargs)
 
-
-
+    def apply_unstructured_pruning(self, weight):
+        if self.w_at_t_minus_1 is not None:
+            diff = (weight - self.w_at_t_minus_1).abs()
+            threshold = diff.std()
+            mask = (diff > threshold).float()
+            return weight * mask
+        else:
+            threshold = weight.std()
+            return weight * (weight.abs() > threshold).float()
+         
+    def set_ste(self, ste):
+        global g_ste
+        self.ste = ste
+        g_ste = self.ste
     # TODO: check the TC compatibility, now keep silence,
     def check_TC_compatibility(self):
         Cout, C, Kh, Kw = self.weight.size()
@@ -914,12 +890,10 @@ class SparseLinear(nn.Linear):
 
         return w_b 
 
-
     def update_decay(self,updated_decay):
         self.decay = updated_decay
         pass
 
-    
     def smallest_among_survival(self):
 
         M = self.M
@@ -937,7 +911,10 @@ class SparseLinear(nn.Linear):
 
         weights_survival = w_b * weight_temp
         #print(weights_survival.dtype)
-        smallest_of_survival_ = torch.where(weights_survival > 0.0 ,weights_survival ,torch.tensor(float('inf'),dtype=weights_survival.dtype,device=weights_survival.get_device()))
+        #if weights_survival.get_device() >= 0:
+        smallest_of_survival_ = torch.where(weights_survival > 0.0 ,weights_survival ,torch.tensor(float('inf'),dtype=weights_survival.dtype, device=weight_temp.device))
+        #else:
+        #    smallest_of_survival_ = torch.where(weights_survival > 0.0 ,weights_survival ,torch.tensor(float('inf'),dtype=weights_survival.dtype))
         smallest_of_survival,inds = torch.min(smallest_of_survival_,dim = 1)
         smallest_of_survival_col = smallest_of_survival.reshape(smallest_of_survival.numel(),1)
         assert smallest_of_survival.numel() == group
@@ -946,14 +923,49 @@ class SparseLinear(nn.Linear):
 
         return smallest_of_survival_col
 
-
-    def update_learned_sparsity(self):
+    def update_learned_sparsity_alpha(self):
 
         M = self.M
         N = self.N_intermediate #N = self.N
         length = self.weight.numel() #number of papameters
         group = int(length/M)
-        alpha = -1
+        weight_temp = self.weight.detach().abs().reshape(group, M)
+        index = torch.argsort(weight_temp, dim=1)[:, :int(M-N)] # indicate which will be zeros (pruned) 
+        w_b = torch.ones(weight_temp.shape, device=weight_temp.device)
+        w_b = w_b.scatter_(dim=1, index=index, value=0) #.reshape(self.weight.shape) #
+        weights_pruned = (1-w_b) * weight_temp
+        largetest_among_pruned,inds = torch.max(weights_pruned,dim = 1)
+        largetest_among_pruned_col = largetest_among_pruned.reshape(largetest_among_pruned.numel(),1)
+        assert largetest_among_pruned.numel() == group
+        self.smallest_survival = self.smallest_among_survival()
+        self.learned_threshold = largetest_among_pruned_col
+        weights_pruned = w_b * weight_temp
+        weights_pruned_nonzero = weights_pruned[weights_pruned != 0]
+
+        std_dev_all = torch.std(weights_pruned_nonzero)
+        # Calculate the mean of weight_temp
+        mean_weight_temp = torch.mean(weights_pruned_nonzero)
+        # Define a threshold as the mean of the standard deviations
+        threshold_all = mean_weight_temp - (self.alpha * std_dev_all)  #torch.mean(std_dev_all)- alpha
+        # Create a tensor with the same shape as initial_values filled with the threshold value
+        initial_values_shape = (weight_temp.shape[0], 1)  # Pour avoir un vecteur colonne
+        
+        if N==M:
+            self.learned_threshold_m = torch.full(initial_values_shape, threshold_all, device=weight_temp.device)   #self.smallest_survival
+        else:
+            self.learned_threshold_m = (self.smallest_survival + self.learned_threshold_m)/2.0
+
+    def update_learned_sparsity(self):
+
+        if self.alpha >= 0:
+            #print("update_learned_sparsity_alpha")
+            self.update_learned_sparsity_alpha()
+            return
+        M = self.M
+        N = self.N_intermediate #N = self.N
+        length = self.weight.numel() #number of papameters
+        group = int(length/M)
+        #alpha = -1
 
         weight_temp = self.weight.detach().abs().reshape(group, M)
         index = torch.argsort(weight_temp, dim=1)[:, :int(M-N)] # indicate which will be zeros (pruned) 
@@ -999,7 +1011,6 @@ class SparseLinear(nn.Linear):
         else:
             self.learned_threshold_m,www  = (self.smallest_survival + self.learned_threshold_m)/2.0
 
-
     # TODOs: Initialize the threshold with average of 2/M lowest values to avoid extreme point 
     def intialize_threshold_with_average_lowest(self):   
         M = self.M
@@ -1007,10 +1018,7 @@ class SparseLinear(nn.Linear):
         #N = int(3*M/4)
 
         N = int(M/2)
-        
-        alpha = -1
-        
-        #N = int( self.divideM * M)
+        #N = int( self.alpha * M)
         length = self.weight.numel() #number of papameters
         group = int(length/M)
 
@@ -1052,76 +1060,32 @@ class SparseLinear(nn.Linear):
 
         return initial_values, self.weight.clone()
 
-    # #TODO: Think about which is better, smallest survival or largest pruned
-    # def check_sparsity_with_learned_threshold(self):
-    #     assert self.learned_threshold != None, 'thresh hold has not been updated'
-
-    #     #assert self.smallest_survival != None, 'smallest_survival has not been updated'
-    #     # abs : magnitude
-    #     M = self.M
-    #     length = self.weight.numel()
-    #     group = int(length/M)
-
-    #     #TODO check here
-    #     # values >= threshold will be true * 1.0 --> 1.0
-    #     # m
-    #     mask_ = (self.weight.detach().abs().reshape(group, M) > self.learned_threshold) * 1.0 
-    #     sparsity = 1.0 - torch.sum(mask_)/mask_.numel() # note sparsity is number of zeros
-
-    #     return sparsity
-
-    
-    # def check_sparsity_with_learned_threshold_M(self):
-    #     #assert self.learned_threshold != None, 'thresh hold has not been updated'
-
-    #     assert self.learned_threshold_m != None, 'smallest_survival has not been updated'
-    #     # abs : magnitude
-    #     M = self.M
-    #     length = self.weight.numel()
-    #     group = int(length/M)
-
-    #     #TODO check here
-    #     mask_ = (self.weight.detach().abs().reshape(group, M) >= self.learned_threshold_m) * 1.0
-    #     sparsity = 1.0 - torch.sum(mask_)/mask_.numel() # note sparsity is number of zeros
-
-    #     return sparsity
-
-
-    # def check_sparsity_with_smallest_survival(self):
-    #     #assert self.learned_threshold != None, 'thresh hold has not been updated'
-
-    #     assert self.smallest_survival != None, 'smallest_survival has not been updated'
-    #     # abs : magnitude
-    #     M = self.M
-    #     length = self.weight.numel()
-    #     group = int(length/M)
-
-    #     #TODO check here
-    #     mask_ = (self.weight.detach().abs().reshape(group, M) > self.smallest_survival) * 1.0
-    #     sparsity = 1.0 - torch.sum(mask_)/mask_.numel() # note sparsity is number of zeros
-
-    #     return sparsity
-
-    # check sparsity of each group, 
     def calculate_mask_w_survival(self, w_current):
         N_inter = self.N_intermediate
         M = self.M
         n = int(np.log2(M)) + 1
         Ns = [2**x for x in range(n)]
-        #Ns = [x for x in range(1,self.M+1)]
         length = w_current.numel()
         group = int(length/M)
-        if self.layout == 'NCHW' or self.k_ == 1: 
-            weight_current = w_current.clone().detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().reshape(group, M)
-        elif self.layout == 'NHWC': 
+        
+        # Keep tensors on GPU throughout
+        if self.layout == 'NCHW' or self.k_ == 1:
+            weight_current = w_current.clone().abs().reshape(group, M)
+            weight_previous = self.w_at_t_minus_1.clone().abs().reshape(group, M)
+        elif self.layout == 'NHWC':
             weight_t = w_current.clone().permute(0,2,3,1)
-            weight_current = weight_t.detach().abs().reshape(group, M)
-            weight_previous = self.w_at_t_minus_1.clone().detach().abs().permute(0,2,3,1).reshape(group, M)
-        self.weight_group_survival_w = ( weight_current > weight_previous ) #* 1.0
-        self.weight_group_survival_w_l = ( weight_current < weight_previous ) #* 1.0
-        self.weight_group_survival_w_e = ( weight_current == weight_previous ) #* 1.0
-        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).cpu().item()
+            weight_current = weight_t.abs().reshape(group, M)  # Removed detach() to keep gradient flow
+            weight_previous = self.w_at_t_minus_1.clone().abs().permute(0,2,3,1).reshape(group, M)
+        
+        # Compute on GPU and store results directly on GPU
+        self.weight_group_survival_w = (weight_current > weight_previous)
+        self.weight_group_survival_w_l = (weight_current < weight_previous)
+        self.weight_group_survival_w_e = (weight_current == weight_previous)
+        
+        # Compute RMSI_ERROR on GPU and only move the scalar result to CPU at the end
+        self.RMSI_ERROR = torch.sqrt(torch.mean((weight_current - weight_previous) ** 2)).item()
+        
+        return self.weight_group_survival_w  # Return on GPU
 
     def check_sparsity_each_group(self,prob = 0.75):
         N_inter = self.N_intermediate
@@ -1154,13 +1118,26 @@ class SparseLinear(nn.Linear):
             weight_group = (weight_current > self.learned_threshold_m) | self.weight_group_survival_w #* 1.0
             N_every_group = torch.sum(weight_group, 1,keepdim=True) # survival N
 
-        print("rmsi errrrrrrrrrror linear", self.RMSI_ERROR)
-        print("N_every_group_surv_w linear ", torch.sum(self.weight_group_survival_w).item())
-        print("N_every_group_surv_w lower linear ", torch.sum(self.weight_group_survival_w_l).item())
-        print("N_every_group_surv_w equal linear ", torch.sum(self.weight_group_survival_w_e).item())
+        #print("rmsi errrrrrrrrrror linear", self.RMSI_ERROR)
+
+        
+
+        #print("N_every_group_surv_w linear ", torch.sum(self.weight_group_survival_w).item())
+        #print("N_every_group_surv_w lower linear ", torch.sum(self.weight_group_survival_w_l).item())
+        #print("N_every_group_surv_w equal linear ", torch.sum(self.weight_group_survival_w_e).item())
 
         survival_elements = torch.sum(N_every_group)
         survival_rate = survival_elements/length
+
+        #print("Linear sparse*****************************************")
+
+        #print("weight_current", weight_current)
+        #print("survival_elements", survival_elements)
+        #print("survival_rate", survival_rate)
+        #print("N_every_group", N_every_group)
+        #print("self.learned_threshold_m", self.learned_threshold_m)
+        #print("self.weight_group_survival_w", self.weight_group_survival_w)
+
 
         N_inter_change = False
         if (self.N > 1):
@@ -1183,7 +1160,6 @@ class SparseLinear(nn.Linear):
         # return N_inter and False if does not update
         return N_inter, False , 1.0 - survival_rate, N_inter_change
     
-
     #########################test avec RMSI error*
     def check_sparsity_each_group_RMSI(self,prob = 0.75):
         N_inter = self.N_intermediate
@@ -1216,10 +1192,10 @@ class SparseLinear(nn.Linear):
             weight_group = (weight_current > self.learned_threshold_m) | self.weight_group_survival_w #* 1.0
             N_every_group = torch.sum(weight_group, 1,keepdim=True) # survival N
 
-        print("rmsi errrrrrrrrrror linear", self.RMSI_ERROR)
-        print("N_every_group_surv_w linear ", torch.sum(self.weight_group_survival_w).item())
-        print("N_every_group_surv_w lower linear ", torch.sum(self.weight_group_survival_w_l).item())
-        print("N_every_group_surv_w equal linear ", torch.sum(self.weight_group_survival_w_e).item())
+        #print("rmsi errrrrrrrrrror linear", self.RMSI_ERROR)
+        #print("N_every_group_surv_w linear ", torch.sum(self.weight_group_survival_w).item())
+        #print("N_every_group_surv_w lower linear ", torch.sum(self.weight_group_survival_w_l).item())
+        #print("N_every_group_surv_w equal linear ", torch.sum(self.weight_group_survival_w_e).item())
 
         survival_elements = torch.sum(N_every_group)
         survival_rate = survival_elements/length
@@ -1247,10 +1223,6 @@ class SparseLinear(nn.Linear):
 
     ###########################################
     
-    
-
-
-
     def check_num_survival_parameters(self):
 
         if self.smallest_survival == None: # this means has not initialized, still dense
@@ -1271,10 +1243,17 @@ class SparseLinear(nn.Linear):
     def apply_N_M(self,N,M):
         self.N = N 
         self.M = M
-		
+        if self.evaluate:
+            print("appliquer n and m pruned_weight")
+            self.pruned_weight = self.get_sparse_weights()
+            self.pruned_weight_sparse = self.pruned_weight.to_sparse()
 
-
-    # layout has to be initialized
+            #U, S, V = torch.svd_lowrank(self.pruned_weight, q=64)
+            #self.U = nn.Parameter(U @ torch.diag(S))  # (m, 64)
+            #self.V = nn.Parameter(V).t()
+            #self.sparse_weights = self.pruned_weight.to_sparse()
+            #self.sparse_weights = self.pruned_weight.to_sparse_coo()
+        
     def change_layout(self,layout):
         if layout not in ['NCHW','NHWC']:
             print("Unsupported layout")
@@ -1284,14 +1263,16 @@ class SparseLinear(nn.Linear):
     def get_sparse_weights(self):
         #if (self.check_TC_compatibility() == False or self.M==self.N):
 
-        self.w_at_t_minus_1 = self.weight.detach().clone()
-
         if self.mix_from_dense == True:
+            self.w_at_t_minus_1 = self.weight.detach().clone()
+            if self.us == 1:
+                return self.apply_unstructured_pruning(self.weight)
             # use self.learned_threshold_m to test, orginal is self.smallest_survival
             # data layout of Linear layer does not matter so set as NCHW (default)
             return Sparse_find_mix_from_dense.apply(self.weight, self.N_intermediate, self.M, self.decay, self.learned_threshold_m,self.normalized_factor,self.name,self.print_flag,'NCHW',self.apply_penalty)
             #return Sparse_penalty.apply(self.weight, self.N, self.M, self.decay, self.smallest_survival,self.normalized_factor)
-
+        elif self.evaluate:
+            return SparseEval.apply(self.weight, self.N, self.M, self.decay)
         else :  # for Linear(fully-connected) layer, the layout does not matter so use Pytorch default
             #self.spare_weight = self.weight
             #print("dense train")
@@ -1336,88 +1317,46 @@ class SparseLinear(nn.Linear):
         print ("RMSI layer = ", layer_rms)
         return layer_rms
 
-
+    def inference_sparse(self, x: torch.Tensor):
+        """
+        Perform sparse inference using the specified method type.
+        """
+        if self.method_type == 'basic':
+            return F.linear(x, self.pruned_weight, self.bias)
+        elif self.method_type == 'svd':
+            # Use SVD decomposition
+            return F.linear(F.linear(x, self.V), self.U, self.bias)
+        elif self.method_type == 'sparse_mm':
+            # Assert that this is not used in ResNet
+            assert not hasattr(self, 'kernel_size') or self.kernel_size == 1, \
+                "sparse_mm method is only supported for ViT models (1x1 convolutions)"
+            return F.linear(x, self.pruned_weight_sparse, self.bias)
+        else:
+            raise ValueError(f"Unsupported inference method type: {self.method_type}")
 
     def forward(self, x):
 
+        if self.evaluate:
+            if self.dense:
+                torch.nn.functional.linear(x, self.weight, self.bias)
+                return F.linear(x, self.weight, self.bias)
+            else:
+                self.inference_sparse(x)
+                # sparse with to_sparse()
+                #return self.inference_sparse(x)  
+                # using pruned_weight directly with linear
+                # using decomposition V U with q = 64
+                #return F.linear(F.linear(x, self.V), self.U, self.bias)
+
         w = self.get_sparse_weights()
-
-        self.calculate_mask_w_survival(w)
-
-        x = F.linear(x, w,self.bias)
+        if not self.evaluate:
+            self.calculate_mask_w_survival(w)
+        x = F.linear(x, w, self.bias)
         return x
     
-    #***************************************************************************
-    #Modification New idea
-    #***************************************************************************
-    def compute_threshold_of_layer(self):   
-        M = self.M
-        N = int(M/2)
-        
-        alpha = -1
-        
-        #N = int( self.divideM * M)
-        length = self.weight.numel() #number of papameters
-        group = int(length/M)
-
-        weight_temp = self.weight.detach().abs().reshape(group, M)
-                
-        # Calculate the standard deviation along all elements of the tensor
-        std_dev_all = torch.std(weight_temp)
-             
-        # Calculate the mean of weight_temp
-        mean_weight_temp = torch.mean(weight_temp)
-        
-        # Define a threshold as the mean of the standard deviations
-        threshold_all = mean_weight_temp - (alpha * std_dev_all)  #torch.mean(std_dev_all)- alpha
-               
-        # Create a tensor with the same shape as initial_values filled with the threshold value
-        initial_values_shape = (weight_temp.shape[0], 1)  # Assuming initial_values is a column vector
-        threshold_tensor = torch.full(initial_values_shape, threshold_all, device=weight_temp.device)
-        initial_values =  threshold_tensor 
-        
-
-        return initial_values
-    
-    def zero_parameters_below_threshold(self,  self_at_t_minus_1):
-        
-        layer_threshold = self.compute_threshold_of_layer()
-        print ("Linear threshold = ",layer_threshold[0, 0].item())
-
-
-        # Ensure self_at_t_minus_1 is properly initialized
-        if self_at_t_minus_1 is not  None:
-            # Update self_at_t_minus_1 with current parameters
-            #self.update_self_at_t_minus_1(self_at_t_minus_1)
-            #print ("hello1")
-
-            for name, param in self.named_parameters():
-                    if name in self_at_t_minus_1.state_dict():
-                        #print ("hello2")
-                        previous_param = self_at_t_minus_1.state_dict()[name]
-                        with torch.no_grad():
-                            mask = torch.abs(param) < layer_threshold
-                            param[mask] = 0
-                            
-                            # Additional comparison with the previous model's parameters
-                            #param_diff = torch.abs(param - previous_param)
-                            #param[mask & (param_diff < threshold)] = 0
-                
-                    # Update self_at_t_minus_1 with current parameters
-                    self.update_self_at_t_minus_1(self_at_t_minus_1)
-
     def update_self_at_t_minus_1(self, self_at_t_minus_1):
        
         for name, param in self.named_parameters():
             if name in self_at_t_minus_1.state_dict():
                 with torch.no_grad():
                     self_at_t_minus_1.state_dict()[name].copy_(param)
-
-    def set_ste(self, ste):
-        global g_ste
-        self.ste = ste
-        g_ste = self.ste
-
-
-
-
